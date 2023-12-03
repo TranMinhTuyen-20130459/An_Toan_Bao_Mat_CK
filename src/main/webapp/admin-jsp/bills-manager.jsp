@@ -53,11 +53,11 @@
                         <tr>
                             <th class="text-center">ID đơn hàng</th>
                             <th class="text-center">Khách hàng</th>
-                            <th class="text-center">Đơn hàng</th>
-                            <th class="text-center">Tổng tiền</th>
-                            <th class="text-center">Tình trạng</th>
+                            <th class="text-center">Trị giá</th>
+                            <th class="text-center">Trạng thái</th>
                             <th class="text-center">Địa chỉ giao hàng</th>
-                            <th class="text-center">Ngày đặt hàng</th>
+                            <th class="text-center">Thời gian đặt hàng</th>
+                            <th class="text-center">Tình trạng</th>
                             <th class="text-center">Chỉnh sửa</th>
                         </tr>
                         </thead>
@@ -65,23 +65,20 @@
                         <c:forEach var="b" items="${requestScope.bills}">
                             <c:choose>
                                 <c:when test="${b.status == 'Đã giao'}"><c:set var="bg" value="bg-success"/></c:when>
-                                <c:when test="${b.status == 'Đang vận chuyển'}"><c:set var="bg" value="bg-warning"/></c:when>
+                                <c:when test="${b.status == 'Đang vận chuyển'}"><c:set var="bg"
+                                                                                       value="bg-warning"/></c:when>
                                 <c:when test="${b.status == 'Đã hủy'}"><c:set var="bg" value="bg-danger"/></c:when>
                                 <c:when test="${b.status == 'Chờ xử lý'}"><c:set var="bg" value="bg-info"/></c:when>
                             </c:choose>
                             <tr>
                                 <td data-bbid="${b.id}" class="text-center">#${b.id}</td>
                                 <td>${b.customerName}</td>
-                                <td>
-                                    <c:forEach var="p" items="${b.products}" varStatus="ii">
-                                        <c:out value="${p.name}"/>
-                                        <c:if test="${!ii.last}"><c:out value=", "/></c:if>
-                                    </c:forEach>
-                                </td>
                                 <td data-price="${b.totalPrice}" class="text-center">${pu:format(b.totalPrice)}đ</td>
-                                <td data-ss="${bg}" class="text-center"><span class="badge ${bg}">${b.status}</span></td>
+                                <td data-ss="${bg}" class="text-center"><span class="badge ${bg}">${b.status}</span>
+                                </td>
                                 <td>${b.address}</td>
                                 <td>${b.timeOrder}</td>
+                                <td>Đã bị chỉnh sửa</td>
                                 <td class="text-center">
                                     <button class="btn btn-primary btn-sm edit" type="button" title="Sửa"><i
                                             class="fas fa-edit"></i></button>
@@ -189,7 +186,7 @@
 
     $('#sampleTable').dataTable({
         // order: false,
-        order: [[ 0, 'asc' ]]
+        order: [[0, 'asc']]
     });
 
     $('.btn-excel').on('click', function () {
