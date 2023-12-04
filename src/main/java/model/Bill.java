@@ -11,6 +11,7 @@ import java.util.List;
 @Builder
 public class Bill implements Serializable {
 
+    private int id_bill;
     private int id_user;
     private int id_status_bill;
     private int id_city;
@@ -25,8 +26,4 @@ public class Bill implements Serializable {
 
     @Builder.Default
     private List<BillDetail> bill_details = null;
-
-    @Builder.Default
-    private byte isValid = 1; //=> đơn hàng có hợp lệ hay không (1: Hợp lệ, 2: Đã bị chỉnh sửa)
-
 }

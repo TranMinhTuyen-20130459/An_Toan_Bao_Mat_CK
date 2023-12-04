@@ -11,8 +11,6 @@ public class ProductDAOTest {
     public final String QUERY_ID_PRODUCT = "SELECT id_product FROM products";
 
     public DbConnection connectDB;
-    public PreparedStatement preState;
-    public ResultSet resultSet;
 
     public List<Integer> getAllIdProduct() throws Exception {
 
@@ -20,8 +18,8 @@ public class ProductDAOTest {
 
         var result = new ArrayList<Integer>();
 
-        preState = connectDB.getPreparedStatement(QUERY_ID_PRODUCT);
-        resultSet = preState.executeQuery();
+        var preState = connectDB.getPreparedStatement(QUERY_ID_PRODUCT);
+        var resultSet = preState.executeQuery();
 
         while (resultSet.next()) {
             var id_product = resultSet.getInt("id_product");
