@@ -4,8 +4,6 @@ import database.DbConnection;
 import model.Bill;
 import model.BillDetail;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +11,10 @@ import java.util.List;
 public class BillDAO {
     public final String ADD_BILL = "INSERT INTO bills(id_user,id_status_bill,id_city,fullname_customer,phone_customer,email_customer,address_customer,bill_price,total_price) VALUES(?,?,?,?,?,?,?,?,?)";
     public final String ADD_BILL_DETAIL = "INSERT INTO bill_detail(id_bill,id_product,quantity,listed_price,current_price) VALUES(?,?,?,?,?)";
-    public final String QUERY_GET_ALL_BILL = "";
+    public final String QUERY_GET_ALL_BILL = "SELECT id_bill,id_user,id_status_bill,id_city,fullname_customer,phone_customer,email_customer,address_customer,bill_price,total_price,time_order,hash_bill_encrypted FROM bills";
+    public final String QUERY_GET_BILL_DETAIL = "SELECT id_bill,id_product,quantity,listed_price,current_price FROM bill_detail WHERE id_bill=?";
 
     public DbConnection connectDB;
-    public PreparedStatement preState;
-    public ResultSet resultSet;
 
     public BillDAO() {
         connectDB = DbConnection.getInstance();
@@ -35,7 +32,7 @@ public class BillDAO {
         if (connectDB == null) throw new Exception("Database connection not established.");
 
         // Tạo một PreparedStatement để thực hiện truy vấn SQL thêm mới
-        preState = connectDB.getConn().prepareStatement(ADD_BILL, Statement.RETURN_GENERATED_KEYS);
+        var preState = connectDB.getConn().prepareStatement(ADD_BILL, Statement.RETURN_GENERATED_KEYS);
 
         // Thiết lập các tham số của truy vấn SQL từ thông tin trong đối tượng Bill
         preState.setInt(1, bill.getId_user());
@@ -52,7 +49,7 @@ public class BillDAO {
         preState.executeUpdate();
 
         // Lấy ResultSet chứa giá trị id_bill được sinh ra (nếu có)
-        resultSet = preState.getGeneratedKeys();
+        var resultSet = preState.getGeneratedKeys();
 
         // Kiểm tra xem ResultSet có dữ liệu không
         if (resultSet.next()) {
@@ -75,7 +72,7 @@ public class BillDAO {
         if (connectDB == null) throw new Exception("Database connection not established.");
 
         // Chuẩn bị truy vấn SQL để thêm thông tin chi tiết hóa đơn
-        preState = connectDB.getPreparedStatement(ADD_BILL_DETAIL);
+        var preState = connectDB.getPreparedStatement(ADD_BILL_DETAIL);
 
         // Thiết lập các giá trị tham số cho truy vấn
         preState.setInt(1, bill_detail.getId_bill());
@@ -88,11 +85,108 @@ public class BillDAO {
         preState.executeUpdate();
     }
 
-
+    /**
+     * Trả về danh sách tất cả các hóa đơn từ cơ sở dữ liệu.
+     *
+     * @return Danh sách các đối tượng Bill chứa thông tin hóa đơn.
+     * @throws Exception Nếu không thể thiết lập kết nối đến cơ sở dữ liệu.
+     */
     public List<Bill> getAllBill() throws Exception {
-        if (connectDB == null) throw new Exception();
+        // Kiểm tra xem kết nối đến cơ sở dữ liệu đã được thiết lập chưa.
+        if (connectDB == null) {
+            throw new Exception("Database connection not established.");
+        }
+
+        // Danh sách kết quả chứa thông tin hóa đơn.
         var result = new ArrayList<Bill>();
+
+        // Tạo prepared statement và thực hiện truy vấn để lấy dữ liệu hóa đơn từ cơ sở dữ liệu.
+        var preState = connectDB.getPreparedStatement(QUERY_GET_ALL_BILL);
+        var resultSet = preState.executeQuery();
+
+        // Duyệt qua tất cả các dòng kết quả từ truy vấn.
+        while (resultSet.next()) {
+
+            // Lấy thông tin cơ bản của hóa đơn từ ResultSet.
+            var id_bill = resultSet.getInt("id_bill");
+
+            // Lấy thông tin chi tiết hóa đơn dựa trên ID hóa đơn.
+            var list_bill_detail = getBillDetailsById(id_bill);
+
+            // Xây dựng đối tượng Bill từ dữ liệu ResultSet và danh sách chi tiết hóa đơn.
+            var bill = Bill.builder()
+                    .id_bill(id_bill)
+                    .id_user(resultSet.getInt("id_user"))
+                    .id_status_bill(resultSet.getInt("id_status_bill"))
+                    .id_city(resultSet.getInt("id_city"))
+                    .name_customer(resultSet.getString("fullname_customer"))
+                    .phone_customer(resultSet.getString("phone_customer"))
+                    .email_customer(resultSet.getString("email_customer"))
+                    .address_customer(resultSet.getString("address_customer"))
+                    .bill_price(resultSet.getDouble("bill_price"))
+                    .total_price(resultSet.getDouble("total_price"))
+                    .time_order(resultSet.getTimestamp("time_order"))
+                    .hash_bill_encrypted(resultSet.getString("hash_bill_encrypted"))
+                    .bill_details(list_bill_detail)
+                    .build();
+
+            // Thêm đối tượng Bill vào danh sách kết quả.
+            result.add(bill);
+        }
+
+        // Trả về danh sách các hóa đơn.
         return result;
+    }
+
+    /**
+     * Trả về danh sách chi tiết hóa đơn dựa trên ID hóa đơn.
+     *
+     * @param id_bill ID của hóa đơn.
+     * @return Danh sách các đối tượng BillDetail chứa thông tin chi tiết hóa đơn.
+     * @throws Exception Nếu không thể thiết lập kết nối đến cơ sở dữ liệu.
+     */
+    public List<BillDetail> getBillDetailsById(int id_bill) throws Exception {
+        // Kiểm tra xem kết nối đến cơ sở dữ liệu đã được thiết lập chưa.
+        if (connectDB == null) {
+            throw new Exception("Database connection not established.");
+        }
+
+        // Danh sách kết quả chứa thông tin chi tiết hóa đơn.
+        var result = new ArrayList<BillDetail>();
+
+        // Tạo prepared statement và thiết lập tham số ID hóa đơn.
+        var preState = connectDB.getPreparedStatement(QUERY_GET_BILL_DETAIL);
+        preState.setInt(1, id_bill);
+
+        // Thực hiện truy vấn để lấy dữ liệu chi tiết hóa đơn từ cơ sở dữ liệu.
+        var resultSet = preState.executeQuery();
+
+        // Duyệt qua tất cả các dòng kết quả từ truy vấn.
+        while (resultSet.next()) {
+            // Xây dựng đối tượng BillDetail từ dữ liệu ResultSet.
+            var bill_detail = BillDetail.builder()
+                    .id_bill(id_bill)
+                    .id_product(resultSet.getInt("id_product"))
+                    .quantity(resultSet.getInt("quantity"))
+                    .listed_price(resultSet.getBigDecimal("listed_price"))
+                    .current_price(resultSet.getBigDecimal("current_price"))
+                    .build();
+
+            // Thêm đối tượng BillDetail vào danh sách kết quả.
+            result.add(bill_detail);
+        }
+
+        // Trả về danh sách chi tiết hóa đơn.
+        return result;
+    }
+
+
+    public static void main(String[] args) throws Exception {
+
+        BillDAO dao = new BillDAO();
+        dao.getAllBill().forEach(item -> {
+            System.out.println(item.toString());
+        });
     }
 
 }

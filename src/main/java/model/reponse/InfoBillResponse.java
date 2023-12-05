@@ -1,15 +1,14 @@
-package model;
-
+package model.reponse;
 import lombok.Builder;
 import lombok.Data;
-
-import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.List;
-
 @Data
 @Builder
-public class Bill implements Serializable {
+public class InfoBillResponse {
+
+    /*
+     * khởi tạo các thông tin về đơn hàng hiển thị lên View
+     * */
 
     private int id_bill;
     private int id_user;
@@ -21,9 +20,12 @@ public class Bill implements Serializable {
     private String address_customer;
     private Double bill_price;
     private Double total_price;
-    private Timestamp time_order; //=> bắt buộc phải mã hóa cả thời gian đặt hàng
-    private String hash_bill_encrypted;
+    private Timestamp time_order;
+    private String security_status;
 
-    @Builder.Default
-    private List<BillDetail> bill_details = null;
+    /*
+     * Trạng thái bảo mật của đơn hàng có 2 giá trị
+     * 1."Hợp lệ"
+     * 2."Đã bị chỉnh sửa"
+     * */
 }
