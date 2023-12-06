@@ -12,6 +12,10 @@ public class PublicKeyDAO {
     public DbConnection connectDB;
     public final String ADD_PUBLIC_KEY = "INSERT INTO public_keys(id_user, public_key, start_time, expired_time, is_valid) VALUES(?,?,?,?,?)";
 
+    public PublicKeyDAO() {
+        connectDB = DbConnection.getInstance();
+    }
+
     /**
      * Adds a public key to the database and returns the generated id_public_key as a BigInteger.
      *
