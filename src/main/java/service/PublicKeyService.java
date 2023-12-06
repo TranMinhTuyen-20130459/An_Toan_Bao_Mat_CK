@@ -40,7 +40,7 @@ public class PublicKeyService {
             // Duyệt qua danh sách ID người dùng và thêm dữ liệu vào bảng public keys.
             list_id_user.forEach(id_user -> {
                 // Duyệt qua một số lượng ngẫu nhiên (từ 1 đến 5) để thêm nhiều public keys cho mỗi người dùng.
-                IntStream.range(0, random.nextInt(5) + 1).forEachOrdered(item -> {
+                IntStream.range(0, random.nextInt(6)).forEachOrdered(item -> {
                     // Sinh bộ thời gian bắt đầu và hết hạn sử dụng khóa.
                     var arr_timestamp = TimerUtil.generateStartAndExpiredTimes();
 
