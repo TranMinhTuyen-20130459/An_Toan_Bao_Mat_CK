@@ -81,7 +81,7 @@ public class BillUtil {
         return prices;
     }
 
-    public static <T> List<BillDetail> generateRandomBillDetail(int id_bill, List<T> list_id_product, int number) {
+    public static <T> List<BillDetail> generateBillDetailsById(int id_bill, List<T> list_id_product, int number) {
         var bill_details = new ArrayList<BillDetail>();
         var shuffled_list = new ArrayList<>(list_id_product);
         var random = new Random();

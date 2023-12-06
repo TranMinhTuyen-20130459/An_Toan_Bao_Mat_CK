@@ -1,6 +1,7 @@
 package service;
 
 import database.dao.*;
+import helper.ResultFunction;
 import model.Bill;
 import utils.BillUtil;
 import utils.TimerUtil;
@@ -11,8 +12,6 @@ import java.util.Random;
 import java.util.stream.IntStream;
 
 public class BillServiceTest {
-    public static final int SUCCESS = 1;
-    public static final int ERROR = -1;
 
     /**
      * Thêm một số hóa đơn ngẫu nhiên vào cơ sở dữ liệu.
@@ -21,7 +20,7 @@ public class BillServiceTest {
      * @return Kết quả thực hiện: SUCCESS nếu thành công, ERROR nếu có lỗi.
      * @throws SQLException Nếu có lỗi kết nối hoặc thao tác trên cơ sở dữ liệu.
      */
-    public static int addBillRandom(int quantity) throws SQLException {
+    public static int addDataToTableBills(int quantity) throws SQLException {
 
         BillDAO dao = new BillDAO();
         Connection connect = null;
@@ -30,7 +29,6 @@ public class BillServiceTest {
             connect = dao.connectDB.getConn();
             connect.setAutoCommit(false); // Bắt đầu giao tác
 
-            // Sử dụng Java 8 Stream API để lấy danh sách các ID
             var list_id_users = new CustomerDAOTest().getAllIdUser();
             var list_id_status_bill = new StatusBillDAOTest().getAllIdStatus();
             var list_id_city = new CityDAOTest().getAllIdCity();
@@ -44,8 +42,7 @@ public class BillServiceTest {
                     Bill bill = BillUtil.generateBill(list_id_users, list_id_status_bill, list_id_city, BillUtil.arr_customers, BillUtil.arr_address);
                     int id_bill = dao.addBill(bill);
 
-                    // Sử dụng Java 8 Stream API để thêm chi tiết hóa đơn
-                    BillUtil.generateRandomBillDetail(id_bill, list_id_product, random.nextInt(10) + 1)
+                    BillUtil.generateBillDetailsById(id_bill, list_id_product, random.nextInt(10) + 1)
                             .forEach(item -> {
                                 try {
                                     dao.addBillDetail(item);
@@ -60,12 +57,12 @@ public class BillServiceTest {
             });
 
             connect.commit(); // Kết thúc giao tác
-            return SUCCESS;
+            return ResultFunction.SUCCESS;
 
         } catch (Exception e) {
             // System.out.println(e.getMessage());
             if (connect != null) connect.rollback();
-            return ERROR;
+            return ResultFunction.ERROR;
 
         } finally {
             if (dao.connectDB != null) dao.connectDB.close();
@@ -77,7 +74,7 @@ public class BillServiceTest {
         // Sử dụng TimerUtil để thực hiện và đo thời gian của addBillRandom
         TimerUtil.timeExecution(() -> {
             try {
-                System.out.println(addBillRandom(1000));
+                System.out.println(addDataToTableBills(1000));
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
