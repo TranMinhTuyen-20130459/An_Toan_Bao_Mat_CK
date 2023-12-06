@@ -532,7 +532,7 @@ DROP TABLE IF EXISTS `public_keys`;
 CREATE TABLE `public_keys`  (
   `id_public_key` bigint NOT NULL AUTO_INCREMENT,
   `id_user` int NULL DEFAULT NULL,
-  `pubic_key` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `public_key` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `start_time` timestamp NULL DEFAULT NULL,
   `expired_time` timestamp NULL DEFAULT NULL,
   `is_valid` bit(1) NULL DEFAULT NULL,
