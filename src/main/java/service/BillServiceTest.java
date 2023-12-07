@@ -2,7 +2,6 @@ package service;
 
 import database.dao.*;
 import helper.ResultFunction;
-import model.PublicKey;
 import utils.*;
 
 import java.sql.Connection;
@@ -60,6 +59,9 @@ public class BillServiceTest {
                         }
                     });
 
+                    // Sắp xếp đơn hàng theo id_bill
+                    SortedUtil.sortByProductId(list_bill_details);
+
                     bill.setBill_details(list_bill_details);
 
                     // Tạo private_key và public_key để mã hóa và giải mã đơn hàng
@@ -105,7 +107,7 @@ public class BillServiceTest {
         // Sử dụng TimerUtil để thực hiện và đo thời gian của addBillRandom
         TimerUtil.timeExecution(() -> {
             try {
-                System.out.println(addDataToTableBills(5000));
+                System.out.println(addDataToTableBills(1));
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

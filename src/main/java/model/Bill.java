@@ -12,8 +12,10 @@ import java.util.List;
 @Builder
 /*
  * đây là chuỗi object toString() sẽ dùng để hash => sau đó mã hóa bằng private_key
+ *
+ * => đừng sửa gì method toString() nha Đạt,Tài ^.^
  * */
-@ToString(of = {"id_bill", "id_user", "id_status_bill", "id_city", "name_customer", "phone_customer", "email_customer", "address_customer", "bill_price", "total_price", "time_order", "hash_bill_encrypted", "bill_details"})
+@ToString(of = {"id_bill", "id_user", "id_status_bill", "id_city", "name_customer", "phone_customer", "email_customer", "address_customer", "bill_price", "total_price", "time_order", "bill_details"})
 
 public class Bill implements Serializable {
 
@@ -28,9 +30,10 @@ public class Bill implements Serializable {
     private Double bill_price;
     private Double total_price;
     private Timestamp time_order; //=> time_order cũng cần được hash
-    private String hash_bill_encrypted;
+    private String hash_bill_encrypted; //=> hash_bill_encrypted không cần phải hash
     @Builder.Default
     private List<BillDetail> bill_details = null;
+
     public static void main(String[] args) {
 
         var bill = Bill.builder()

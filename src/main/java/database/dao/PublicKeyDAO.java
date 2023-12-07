@@ -79,7 +79,6 @@ public class PublicKeyDAO {
                     .is_valid(resultSet.getByte("is_valid"))
                     .build();
 
-            // System.out.println(pk);
             return pk;
         }
         return null;

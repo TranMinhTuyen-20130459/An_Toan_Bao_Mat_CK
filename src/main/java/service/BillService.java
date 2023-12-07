@@ -5,9 +5,8 @@ import database.dao.PublicKeyDAO;
 import model.reponse.InfoBillResponse;
 import utils.AsymmetricEncrypt;
 import utils.HashUtil;
+import utils.SortedUtil;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,23 +26,42 @@ public class BillService {
             return list_bill.stream()
                     .map(bill -> {
 
-                        var security_status = "Hợp lệ";
+                        //=> Trạng thái bảo mật của đơn hàng
+                        var security_status = "Đã bị chỉnh sửa";
+
+                        // => Thông tin Bill đã được Hash và mã hóa bằng private_key
                         var hash_bill_encrypted = bill.getHash_bill_encrypted();
 
-                        try {
+                        // => Lấy ra thông tin chi tiết đơn hàng
+                        var bill_details = bill.getBill_details();
 
-                            // cần set về null bởi vì trước khi Đặt Hàng thì hash_bill_encrypted bằng null
-                            bill.setHash_bill_encrypted(null);
+                        // => Sau đó sắp xếp theo id_product
+                        SortedUtil.sortByProductId(bill.getBill_details());
+
+                        // Cập nhật lại thông tin chi tiết đơn hàng trong Bill
+                        bill.setBill_details(bill_details);
+
+                        try {
                             var hash_bill = HashUtil.hashText(bill.toString(), HashUtil.SHA_1);
 
-                            // Lấy ra publicKey tương ứng để giải mã hash_bill_encrypted
+                            // Lấy ra public_key tương ứng để giải mã hash_bill_encrypted
                             var pk = publicKeyDAO.getPublicKeyByInfoBill(bill);
 
-                            rsa.importPublicKey(pk.getPublic_key());
+                            if (pk != null) {
 
-                            var hash_bill_decrypted = rsa.decryptFromBase64(hash_bill_encrypted, AsymmetricEncrypt.transformation_RSA);
+                                rsa.importPublicKey(pk.getPublic_key());
 
-                            if (!hash_bill.equals(hash_bill_decrypted)) security_status = "Đã bị chỉnh sửa";
+                                var hash_bill_decrypted = "";
+
+                                try {
+                                    hash_bill_decrypted = rsa.decryptFromBase64(hash_bill_encrypted, AsymmetricEncrypt.transformation_RSA);
+                                } catch (Exception e) {
+                                    hash_bill_decrypted = "";
+                                }
+
+                                // Cập nhật lại trạng thái bảo mật của đơn hàng
+                                if (hash_bill.equals(hash_bill_decrypted)) security_status = "Hợp lệ";
+                            }
 
                         } catch (Exception e) {
                             throw new RuntimeException(e);
@@ -67,8 +85,6 @@ public class BillService {
                     .collect(Collectors.toList());
 
         } catch (Exception e) {
-
-            e.printStackTrace();
             return new ArrayList<>();
         } finally {
             if (billDAO.connectDB != null) billDAO.connectDB.close();
