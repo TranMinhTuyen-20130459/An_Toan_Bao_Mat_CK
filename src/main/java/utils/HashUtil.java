@@ -12,7 +12,7 @@ public class HashUtil {
     public static final String SHA_384 = "SHA-384";
     public static final String SHA_512 = "SHA-512";
 
-    public String hashText(String input_text, String algorithm) throws Exception {
+    public static String hashText(String input_text, String algorithm) throws Exception {
         // Tạo một đối tượng MessageDigest
         MessageDigest md = MessageDigest.getInstance(algorithm);
 
@@ -28,8 +28,7 @@ public class HashUtil {
 
     public static void main(String[] args) throws Exception {
 
-        var hash = new HashUtil();
-        System.out.println(hash.hashText("TRAN MINH TUYEN", HashUtil.SHA_1));
+        System.out.println(hashText("TRAN MINH TUYEN", HashUtil.SHA_1));
 
     }
 

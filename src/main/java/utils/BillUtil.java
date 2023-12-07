@@ -4,8 +4,10 @@ import model.Bill;
 import model.BillDetail;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -81,6 +83,14 @@ public class BillUtil {
         return prices;
     }
 
+    /**
+     * Tạo danh sách chi tiết hóa đơn cho một hóa đơn cụ thể với số lượng và sản phẩm ngẫu nhiên.
+     *
+     * @param id_bill         ID của hóa đơn cho danh sách chi tiết.
+     * @param list_id_product Danh sách ID sản phẩm để chọn ngẫu nhiên.
+     * @param number          Số lượng chi tiết hóa đơn cần tạo.
+     * @return Danh sách chi tiết hóa đơn được tạo.
+     */
     public static <T> List<BillDetail> generateBillDetailsById(int id_bill, List<T> list_id_product, int number) {
         var bill_details = new ArrayList<BillDetail>();
         var shuffled_list = new ArrayList<>(list_id_product);
@@ -94,8 +104,8 @@ public class BillUtil {
 
             // Giả sử quantity, listed_price, và current_price được tạo ra ngẫu nhiên
             int quantity = random.nextInt(10) + 1; // Số lượng từ 1 đến 10
-            BigDecimal listedPrice = new BigDecimal(Math.pow(10, 6) * random.nextDouble());
-            BigDecimal currentPrice = new BigDecimal(Math.pow(10, 6) * random.nextDouble());
+            BigDecimal listedPrice = roundToInt(new BigDecimal(Math.pow(10, 6) * random.nextDouble()));
+            BigDecimal currentPrice = roundToInt(new BigDecimal(Math.pow(10, 6) * random.nextDouble()));
 
             // Tạo đối tượng BillDetail và thêm vào danh sách
             BillDetail billDetail = BillDetail.builder()
@@ -112,14 +122,39 @@ public class BillUtil {
         return bill_details;
     }
 
+    /**
+     * Làm tròn giá trị BigDecimal đến số nguyên.
+     *
+     * @param value Giá trị BigDecimal cần làm tròn.
+     * @return Giá trị được làm tròn đến số nguyên.
+     */
+    private static BigDecimal roundToInt(BigDecimal value) {
+        return value.setScale(0, RoundingMode.HALF_UP);
+    }
+
+    /**
+     * Tạo đối tượng hóa đơn mới với thông tin ngẫu nhiên.
+     *
+     * @param list_id_users       Danh sách ID người dùng để chọn ngẫu nhiên.
+     * @param list_id_status_bill Danh sách ID trạng thái hóa đơn để chọn ngẫu nhiên.
+     * @param list_id_city        Danh sách ID thành phố để chọn ngẫu nhiên.
+     * @param arr_customers       Mảng chứa tên khách hàng để chọn ngẫu nhiên.
+     * @param arr_address         Mảng chứa địa chỉ để chọn ngẫu nhiên.
+     * @return Đối tượng hóa đơn mới được tạo.
+     */
     public static <T> Bill generateBill(List<T> list_id_users,
                                         List<T> list_id_status_bill,
                                         List<T> list_id_city,
                                         String[] arr_customers,
                                         String[] arr_address) {
 
+        // Tạo mảng giá trị ngẫu nhiên cho các thành phần giá của hóa đơn
         double[] prices = BillUtil.generateRandomPrices();
 
+        // Làm tròn thời điểm đặt hàng đến giây gần nhất
+        Instant roundedTime = Instant.now().truncatedTo(ChronoUnit.SECONDS);
+
+        // Tạo đối tượng hóa đơn mới
         Bill bill = Bill.builder()
                 .id_user((int) BillUtil.getRandomElementInList(list_id_users))
                 .id_status_bill((int) BillUtil.getRandomElementInList(list_id_status_bill))
@@ -130,9 +165,8 @@ public class BillUtil {
                 .address_customer(BillUtil.getRandomElementInArray(arr_address))
                 .bill_price(prices[0])
                 .total_price(prices[1])
-                .time_order(Timestamp.from(Instant.now())).build();
+                .time_order(Timestamp.from(roundedTime)).build();
 
         return bill;
     }
-
 }

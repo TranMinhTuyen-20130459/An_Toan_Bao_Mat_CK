@@ -13,6 +13,7 @@ public class BillDAO {
     public final String ADD_BILL_DETAIL = "INSERT INTO bill_detail(id_bill,id_product,quantity,listed_price,current_price) VALUES(?,?,?,?,?)";
     public final String QUERY_GET_ALL_BILL = "SELECT id_bill,id_user,id_status_bill,id_city,fullname_customer,phone_customer,email_customer,address_customer,bill_price,total_price,time_order,hash_bill_encrypted FROM bills";
     public final String QUERY_GET_BILL_DETAIL = "SELECT id_bill,id_product,quantity,listed_price,current_price FROM bill_detail WHERE id_bill=?";
+    public final String UPDATE_BILL = "UPDATE bills SET id_user=?,id_status_bill=?,id_city=?,fullname_customer=?,phone_customer=?,email_customer=?,address_customer=?,bill_price=?,total_price=?,time_order=?,hash_bill_encrypted=? WHERE id_bill=?";
 
     public DbConnection connectDB;
 
@@ -178,6 +179,28 @@ public class BillDAO {
 
         // Trả về danh sách chi tiết hóa đơn.
         return result;
+    }
+
+    public int updateBill(Bill bill) throws Exception {
+
+        // Kiểm tra xem kết nối đến cơ sở dữ liệu đã được thiết lập hay chưa
+        if (connectDB == null) throw new Exception("Database connection not established.");
+
+        var preStatement = connectDB.getPreparedStatement(UPDATE_BILL);
+        preStatement.setInt(1, bill.getId_user());
+        preStatement.setInt(2, bill.getId_status_bill());
+        preStatement.setInt(3, bill.getId_city());
+        preStatement.setString(4, bill.getName_customer());
+        preStatement.setString(5, bill.getPhone_customer());
+        preStatement.setString(6, bill.getEmail_customer());
+        preStatement.setString(7, bill.getAddress_customer());
+        preStatement.setDouble(8, bill.getBill_price());
+        preStatement.setDouble(9, bill.getTotal_price());
+        preStatement.setTimestamp(10, bill.getTime_order());
+        preStatement.setString(11, bill.getHash_bill_encrypted());
+        preStatement.setInt(12, bill.getId_bill());
+
+        return preStatement.executeUpdate();
     }
 
 

@@ -1,16 +1,19 @@
 package database.dao;
 
 import database.DbConnection;
+import model.Bill;
 import model.PublicKey;
 import utils.TimerUtil;
 
 import java.math.BigInteger;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class PublicKeyDAO {
 
     public DbConnection connectDB;
     public final String ADD_PUBLIC_KEY = "INSERT INTO public_keys(id_user, public_key, start_time, expired_time, is_valid) VALUES(?,?,?,?,?)";
+    public final String QUERY_PUBLIC_KEY = "SELECT public_key, start_time, expired_time, is_valid FROM public_keys WHERE id_user = ? AND ? BETWEEN start_time AND IFNULL(expired_time, NOW())";
 
     public PublicKeyDAO() {
         connectDB = DbConnection.getInstance();
@@ -51,6 +54,34 @@ public class PublicKeyDAO {
             // Nếu không có dữ liệu trong ResultSet, thông báo lỗi
             throw new Exception("Add public_key into database failed. No generated keys available.");
         }
+    }
+
+    public PublicKey getPublicKeyByInfoBill(Bill bill) throws SQLException {
+
+        // Kiểm tra và khởi tạo kết nối đến cơ sở dữ liệu nếu cần
+        if (connectDB == null) connectDB = DbConnection.getInstance();
+
+        var preState = connectDB.getPreparedStatement(QUERY_PUBLIC_KEY);
+
+        preState.setInt(1, bill.getId_user());
+        preState.setTimestamp(2, bill.getTime_order());
+
+        preState.executeQuery();
+
+        var resultSet = preState.getResultSet();
+
+        if (resultSet.next()) {
+            var pk = PublicKey.builder()
+                    .id_user(bill.getId_user())
+                    .public_key(resultSet.getString("public_key"))
+                    .start_time(resultSet.getTimestamp("start_time"))
+                    .expired_time(resultSet.getTimestamp("expired_time"))
+                    .is_valid(resultSet.getByte("is_valid"))
+                    .build();
+
+            return pk;
+        }
+        return null;
     }
 
     public static void main(String[] args) throws Exception {

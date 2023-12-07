@@ -10,6 +10,7 @@ import java.util.Base64;
 
 public class AsymmetricEncrypt {
     public static final String RSA = "RSA";
+    public static final String transformation_RSA = "RSA";
     private KeyPair key_pair;
     private PublicKey public_key;
     private PrivateKey private_key;
@@ -30,9 +31,9 @@ public class AsymmetricEncrypt {
 
     public String encryptToBase64(String text, String transformation) throws Exception {
 
-        if (public_key == null) throw new Exception("public_key is null");
+        if (private_key == null) throw new Exception("private_key is null");
         Cipher cipher = Cipher.getInstance(transformation);
-        cipher.init(Cipher.ENCRYPT_MODE, public_key);
+        cipher.init(Cipher.ENCRYPT_MODE, private_key);
         var byte_text = text.getBytes(StandardCharsets.UTF_8);
         var byte_encrypted = cipher.doFinal(byte_text);
 
@@ -40,11 +41,12 @@ public class AsymmetricEncrypt {
     }
 
     public String decryptFromBase64(String encrypted, String transformation) throws Exception {
-        if (private_key == null) throw new Exception("private_key is null");
+
+        if (public_key == null) throw new Exception("public_key is null");
         var byte_encrypted = Base64.getDecoder().decode(encrypted.getBytes());
 
         Cipher cipher = Cipher.getInstance(transformation);
-        cipher.init(Cipher.DECRYPT_MODE, private_key);
+        cipher.init(Cipher.DECRYPT_MODE, public_key);
 
         var byte_decrypted = cipher.doFinal(byte_encrypted);
         return new String(byte_decrypted, StandardCharsets.UTF_8);
