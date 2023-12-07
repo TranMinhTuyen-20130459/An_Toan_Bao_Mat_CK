@@ -79,29 +79,30 @@ public class CustomerService {
         return false;
     }
 
-    public static int getIdOfCity(String city_name){
+    public static int getIdOfCity(String city_name) {
         DbConnection connnectDb = DbConnection.getInstance();
         String sql = "select id_city from city where name_city = ?";
         PreparedStatement pre = connnectDb.getPreparedStatement(sql);
-        try{
+        try {
             pre.setString(1, city_name);
             ResultSet rs = pre.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return rs.getInt("id_city");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return -1;
     }
+
     public static boolean profile(String email, String fullname, int city, String sex,
-                               String email_customer, String phone, String address){
+                                  String email_customer, String phone, String address) {
         DbConnection connnectDb = DbConnection.getInstance();
         String sql = "update account_customer " +
                 "set fullname = ?, id_city = ?, sex = ?, email_customer = ?, phone_customer = ?, address = ? " +
                 "where username = ?";
         PreparedStatement pre = connnectDb.getPreparedStatement(sql);
-        try{
+        try {
             pre.setString(1, fullname);
             pre.setInt(2, city);
             pre.setString(3, sex);
@@ -111,7 +112,7 @@ public class CustomerService {
             pre.setString(7, email);
             int rs = pre.executeUpdate();
             return rs > 0;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
@@ -169,8 +170,8 @@ public class CustomerService {
         List<Customer> customers = new ArrayList<>();
         try (var ps = DbConnection.getInstance().getPreparedStatement("SELECT id_user_customer, fullname, " +
                 "sex, phone_customer, address, time_created, s.name_status_acc " +
-                        "FROM account_customer a JOIN status_acc s ON a.id_status_acc = s.id_status_acc " +
-                        "WHERE DATE(time_created) > (NOW() - INTERVAL ? DAY)")) {
+                "FROM account_customer a JOIN status_acc s ON a.id_status_acc = s.id_status_acc " +
+                "WHERE DATE(time_created) > (NOW() - INTERVAL ? DAY)")) {
             ps.setInt(1, day);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -230,26 +231,7 @@ public class CustomerService {
 
     public static List<Bill> getAllBills() {
         List<Bill> bills = new ArrayList<>();
-        try (var ps = DbConnection.getInstance().getPreparedStatement(
-                "SELECT DISTINCT id_bill, fullname_customer, name_status_bill, " +
-                        "address_customer, total_price, time_order FROM bills b " +
-                        "JOIN status_bill s ON b.id_status_bill = s.id_status_bill")) {
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                int idBill = rs.getInt("id_bill");
-                Bill bill = new Bill(rs.getInt("b.id_bill"),
-                        ProductService.getProductsByBillId(idBill),
-                        rs.getString("name_status_bill"), rs.getString("address_customer"),
-                        rs.getString("fullname_customer"),
-                        CustomerService.getQuantityByBillId(idBill),
-                        rs.getDouble("total_price"),
-                        rs.getDate("time_order"));
-                bills.add(bill);
-            }
-            return bills;
-        } catch (SQLException e) {
-            return new ArrayList<>();
-        }
+        return bills;
     }
 
     public static List<Order> getOrderByUser(int userId) {

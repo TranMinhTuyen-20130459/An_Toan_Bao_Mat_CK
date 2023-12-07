@@ -93,28 +93,7 @@ public class AdminService {
 
     public static List<Bill> getBillsOrderedIn(int month) {
         List<Bill> bills = new ArrayList<>();
-        try (var ps = DbConnection.getInstance().getPreparedStatement(
-                "SELECT id_bill, name_status_bill, fullname_customer, total_price, address_customer, time_order " +
-                        "FROM bills b JOIN status_bill s ON b.id_status_bill = s.id_status_bill " +
-                        "WHERE MONTH(time_order) = ? AND YEAR(time_order) = YEAR(CURRENT_DATE)")) {
-            ps.setInt(1, month);
-            var rs = ps.executeQuery();
-            while (rs.next()) {
-                int billId = rs.getInt("id_bill");
-                List<Product> products = ProductService.getProductsByBillId(billId);
-                String status = rs.getString("name_status_bill");
-                String address = rs.getString("address_customer");
-                String customer = rs.getString("fullname_customer");
-                int quantity = CustomerService.getQuantityByBillId(billId);
-                double totalPrice = rs.getDouble("total_price");
-                Date timeOrder = rs.getDate("time_order");
-                bills.add(new Bill(billId, products, status, address, customer, quantity, totalPrice, timeOrder));
-            }
-            return bills;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return new ArrayList<>();
-        }
+        return bills;
     }
 
     public static int getCustomersCreatedIn(int month) {
@@ -146,26 +125,6 @@ public class AdminService {
 
     public static List<Bill> getRecentOrderedBills(int day) {
         List<Bill> bills = new ArrayList<>();
-        try (PreparedStatement ps = DbConnection.getInstance().getPreparedStatement(
-                "SELECT b.id_bill, name_status_bill, fullname_customer, total_price, time_order, " +
-                        "address_customer FROM bills b JOIN status_bill s ON b.id_status_bill = s.id_status_bill " +
-                        "WHERE DATE(time_order) > (NOW() - INTERVAL ? DAY) ORDER BY time_order DESC LIMIT 0,4")) {
-            ps.setInt(1, day);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                int id = rs.getInt("id_bill");
-                List<Product> products = ProductService.getProductsByBillId(id);
-                String status = rs.getString("name_status_bill");
-                String customerName = rs.getString("fullname_customer");
-                String address = rs.getString("address_customer");
-                int quantity = CustomerService.getQuantityByBillId(id);
-                double totalPrice = rs.getDouble("total_price");
-                Date timeOrder = rs.getDate("time_order");
-                bills.add(new Bill(id, products, status, address, customerName, quantity, totalPrice, timeOrder));
-            }
-        } catch (SQLException e) {
-            return new ArrayList<>();
-        }
         return bills;
     }
 

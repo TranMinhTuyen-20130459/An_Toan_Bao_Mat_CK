@@ -1,93 +1,54 @@
 package model;
 
+import lombok.Builder;
+import lombok.Data;
+import lombok.ToString;
+
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
+@Data
+@Builder
+/*
+ * đây là chuỗi object toString() sẽ dùng để hash => sau đó mã hóa bằng private_key
+ *
+ * => đừng sửa gì method toString() nha Đạt,Tài ^.^
+ * */
+@ToString(of = {"id_bill", "id_user", "id_status_bill", "id_city", "name_customer", "phone_customer", "email_customer", "address_customer", "bill_price", "total_price", "time_order", "bill_details"})
+
 public class Bill implements Serializable {
-    private int id;
-    private List<Product> products;
-    private String status;
-    private String customerName;
-    private String address;
-    private int quantity;
-    private double totalPrice;
-    private Date timeOrder;
 
-    public Bill() {}
+    private int id_bill; //=> id_bill cũng cần được hash
+    private int id_user;
+    private int id_status_bill;
+    private int id_city;
+    private String name_customer;
+    private String phone_customer;
+    private String email_customer;
+    private String address_customer;
+    private Double bill_price;
+    private Double total_price;
+    private Timestamp time_order; //=> time_order cũng cần được hash
+    private String hash_bill_encrypted; //=> hash_bill_encrypted không cần phải hash
+    @Builder.Default
+    private List<BillDetail> bill_details = null;
 
-    public Bill(int id, List<Product> products, String status, String address, String customerName, int quantity, double totalPrice, Date timeOrder) {
-        this.id = id;
-        this.products = products;
-        this.status = status;
-        this.customerName = customerName;
-        this.address = address;
-        this.quantity = quantity;
-        this.totalPrice = totalPrice;
-        this.timeOrder = timeOrder;
+    public static void main(String[] args) {
+
+        var bill = Bill.builder()
+                .id_user(1)
+                .id_status_bill(1)
+                .id_city(1)
+                .name_customer("TRAN TUYEN")
+                .phone_customer("0927042108")
+                .email_customer("tuyen@gmail.com")
+                .address_customer("256")
+                .bill_price((double) 100000)
+                .total_price((double) 150000)
+                .build();
+
+        System.out.println(bill.toString());
     }
 
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public Date getTimeOrder() {
-        return timeOrder;
-    }
-
-    public void setTimeOrder(Date timeOrder) {
-        this.timeOrder = timeOrder;
-    }
 }
