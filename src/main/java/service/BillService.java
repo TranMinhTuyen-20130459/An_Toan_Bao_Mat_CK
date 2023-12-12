@@ -13,6 +13,10 @@ import java.util.stream.Collectors;
 
 public class BillService {
 
+    /**
+     * Lấy ra danh sách thông tin về đơn hàng
+     * trong đó bao gồm trạng thái bảo mật của đơn hàng ('Hợp lệ' or 'Đã bị chỉnh sửa')
+     */
     public static List<BillDTO> getAllInfoBill() {
 
         var billDAO = new BillDAO();
@@ -25,21 +29,14 @@ public class BillService {
             // Sử dụng stream API trong Java 8 để map các thuộc tính trong Bill sang InfoBillResponse
             return list_bill.stream()
                     .map(bill -> {
-
                         //=> Trạng thái bảo mật của đơn hàng
                         var security_status = "Đã bị chỉnh sửa";
 
                         // => Thông tin Bill đã được Hash và mã hóa bằng private_key
                         var hash_bill_encrypted = bill.getHash_bill_encrypted();
 
-                        // => Lấy ra thông tin chi tiết đơn hàng
-                        var bill_details = bill.getBill_details();
-
-                        // => Sau đó sắp xếp theo id_product
+                        // => Sắp xếp ds chi tiết đơn hàng theo id_product
                         SortedUtil.sortByProductId(bill.getBill_details());
-
-                        // Cập nhật lại thông tin chi tiết đơn hàng trong Bill
-                        bill.setBill_details(bill_details);
 
                         try {
                             var hash_bill = HashUtil.hashText(bill.toString(), HashUtil.SHA_1);
@@ -79,6 +76,7 @@ public class BillService {
                                 .bill_price(bill.getBill_price())
                                 .total_price(bill.getTotal_price())
                                 .time_order(bill.getTime_order())
+                                .status_bill(BillDTO.getStatusBill(bill.getId_status_bill()))
                                 .security_status(security_status)
                                 .build();
                     })
@@ -93,7 +91,7 @@ public class BillService {
 
     public static void main(String[] args) {
 
-        getAllInfoBill().forEach(item -> {
+        BillService.getAllInfoBill().forEach(item -> {
             System.out.println(item.toString());
         });
     }

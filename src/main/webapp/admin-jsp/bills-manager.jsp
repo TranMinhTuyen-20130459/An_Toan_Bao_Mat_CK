@@ -64,21 +64,22 @@
                         <tbody>
                         <c:forEach var="b" items="${requestScope.bills}">
                             <c:choose>
-                                <c:when test="${b.status == 'Đã giao'}"><c:set var="bg" value="bg-success"/></c:when>
-                                <c:when test="${b.status == 'Đang vận chuyển'}"><c:set var="bg"
-                                                                                       value="bg-warning"/></c:when>
-                                <c:when test="${b.status == 'Đã hủy'}"><c:set var="bg" value="bg-danger"/></c:when>
-                                <c:when test="${b.status == 'Chờ xử lý'}"><c:set var="bg" value="bg-info"/></c:when>
+                                <c:when test="${b.id_status_bill == 1}"><c:set var="bg" value="bg-success"/></c:when>
+                                <c:when test="${b.id_status_bill == 2}"><c:set var="bg"
+                                                                               value="bg-warning"/></c:when>
+                                <c:when test="${b.id_status_bill == 3}"><c:set var="bg" value="bg-info"/></c:when>
+                                <c:when test="${b.id_status_bill == 4}"><c:set var="bg" value="bg-danger"/></c:when>
                             </c:choose>
                             <tr>
-                                <td data-bbid="${b.id}" class="text-center">#${b.id}</td>
-                                <td>${b.customerName}</td>
-                                <td data-price="${b.totalPrice}" class="text-center">${pu:format(b.totalPrice)}đ</td>
-                                <td data-ss="${bg}" class="text-center"><span class="badge ${bg}">${b.status}</span>
+                                <td data-bbid="${b.id_bill}" class="text-center">#${b.id_bill}</td>
+                                <td>${b.name_customer}</td>
+                                <td data-price="${b.total_price}" class="text-center">${pu:format(b.total_price)}đ</td>
+                                <td data-ss="${bg}" class="text-center"><span
+                                        class="badge ${bg}">${b.status_bill}</span>
                                 </td>
-                                <td>${b.address}</td>
-                                <td>${b.timeOrder}</td>
-                                <td>Đã bị chỉnh sửa</td>
+                                <td>${b.address_customer}</td>
+                                <td>${b.time_order}</td>
+                                <td>${b.security_status}</td>
                                 <td class="text-center">
                                     <button class="btn btn-primary btn-sm edit" type="button" title="Sửa"><i
                                             class="fas fa-edit"></i></button>

@@ -84,7 +84,7 @@ public class BillServiceTest {
                     var pk = PublicKeyUtil.generateObjectPublicKey(bill.getId_user(), rsa.exportPublicKey(), bill.getTime_order());
                     publicKeyDAO.addPublicKey(pk);
 
-                    // Tạm dừng luồng thực hiện trong 1.1 giây
+                    // Tạm dừng luồng thực hiện trong 2 giây
                     Thread.sleep(2000);
                     System.out.println("-----------------------------------");
 
@@ -111,7 +111,7 @@ public class BillServiceTest {
         // Sử dụng TimerUtil để thực hiện và đo thời gian của addBillRandom
         TimerUtil.timeExecution(() -> {
             try {
-                System.out.println(addDataToTableBills(20));
+                System.out.println(addDataToTableBills(100));
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
