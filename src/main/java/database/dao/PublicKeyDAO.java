@@ -13,7 +13,7 @@ public class PublicKeyDAO {
 
     public DbConnection connectDB;
     public final String ADD_PUBLIC_KEY = "INSERT INTO public_keys(id_user, public_key, start_time, expired_time, is_valid) VALUES(?,?,?,?,?)";
-    public final String QUERY_PUBLIC_KEY = "SELECT public_key, start_time, expired_time, is_valid FROM public_keys WHERE id_user = ? AND ? BETWEEN start_time AND IFNULL(expired_time, NOW())";
+    public final String QUERY_PUBLIC_KEY = "SELECT public_key, start_time, expired_time, is_valid FROM public_keys WHERE id_user = ? AND ? BETWEEN start_time AND IFNULL(expired_time, NOW()) LIMIT 1";
 
     public PublicKeyDAO() {
         connectDB = DbConnection.getInstance();

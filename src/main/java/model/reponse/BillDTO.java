@@ -4,7 +4,7 @@ import lombok.Data;
 import java.sql.Timestamp;
 @Data
 @Builder
-public class InfoBillResponse {
+public class BillDTO {
 
     /*
      * khởi tạo các thông tin về đơn hàng hiển thị lên View

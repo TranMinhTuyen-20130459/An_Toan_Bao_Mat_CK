@@ -2,7 +2,7 @@ package service;
 
 import database.dao.BillDAO;
 import database.dao.PublicKeyDAO;
-import model.reponse.InfoBillResponse;
+import model.reponse.BillDTO;
 import utils.AsymmetricEncrypt;
 import utils.HashUtil;
 import utils.SortedUtil;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class BillService {
 
-    public static List<InfoBillResponse> getAllInfoBill() {
+    public static List<BillDTO> getAllInfoBill() {
 
         var billDAO = new BillDAO();
         var publicKeyDAO = new PublicKeyDAO();
@@ -67,7 +67,7 @@ public class BillService {
                             throw new RuntimeException(e);
                         }
 
-                        return InfoBillResponse.builder()
+                        return BillDTO.builder()
                                 .id_bill(bill.getId_bill())
                                 .id_user(bill.getId_user())
                                 .id_status_bill(bill.getId_status_bill())
@@ -96,6 +96,5 @@ public class BillService {
         getAllInfoBill().forEach(item -> {
             System.out.println(item.toString());
         });
-
     }
 }
