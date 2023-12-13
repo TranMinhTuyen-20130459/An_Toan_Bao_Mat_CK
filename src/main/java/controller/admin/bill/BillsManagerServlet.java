@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "AdminBillsManager", value = "/admin/quan-ly-don-hang")
-public class AdminBillsManagerServlet extends HttpServlet {
+public class BillsManagerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

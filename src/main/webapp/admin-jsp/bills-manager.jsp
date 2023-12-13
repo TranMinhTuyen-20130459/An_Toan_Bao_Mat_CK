@@ -71,7 +71,8 @@
                                 <c:when test="${b.id_status_bill == 4}"><c:set var="bg" value="bg-danger"/></c:when>
                             </c:choose>
                             <tr>
-                                <td data-bbid="${b.id_bill}" class="text-center">#${b.id_bill}</td>
+                                <td><a href="${context}/admin/chi-tiet-don-hang?id_bill=${b.id_bill}">#${b.id_bill}</a>
+                                </td>
                                 <td>${b.name_customer}</td>
                                 <td data-price="${b.total_price}" class="text-center">${pu:format(b.total_price)}đ</td>
                                 <td data-ss="${bg}" class="text-center"><span

@@ -111,7 +111,7 @@ public class BillServiceTest {
         // Sử dụng TimerUtil để thực hiện và đo thời gian của addBillRandom
         TimerUtil.timeExecution(() -> {
             try {
-                System.out.println(addDataToTableBills(100));
+                System.out.println(addDataToTableBills(150));
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
