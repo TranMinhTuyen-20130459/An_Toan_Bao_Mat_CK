@@ -36,17 +36,9 @@ public class TimerUtil {
         // Lấy timestamp hiện tại làm thời điểm bắt đầu
         Timestamp startTime = new Timestamp(System.currentTimeMillis());
 
-        // Tạo một khoảng thời gian ngẫu nhiên (tính bằng mili giây) cho khoảng thời gian
-        long duration = (long) (Math.random() * 10000000000L); // Ví dụ: tối đa 10,000,000,000 mili giây
-
-        // Tính thời điểm hết hạn bằng cách cộng thêm khoảng thời gian vào thời điểm bắt đầu
-        Timestamp expiredTime = new Timestamp(startTime.getTime() + duration);
-
-        // Đảm bảo thời điểm hết hạn lớn hơn thời điểm bắt đầu
-        while (expiredTime.before(startTime)) {
-            duration = (long) (Math.random() * 10000000000L);
-            expiredTime = new Timestamp(startTime.getTime() + duration);
-        }
+        // Tính thời điểm hết hạn bằng cách cộng thêm một khoảng thời gian cố định (ví dụ: 0.75 giây)
+        long fixedDuration = 1000; // 1000 mili giây = 1 giây
+        Timestamp expiredTime = new Timestamp(startTime.getTime() + fixedDuration);
 
         // Trả về kết quả dưới dạng mảng
         return new Timestamp[]{startTime, expiredTime};

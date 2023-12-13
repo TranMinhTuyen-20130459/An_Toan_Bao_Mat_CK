@@ -12,7 +12,7 @@ public class BillDAO {
     public final String ADD_BILL = "INSERT INTO bills(id_user,id_status_bill,id_city,fullname_customer,phone_customer,email_customer,address_customer,bill_price,total_price) VALUES(?,?,?,?,?,?,?,?,?)";
     public final String ADD_BILL_DETAIL = "INSERT INTO bill_detail(id_bill,id_product,quantity,listed_price,current_price) VALUES(?,?,?,?,?)";
     public final String QUERY_GET_ALL_BILL = "SELECT id_bill,id_user,id_status_bill,id_city,fullname_customer,phone_customer,email_customer,address_customer,bill_price,total_price,time_order,hash_bill_encrypted FROM bills";
-    public final String QUERY_GET_BILL_DETAIL = "SELECT id_bill,id_product,quantity,listed_price,current_price FROM bill_detail WHERE id_bill=?";
+    public final String QUERY_GET_BILL_DETAIL = "SELECT B.id_bill,B.id_product,B.quantity,B.listed_price,B.current_price,P.name_product,P.url_img_product FROM bill_detail B JOIN products P ON B.id_product = P.id_product WHERE id_bill=?";
     public final String UPDATE_BILL = "UPDATE bills SET id_user=?,id_status_bill=?,id_city=?,fullname_customer=?,phone_customer=?,email_customer=?,address_customer=?,bill_price=?,total_price=?,time_order=?,hash_bill_encrypted=? WHERE id_bill=?";
 
     public DbConnection connectDB;
@@ -171,6 +171,8 @@ public class BillDAO {
                     .quantity(resultSet.getInt("quantity"))
                     .listed_price(resultSet.getBigDecimal("listed_price"))
                     .current_price(resultSet.getBigDecimal("current_price"))
+                    .name_product(resultSet.getString("name_product"))
+                    .url_img_product(resultSet.getString("url_img_product"))
                     .build();
 
             // Thêm đối tượng BillDetail vào danh sách kết quả.
@@ -207,7 +209,12 @@ public class BillDAO {
     public static void main(String[] args) throws Exception {
 
         BillDAO dao = new BillDAO();
-        dao.getAllBill().forEach(item -> {
+
+       /* dao.getAllBill().forEach(item -> {
+            System.out.println(item.toString());
+        });*/
+
+        dao.getBillDetailsById(207893).forEach(item -> {
             System.out.println(item.toString());
         });
     }
