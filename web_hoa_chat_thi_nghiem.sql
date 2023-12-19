@@ -44,7 +44,14 @@ INSERT INTO `account_admin` VALUES ('nguyentandat', 2, 1, '8d969eef6ecad3c29a3a6
 INSERT INTO `account_admin` VALUES ('tranminhtuyen', 3, 1, '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '2023-11-29 11:28:42', '2023-11-29 11:28:42', 'Trần Minh Tuyên');
 INSERT INTO `account_admin` VALUES ('tuyenkun', 1, 1, '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '2023-11-29 11:28:42', '2023-11-29 11:28:42', NULL);
 
--- --------------255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+-- ----------------------------
+-- Table structure for account_customer
+-- ----------------------------
+DROP TABLE IF EXISTS `account_customer`;
+CREATE TABLE `account_customer`  (
+  `id_user_customer` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `pass` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `id_status_acc` int NOT NULL,
   `id_city` int NOT NULL,
   `fullname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
@@ -65,9 +72,9 @@ INSERT INTO `account_admin` VALUES ('tuyenkun', 1, 1, '8d969eef6ecad3c29a3a62928
 -- ----------------------------
 -- Records of account_customer
 -- ----------------------------
-INSERT INTO `account_customer` VALUES (1, 'nguyenphutai840@gmail.com', '123', 1, 1, 'Nguyễn Phú Tài', 'Nam', 'nguyenphutai840@gmail.com', '0353677271', 'Di Linh, Lâm Đồng', '2023-11-29 11:28:42', '2023-11-29 11:28:42');
-INSERT INTO `account_customer` VALUES (2, 'tranminhtuyen0908@gmail.com', '123', 1, 1, 'Trần Minh Tuyên', 'Nam', 'tranminhtuyen0908@gmail.com', '0353677272', 'Nam Định', '2023-11-29 11:28:42', '2023-11-29 11:28:42');
-INSERT INTO `account_customer` VALUES (3, 'nguyentandat@gmail.com', '123', 1, 1, 'Nguyễn Tấn Đạt', 'Nam', 'nguyentandat@gmail.com', '0353677273', 'Bến Tre', '2023-11-29 11:28:42', '2023-11-29 11:28:42');
+INSERT INTO `account_customer` VALUES (1, 'nguyenphutai840@gmail.com', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 1, 1, 'Nguyễn Phú Tài', 'Nam', 'nguyenphutai840@gmail.com', '0353677271', 'Di Linh, Lâm Đồng', '2023-11-29 11:28:42', '2023-11-29 11:28:42');
+INSERT INTO `account_customer` VALUES (2, 'tranminhtuyen0908@gmail.com', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 1, 1, 'Trần Minh Tuyên', 'Nam', 'tranminhtuyen0908@gmail.com', '0353677272', 'Nam Định', '2023-11-29 11:28:42', '2023-11-29 11:28:42');
+INSERT INTO `account_customer` VALUES (3, 'nguyentandat@gmail.com', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 1, 1, 'Nguyễn Tấn Đạt', 'Nam', 'nguyentandat@gmail.com', '0353677273', 'Bến Tre', '2023-11-29 11:28:42', '2023-11-29 11:28:42');
 
 -- ----------------------------
 -- Table structure for bill_detail
