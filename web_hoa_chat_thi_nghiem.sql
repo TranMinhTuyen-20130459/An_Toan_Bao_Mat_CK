@@ -44,14 +44,7 @@ INSERT INTO `account_admin` VALUES ('nguyentandat', 2, 1, '8d969eef6ecad3c29a3a6
 INSERT INTO `account_admin` VALUES ('tranminhtuyen', 3, 1, '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '2023-11-29 11:28:42', '2023-11-29 11:28:42', 'Trần Minh Tuyên');
 INSERT INTO `account_admin` VALUES ('tuyenkun', 1, 1, '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '2023-11-29 11:28:42', '2023-11-29 11:28:42', NULL);
 
--- ----------------------------
--- Table structure for account_customer
--- ----------------------------
-DROP TABLE IF EXISTS `account_customer`;
-CREATE TABLE `account_customer`  (
-  `id_user_customer` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `pass` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+-- --------------255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `id_status_acc` int NOT NULL,
   `id_city` int NOT NULL,
   `fullname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
