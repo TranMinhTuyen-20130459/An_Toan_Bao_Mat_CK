@@ -1,8 +1,7 @@
 package controller.admin.account;
 
 import model.Admin;
-import service.AdminService;
-import service.AdminService_MT;
+import service.AuthenticationAdminService;
 import utils.CommonString;
 
 import javax.servlet.*;
@@ -17,8 +16,8 @@ public class AdminsManagerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Admin admin = (Admin) request.getSession().getAttribute(CommonString.ADMIN_SESSION);
         if (admin.getId_role_admin() == 3) {
-            List<Admin> listAdmin = AdminService_MT.getAllAdmin();
-            List<Object> allRoleAdminAndStatusAcc = AdminService_MT.getAllRoleAdminAndStatusAcc();
+            List<Admin> listAdmin = AuthenticationAdminService.getAllAdmin();
+            List<Object> allRoleAdminAndStatusAcc = AuthenticationAdminService.getAllRoleAdminAndStatusAcc();
             request.setAttribute("adminList", listAdmin);
             request.setAttribute("allRoleAdmin", allRoleAdminAndStatusAcc.get(0));
             request.setAttribute("allStatusAcc", allRoleAdminAndStatusAcc.get(1));
@@ -41,7 +40,7 @@ public class AdminsManagerServlet extends HttpServlet {
             int id_role_admin = Integer.parseInt(IdRole);
             int id_status_acc = Integer.parseInt(IdStatus);
             Admin admin = new Admin(UserName, PassAd, id_role_admin, id_status_acc, "");
-            boolean checkUpdateAcc = AdminService_MT.updateAccount(admin);
+            boolean checkUpdateAcc = AuthenticationAdminService.updateAccount(admin);
             if (checkUpdateAcc) {
                 response.getWriter().write("success");
             } else response.getWriter().write("fail");

@@ -5,6 +5,7 @@ import database.dao.AdminDAO;
 import model.Admin;
 import model.RoleAdmin;
 import model.StatusAcc;
+import utils.HashUtil;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,7 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminService_MT {
+public class AuthenticationAdminService {
 
     public static Admin checkLogin(String username, String passAD) {
         List<Admin> admins = new ArrayList<>();
@@ -35,7 +36,13 @@ public class AdminService_MT {
             if (admins.size() != 1) return null; // không thể tồn tại nhiều username trùng tên trong hệ thống
 
             Admin admin = admins.get(0);
-            if (admin.getPassAD().equals(passAD)) return admin;
+
+            try {
+                var hash_pass_input = HashUtil.hashText(passAD, HashUtil.SHA_256);
+                if (admin.getPassAD().equals(hash_pass_input)) return admin;
+            } catch (Exception e) {
+                return null;
+            }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
