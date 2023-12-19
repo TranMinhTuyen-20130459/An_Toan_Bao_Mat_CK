@@ -1,6 +1,7 @@
 package utils;
 
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
 public class HashUtil {
@@ -16,8 +17,8 @@ public class HashUtil {
         // Tạo một đối tượng MessageDigest
         MessageDigest md = MessageDigest.getInstance(algorithm);
 
-        // Băm đoạn văn bản đầu vào thành một mảng byte
-        byte[] message_digest = md.digest(input_text.getBytes());
+        // Băm đoạn văn bản đầu vào thành mảng byte với UTF-8 encoding
+        byte[] message_digest = md.digest(input_text.getBytes(StandardCharsets.UTF_8));
 
         // Chuyển mảng byte thành số nguyên BigInteger
         BigInteger number = new BigInteger(1, message_digest);

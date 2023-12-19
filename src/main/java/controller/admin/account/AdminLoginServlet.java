@@ -1,8 +1,7 @@
 package controller.admin.account;
 
 import model.Admin;
-import service.AdminService;
-import service.AdminService_MT;
+import service.AuthenticationAdminService;
 import utils.CommonString;
 
 import javax.servlet.ServletException;
@@ -26,7 +25,7 @@ public class AdminLoginServlet extends HttpServlet {
 
         String username = request.getParameter("username");
         String passAD = request.getParameter("password");
-        Admin admin = AdminService_MT.checkLogin(username, passAD); // call service
+        Admin admin = AuthenticationAdminService.checkLogin(username, passAD); // call service
         if (admin == null) {
             request.setAttribute("error", "Tài khoản hoặc mật khẩu không đúng");
             request.getRequestDispatcher("/admin-jsp/login.jsp").forward(request, response); // return view

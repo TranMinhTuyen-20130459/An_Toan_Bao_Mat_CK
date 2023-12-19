@@ -64,8 +64,8 @@
                                 <td><img src="${context}/${p.url_img_product}" alt="" width="100px;"></td>
                                 <td>${p.name_product}</td>
                                 <td>${p.quantity}</td>
-                                <td>${p.listed_price}</td>
-                                <td>${p.current_price}</td>
+                                <td>${pu:format(p.listed_price)}đ</td>
+                                <td>${pu:format(p.current_price)}đ</td>
                             </tr>
                         </c:forEach>
                         </tbody>
