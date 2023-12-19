@@ -39,9 +39,10 @@ public class DoRegisterCustomerServlet extends HttpServlet {
                 HttpSession session = request.getSession(true);
                 request.setAttribute("session_cus", session);
                 session.setAttribute("cus", customer_register);
+                var context_path = request.getContextPath();
                 String body = "Để tạo tài khoản và sử dụng các dịch vụ của chúng tôi hãy " +
 //                        "http://localhost:8080/HoaChatThiNghiem_war/shop/verify-register";
-                        "<a href='http://localhost:8080/HoaChatThiNghiem_war/shop/verify-register?key=" + id + "'>nhấn vào đây!</a>";
+                        "<a href='http://localhost:8080"+context_path+"/shop/verify-register?key=" + id + "'>nhấn vào đây!</a>";
                 Email sendEmailForVerify = new Email("nguyenphutai840@gmail.com", "nlrtjmzdmlihnlrz",
                         "Chào mừng bạn trở thành một phần của LAB CHEMICALS", body);
                 SendMail.sendMail(email, sendEmailForVerify);

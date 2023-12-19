@@ -1,4 +1,4 @@
-package service;
+package data;
 
 import database.dao.*;
 import helper.ResultFunction;
@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.Random;
 import java.util.stream.IntStream;
 
-public class BillServiceTest {
+public class DataBill {
 
     /**
      * Thêm một số hóa đơn ngẫu nhiên(bao gồm cả chi tiết hóa đơn) vào cơ sở dữ liệu.
@@ -111,7 +111,7 @@ public class BillServiceTest {
         // Sử dụng TimerUtil để thực hiện và đo thời gian của addBillRandom
         TimerUtil.timeExecution(() -> {
             try {
-                System.out.println(addDataToTableBills(150));
+                System.out.println(addDataToTableBills(20));
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

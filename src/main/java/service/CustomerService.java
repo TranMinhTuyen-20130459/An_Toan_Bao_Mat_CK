@@ -5,6 +5,7 @@ import model.Bill;
 import model.CartItem;
 import model.Customer;
 import model.Order;
+import utils.HashUtil;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -45,9 +46,14 @@ public class CustomerService {
             if (customers.size() != 1) {
                 return null;
             } else {
-                Customer unique = customers.get(0);
-                if (unique.getPassword().equals(password)) {
-                    return unique;
+                try {
+                    var hash_pass_input = HashUtil.hashText(password, HashUtil.SHA_256);
+                    Customer unique = customers.get(0);
+                    if (unique.getPassword().equals(hash_pass_input)) {
+                        return unique;
+                    }
+                }catch (Exception e) {
+                    return null;
                 }
             }
         } catch (SQLException e) {
@@ -154,8 +160,9 @@ public class CustomerService {
                 "VALUES(?, ?, 1, 1)";
         PreparedStatement preState = connectDb.getPreparedStatement(sql);
         try {
+            var hash_password = HashUtil.hashText(password,HashUtil.SHA_256);
             preState.setString(1, email);
-            preState.setString(2, password);
+            preState.setString(2, hash_password);
             preState.executeUpdate();
             System.out.println("success");
         } catch (Exception e) {

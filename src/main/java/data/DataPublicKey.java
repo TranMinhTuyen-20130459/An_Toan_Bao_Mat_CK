@@ -1,4 +1,4 @@
-package service;
+package data;
 
 import database.dao.CustomerDAOTest;
 import database.dao.PublicKeyDAO;
@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.Random;
 import java.util.stream.IntStream;
 
-public class PublicKeyService {
+public class DataPublicKey {
 
     /**
      * Thêm dữ liệu vào bảng chứa các khóa công khai (public keys).
