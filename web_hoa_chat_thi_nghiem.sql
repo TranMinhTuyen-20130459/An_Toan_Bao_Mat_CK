@@ -25,7 +25,7 @@ CREATE TABLE `account_admin`  (
   `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `id_role_admin` int NOT NULL,
   `id_status_acc` int NOT NULL,
-  `passwordAD` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `passwordAD` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `time_created` timestamp NOT NULL DEFAULT current_timestamp,
   `time_change_pass` timestamp NOT NULL DEFAULT current_timestamp,
   `fullname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
