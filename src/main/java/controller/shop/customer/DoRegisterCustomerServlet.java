@@ -4,6 +4,7 @@ import mail.Email;
 import mail.SendMail;
 import model.CustomerSecurity;
 import service.CustomerService;
+import utils.BodyMailRegister;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -40,9 +41,10 @@ public class DoRegisterCustomerServlet extends HttpServlet {
                 request.setAttribute("session_cus", session);
                 session.setAttribute("cus", customer_register);
                 var context_path = request.getContextPath();
-                String body = "Để tạo tài khoản và sử dụng các dịch vụ của chúng tôi hãy " +
-//                        "http://localhost:8080/HoaChatThiNghiem_war/shop/verify-register";
-                        "<a href='http://localhost:8080"+context_path+"/shop/verify-register?key=" + id + "'>nhấn vào đây!</a>";
+                String private_key = "";
+//                String body = "Để tạo tài khoản và sử dụng các dịch vụ của chúng tôi hãy " +
+//                        "<a href='http://localhost:8080"+context_path+"/shop/verify-register?key=" + id + "'>nhấn vào đây!</a>";
+                String body = BodyMailRegister.createBodyMailForRegister(context_path, id, private_key);
                 Email sendEmailForVerify = new Email("nguyenphutai840@gmail.com", "nlrtjmzdmlihnlrz",
                         "Chào mừng bạn trở thành một phần của LAB CHEMICALS", body);
                 SendMail.sendMail(email, sendEmailForVerify);
