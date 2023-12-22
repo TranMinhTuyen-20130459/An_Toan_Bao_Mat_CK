@@ -1,7 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="context" value="${pageContext.request.contextPath}"/>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 
 <link rel="stylesheet" href="${context}/shop/css/bootstrap.css"/>
+<link rel="stylesheet" href="<c:url value='../admin-assets/css/bootstrap.min.css'/>">
 <link rel="stylesheet" href="${context}/shop/css/magnific-popup.min.css"/>
 <link rel="stylesheet" href="${context}/shop/css/magnific-popup.css"/>
 <link rel="stylesheet" href="${context}/shop/css/font-awesome.css"/>
