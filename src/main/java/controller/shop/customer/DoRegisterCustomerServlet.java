@@ -4,6 +4,7 @@ import mail.Email;
 import mail.SendMail;
 import model.CustomerSecurity;
 import service.CustomerService;
+import utils.AsymmetricEncrypt;
 import utils.BodyMailRegister;
 
 import javax.servlet.*;
@@ -34,17 +35,26 @@ public class DoRegisterCustomerServlet extends HttpServlet {
             request.getServletContext().getRequestDispatcher("/shop/register.jsp").forward(request, response);
         } else {
             if (password.equals(confirm_pass)) {
+                AsymmetricEncrypt rsa = new AsymmetricEncrypt(AsymmetricEncrypt.RSA);
+                try {
+                    rsa.generateKey(512);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                String pu_key = rsa.exportPublicKey();
+                String pr_key = rsa.exportPrivateKey();
+
                 UUID uuid = UUID.randomUUID();
                 String id = uuid.toString();
                 CustomerSecurity customer_register = new CustomerSecurity(id, email, password);
                 HttpSession session = request.getSession(true);
                 request.setAttribute("session_cus", session);
                 session.setAttribute("cus", customer_register);
+                session.setAttribute("pu_key", pu_key);
                 var context_path = request.getContextPath();
-                String private_key = "";
 //                String body = "Để tạo tài khoản và sử dụng các dịch vụ của chúng tôi hãy " +
 //                        "<a href='http://localhost:8080"+context_path+"/shop/verify-register?key=" + id + "'>nhấn vào đây!</a>";
-                String body = BodyMailRegister.createBodyMailForRegister(context_path, id, private_key);
+                String body = BodyMailRegister.createBodyMailForRegister(context_path, id, pr_key);
                 Email sendEmailForVerify = new Email("nguyenphutai840@gmail.com", "nlrtjmzdmlihnlrz",
                         "Chào mừng bạn trở thành một phần của LAB CHEMICALS", body);
                 SendMail.sendMail(email, sendEmailForVerify);
