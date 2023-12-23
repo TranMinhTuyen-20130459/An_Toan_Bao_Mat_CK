@@ -64,7 +64,7 @@
                                 <li>
                                     <a data-toggle="modal"
                                        data-target="#verifyModal"
-                                       href="#"><i class="bi bi-person-plus"></i> Khóa của bạn</a>
+                                       href="#"><i class="bi bi-person-plus"></i> Báo cáo lộ khóa</a>
                                 </li>
                                 <li>
                                     <a href="${context}/shop/change-password"><i class="bi bi-lock"></i> Đổi mật khẩu</a>
@@ -169,13 +169,13 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="form-group  col-md-12">
+                <form class="form-group  col-md-12">
                     <input class="w-100 mb-4 form-control"
                            type="password"
                            placeholder="Xác thực lại mật khẩu"
                            name=""
                            value=""/>
-                </div>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Thoát</button>
@@ -184,66 +184,6 @@
         </div>
     </div>
 </div>
-
-<%--<div class="modal fade" id="modal-up" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"--%>
-<%--     data-keyboard="false">--%>
-<%--    <div class="modal-dialog modal-dialog-centered" role="document">--%>
-<%--        <div class="modal-content">--%>
-<%--            <div class="modal-body">--%>
-<%--                <div class="row">--%>
-<%--                    <div class="form-group  col-md-12">--%>
-<%--                            <span class="thong-tin-thanh-toan">--%>
-<%--                                <h5>Chỉnh sửa thông tin sản phẩm cơ bản</h5>--%>
-<%--                            </span>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-<%--                <div class="row">--%>
-<%--                    <div class="form-group col-md-6">--%>
-<%--                        <label class="control-label">Tên sản phẩm</label>--%>
-<%--                        <input id="inNameProduct" class="form-control" type="text" required value="">--%>
-<%--                    </div>--%>
-<%--                    <div class="form-group  col-md-6">--%>
-<%--                        <label class="control-label">Số lượng</label>--%>
-<%--                        <input id="inQuantityProduct" class="form-control" type="number" value="">--%>
-<%--                    </div>--%>
-<%--                    <div class="form-group col-md-6">--%>
-<%--                        <label class="control-label">Giá niêm yết</label>--%>
-<%--                        <input id="inListedPrice" class="form-control" type="number" value="">--%>
-<%--                    </div>--%>
-<%--                    <div class="form-group col-md-6">--%>
-<%--                        <label class="control-label">Giá bán thực tế</label>--%>
-<%--                        <input id="inCurrentPrice" class="form-control" type="number" value="">--%>
-<%--                    </div>--%>
-<%--                    <div class="form-group col-md-6 ">--%>
-<%--                        <label for="SelectStatusProd" class="control-label">Trạng thái sản phẩm</label>--%>
-<%--                        <select class="form-control" id="SelectStatusProd">--%>
-<%--                            <option value="0">-- Chọn trạng thái --</option>--%>
-<%--                            <c:forEach var="statusProd" items="${requestScope.statusProducts}">--%>
-<%--                                <option value="${statusProd.id_status}">${statusProd.name_status}</option>--%>
-<%--                            </c:forEach>--%>
-<%--                        </select>--%>
-<%--                    </div>--%>
-<%--                    <div class="form-group col-md-6">--%>
-<%--                        <label for="SelectStatusProd" class="control-label">Loại sản phẩm</label>--%>
-<%--                        <select class="form-control" id="SelectTypeProd">--%>
-<%--                            <option value="0">-- Chọn loại sản phẩm --</option>--%>
-<%--                            <c:forEach var="st" items="${requestScope.subtypeProducts}">--%>
-<%--                                <option value="${st.id_subtype}">${st.name_type}</option>--%>
-<%--                            </c:forEach>--%>
-<%--                        </select>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-<%--                <div class="d-flex justify-content-end mt-3">--%>
-<%--                    <button id="btUpdateProduct" class="btn btn-save mr-3" type="submit">Lưu lại</button>--%>
-<%--                    <button class="btn btn-cancel" data-dismiss="modal">Hủy bỏ</button>--%>
-<%--                </div>--%>
-<%--            </div>--%>
-<%--            <div class="modal-footer"></div>--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--</div>--%>
-
-
 <!-- ===== FOOTER ===== -->
 <jsp:include page="../common/shop-footer.jsp"/>
 
