@@ -533,7 +533,7 @@ CREATE TABLE `public_keys`  (
   `id_public_key` bigint NOT NULL AUTO_INCREMENT,
   `id_user` int NULL DEFAULT NULL,
   `public_key` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `start_time` timestamp NULL DEFAULT current_timestamp,
+  `start_time` timestamp NULL DEFAULT NULL,
   `expired_time` timestamp NULL DEFAULT NULL,
   `is_valid` bit(1) NULL DEFAULT NULL,
   PRIMARY KEY (`id_public_key`) USING BTREE,
