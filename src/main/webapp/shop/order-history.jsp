@@ -66,14 +66,14 @@
             <div class="container bg-white order-tab-content" id="${tab}">
                     <%--suppress ELSpecValidationInJSP--%>
                 <c:set var="order_items" value="${requestScope.get(tab)}"/>
-                        <c:if test="${empty order_items}">
-                            <div class="empty-order w-100 d-flex align-items-center justify-content-center">
-                                <div class="text-center">
-                                    <img src="${context}/shop/images/empty_order.png" alt="empty-order.png">
-                                    <p>Chưa có đơn hàng</p>
-                                </div>
-                            </div>
-                        </c:if>
+                <c:if test="${empty order_items}">
+                    <div class="empty-order w-100 d-flex align-items-center justify-content-center">
+                        <div class="text-center">
+                            <img src="${context}/shop/images/empty_order.png" alt="empty-order.png">
+                            <p>Chưa có đơn hàng</p>
+                        </div>
+                    </div>
+                </c:if>
                 <c:forEach var="order" items="${order_items}" varStatus="i">
                     <c:choose>
                         <c:when test="${order.status == 'Đã giao'}"><c:set var="bg" value="bought"/></c:when>
@@ -86,11 +86,14 @@
                             <div>
                                 <span class="span-id mr-4">#${order.id}</span>
                                 <span class="supplier">
-                            <i class="fa fa-calendar-o mr-1"></i>
-                            <span class="d-inline-block pt-2">${pu:formatTime(order.orderTime)}</span>
-                        </span>
+                                    <i class="fa fa-calendar-o mr-1"></i>
+                                    <span class="d-inline-block pt-2">${pu:formatTime(order.orderTime)}</span>
+                                </span>
+                                <span class="status ${bg} ml-3 mr-3">${order.status}</span>
                             </div>
-                            <span class="status ${bg}">${order.status}</span>
+                            <c:if test="${order.verified}">
+                                <span>Verified</span>
+                            </c:if>
                         </div>
                         <div class="item-body w-100 px-4 py-3">
                             <c:forEach var="item" items="${order.items}" varStatus="ii">

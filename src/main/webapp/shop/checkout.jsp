@@ -48,14 +48,14 @@
         <div class="row">
             <div class="col-lg-8 col-12">
                 <div class="checkout-form mt-4">
-                    <div class="checkout-title">
-                        <h3>Thông tin giao hàng</h3>
-                        <p class="my-2">
-                            Yêu cầu quý khách cần điền đầy đủ thông tin để việc giao hàng
-                            được thuận lợi
-                        </p>
-                    </div>
                     <form class="form" id="checkout_form" method="POST" action="${context}/shop/checkout">
+                        <div class="checkout-title">
+                            <h3>Thông tin giao hàng</h3>
+                            <p class="my-2">
+                                Yêu cầu quý khách cần điền đầy đủ thông tin để việc giao hàng
+                                được thuận lợi
+                            </p>
+                        </div>
                         <div class="row">
                             <div class="col-lg-12 col-12">
                                 <div class="form-group mb-4">
@@ -93,6 +93,17 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="checkout-title mt-5">
+                            <h3>Xác thực tài khoản</h3>
+                            <p class="my-2">
+                                Quý khách vui lòng nhập private key
+                            </p>
+                        </div>
+                        <textarea name="private_key" type="password" id="input-private-key"></textarea>
+                        <label class="mt-2">
+                            <input type="checkbox" id="cb-show-key" onclick="myFunction()">
+                            Hide key
+                        </label>
                     </form>
                 </div>
             </div>
@@ -148,6 +159,15 @@
         window.location.href = '${context}/shop/update-checkout?city=' + $(this).val()
     })
 
+    function myFunction() {
+        const x = document.getElementById("input-private-key");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+
     $('#btn-checkout').on('click', function () {
         Swal.fire({
             icon: 'success',
@@ -164,7 +184,7 @@
             },
             confirmButtonColor: '#166bcc',
             confirmButtonText: 'TIẾP TỤC MUA HÀNG',
-            allowOutsideClick: () =>  $('#checkout_form').submit()
+            allowOutsideClick: () => $('#checkout_form').submit()
         }).then(result => {
             if (result.isConfirmed) {
                 $('#checkout_form').submit()

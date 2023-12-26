@@ -91,6 +91,8 @@ public class AsymmetricEncrypt {
         var rsa = new AsymmetricEncrypt(AsymmetricEncrypt.RSA);
         rsa.generateKey(512);
 
+        System.out.println("PUBLIC_KEY=" + rsa.exportPublicKey() + "\nPRIVATE_KEY=" + rsa.exportPrivateKey());
+
         var transformation = "RSA";
         var text = "TRẦN MINH TUYÊN";
         var encrypted_text = rsa.encryptToBase64(text, transformation);
