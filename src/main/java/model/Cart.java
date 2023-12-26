@@ -1,6 +1,7 @@
 package model;
 
 import database.dao.ProductDAO;
+import lombok.Getter;
 import service.ProductService;
 
 import java.io.Serializable;
@@ -8,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Cart implements Serializable {
+    @Getter
     private final Map<Integer, CartItem> map = new HashMap<>();
     private int count;
     private double totalPrice;
@@ -26,10 +28,6 @@ public class Cart implements Serializable {
 
     public void deleteProduct(Product p) {
         map.remove(p.getIdProduct());
-    }
-
-    public Map<Integer, CartItem> getMap() {
-        return map;
     }
 
     public int getCount() {
