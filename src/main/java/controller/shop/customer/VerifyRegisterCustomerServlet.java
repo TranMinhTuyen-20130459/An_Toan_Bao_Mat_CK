@@ -17,6 +17,7 @@ public class VerifyRegisterCustomerServlet extends HttpServlet {
         session.getAttribute("session_cus");
         CustomerSecurity cus = (CustomerSecurity) session.getAttribute("cus");
         try{
+            System.out.println(cus.getId());
             if(request.getQueryString().equals("key="+ cus.getId())){
                 String pu_key = (String) session.getAttribute("pu_key");
                 String email = cus.getEmail();

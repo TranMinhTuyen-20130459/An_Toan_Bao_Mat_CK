@@ -1,7 +1,10 @@
 package utils;
 
+import properties.DomainProperties;
+
 public class BodyMailRegister {
-    public static String createBodyMailForRegister(String context_path, String id, String private_key){
+    public static String createBodyMailForRegister(String context_path, String id){
+        String domain = DomainProperties.getDomain();
         return "<!DOCTYPE html>\n" +
                 "<html lang=\"vi\">\n" +
                 "<head>\n" +
@@ -15,13 +18,10 @@ public class BodyMailRegister {
                 "            <h1 style=\"color: blue;\"><a>LAB CHEMICALS</a></h1>\n" +
                 "            <h2>Chào mừng bạn đến với dịch vụ của chúng tôi</h2>\n" +
                 "            <p>Để tạo tài khoản và sử dụng các dịch vụ của chúng tôi hãy " +
-                "                        <a href='http://localhost:8080" + context_path +"/shop/verify-register?key=" + id + "'>nhấn vào đây!</a></p>\n" +
+                "                        <a href='"+ domain + context_path +"/shop/verify-register?key=" + id + "'>nhấn vào đây!</a></p>\n" +
                 "        </div>\n" +
                 "        <div>\n" +
                 "            <h3 style=\"font-size: 24px;\">Chúng tôi sẽ cung cấp một private key cho bạn</h3>\n" +
-                "            <p style=\"text-align: center; word-wrap: break-word; overflow-wrap: break-word;\">\n" +
-                                private_key +
-                "            </p>\n" +
                 "        </div>\n" +
                 "    </div>\n" +
                 "</div>\n" +

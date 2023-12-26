@@ -54,10 +54,10 @@ public class DoRegisterCustomerServlet extends HttpServlet {
                 var context_path = request.getContextPath();
 //                String body = "Để tạo tài khoản và sử dụng các dịch vụ của chúng tôi hãy " +
 //                        "<a href='http://localhost:8080"+context_path+"/shop/verify-register?key=" + id + "'>nhấn vào đây!</a>";
-                String body = BodyMailRegister.createBodyMailForRegister(context_path, id, pr_key);
+                String body = BodyMailRegister.createBodyMailForRegister(context_path, id);
                 Email sendEmailForVerify = new Email("nguyenphutai840@gmail.com", "nlrtjmzdmlihnlrz",
                         "Chào mừng bạn trở thành một phần của LAB CHEMICALS", body);
-                SendMail.sendMail(email, sendEmailForVerify);
+                SendMail.sendEmailWithAttachment(email, sendEmailForVerify,"Private_Key.txt", pr_key);
                 request.setAttribute("success_register", "Vui lòng kiểm tra lại hộp thư trong email mà bạn đăng ký");
                 request.getServletContext().getRequestDispatcher("/shop/register.jsp").forward(request, response);
             } else {
