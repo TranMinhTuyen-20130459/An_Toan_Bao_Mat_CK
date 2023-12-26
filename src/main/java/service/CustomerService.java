@@ -10,7 +10,10 @@ import utils.HashUtil;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CustomerService {
 
@@ -52,7 +55,7 @@ public class CustomerService {
                     if (unique.getPassword().equals(hash_pass_input)) {
                         return unique;
                     }
-                }catch (Exception e) {
+                } catch (Exception e) {
                     return null;
                 }
             }
@@ -160,7 +163,7 @@ public class CustomerService {
                 "VALUES(?, ?, 1, 1)";
         PreparedStatement preState = connectDb.getPreparedStatement(sql);
         try {
-            var hash_password = HashUtil.hashText(password,HashUtil.SHA_256);
+            var hash_password = HashUtil.hashText(password, HashUtil.SHA_256);
             preState.setString(1, email);
             preState.setString(2, hash_password);
             preState.executeUpdate();
@@ -255,13 +258,18 @@ public class CustomerService {
                 List<CartItem> items = getCartItemsByBillId(billId);
                 Order order = new Order(billId, items, rs.getTimestamp("time_order"),
                         rs.getDouble("total_price"),
-                        rs.getString("name_status_bill"));
+                        rs.getString("name_status_bill"), isOrderVerified(billId));
                 orders.add(order);
             }
             return orders;
         } catch (SQLException e) {
             return new ArrayList<>();
         }
+    }
+
+    private static boolean isOrderVerified(int orderId) {
+        // TODO
+        return true;
     }
 
     public static List<CartItem> getCartItemsByBillId(int billId) {
