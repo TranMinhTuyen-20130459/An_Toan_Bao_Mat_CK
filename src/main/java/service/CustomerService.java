@@ -10,6 +10,7 @@ import utils.HashUtil;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.*;
 
 public class CustomerService {
@@ -189,12 +190,14 @@ public class CustomerService {
     }
     public static void savePuKey(int id_customer, String pu_key){
         DbConnection connectDb = DbConnection.getInstance();
-        String sql = "INSERT INTO public_keys(id_user, public_key, is_valid) " +
-                "VALUES(?, ?, 1)";
+        String sql = "INSERT INTO public_keys(id_user, public_key, start_time, is_valid) " +
+                "VALUES(?, ?, ?, 1)";
         PreparedStatement preState = connectDb.getPreparedStatement(sql);
         try {
+            Timestamp start_time = new Timestamp(System.currentTimeMillis());
             preState.setInt(1, id_customer);
             preState.setString(2, pu_key);
+            preState.setTimestamp(3, start_time);
             preState.executeUpdate();
             System.out.println("success");
         } catch (Exception e) {
