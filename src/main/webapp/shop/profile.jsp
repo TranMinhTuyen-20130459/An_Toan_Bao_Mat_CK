@@ -178,7 +178,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Thoát</button>
+                <button type="button" class="btn btn-secondary button-close-modal-up" data-dismiss="modal">Thoát</button>
                 <button type="button" class="btn btn-primary">Xác nhận</button>
             </div>
         </div>
@@ -189,7 +189,24 @@
 
 <!-- ===== JAVASCRIPT ===== -->
 <jsp:include page="../common/shop-js.jsp"/>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var verifyModal = document.getElementById("verifyModal");
+        var exitButton = verifyModal.querySelector(".close");
+        var closeButton = verifyModal.querySelector(".button-close-modal-up");
+        var passwordInput = verifyModal.querySelector("input[type='password']");
 
+        exitButton.addEventListener("click", function () {
+            // Đặt giá trị trống cho trường input
+            passwordInput.value = "";
+        });
+
+        closeButton.addEventListener("click", function () {
+            // Đặt giá trị trống cho trường input
+            passwordInput.value = "";
+        });
+    });
+</script>
 </body>
 
 </html>
