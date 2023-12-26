@@ -15,7 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -59,7 +61,7 @@ public class CheckoutServlet extends HttpServlet {
                 .address_customer(address)
                 .bill_price(cart.getTotalPrice())
                 .total_price(cart.getTotalPrice() + CustomerService.getTransportFee(cus.getId_city()))
-                .time_order(new Timestamp(System.currentTimeMillis()))
+                .time_order(Timestamp.valueOf(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())))
                 .build();
 
         final var billDao = new BillDAO();
@@ -95,9 +97,12 @@ public class CheckoutServlet extends HttpServlet {
         SortedUtil.sortByProductId(billDetails);
         bill.setBill_details(billDetails);
 
+        System.out.println("BILL: " + bill);
+
         String hashedBill;
         try {
             hashedBill = HashUtil.hashText(bill.toString(), HashUtil.SHA_1);
+            System.out.println("HASH: " + hashedBill);
             var rsa = new RSACipher();
             var hashedBillEncrypted = rsa.encrypt(hashedBill, privateKey);
             bill.setHash_bill_encrypted(hashedBillEncrypted);
