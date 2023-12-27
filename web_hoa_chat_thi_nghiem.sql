@@ -747,9 +747,10 @@ CREATE TABLE `status_bill`  (
 -- ----------------------------
 -- Records of status_bill
 -- ----------------------------
-INSERT INTO `status_bill` VALUES (1, 'Đã bán');
-INSERT INTO `status_bill` VALUES (2, 'Đang bán');
-INSERT INTO `status_bill` VALUES (3, 'Bị hủy');
+INSERT INTO `status_bill` VALUES (1, 'Chờ xử lý');
+INSERT INTO `status_bill` VALUES (2, 'Đang vận chuyển');
+INSERT INTO `status_bill` VALUES (3, 'Đã giao');
+INSERT INTO `status_bill` VALUES (4, 'Đã hủy');
 
 -- ----------------------------
 -- Table structure for status_product
