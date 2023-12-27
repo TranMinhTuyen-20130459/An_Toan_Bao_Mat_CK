@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,7 +55,9 @@ public class OrderHistoryServlet extends HttpServlet {
 
 
     private void prepareOrders(HttpServletRequest req, int customerId) {
-        List<Order> orders = CustomerService.getOrderByUser(customerId);
+        List<Order> orders = CustomerService.getOrderByUser(customerId).stream()
+                .sorted((o1, o2) -> o2.getOrderTime().compareTo(o1.getOrderTime()))
+                .collect(Collectors.toList());
         req.setAttribute("all_orders", orders);
 
         List<Order> progressOrders = new ArrayList<>(orders).stream()
