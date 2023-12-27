@@ -36,7 +36,8 @@
     <div class="breadcrumbs py-4">
         <div class="container text-left">
             <ul class="bread-list d-inline-block">
-                <li class="d-inline-block text-capitalize"><a href="${context}/shop/home">Trang chủ<i class="ti-arrow-right mx-2"></i></a></li>
+                <li class="d-inline-block text-capitalize"><a href="${context}/shop/home">Trang chủ<i
+                        class="ti-arrow-right mx-2"></i></a></li>
                 <li class="d-inline-block text-capitalize"><a href="">Hồ sơ của tôi</a></li>
             </ul>
         </div>
@@ -45,6 +46,11 @@
     <!-- ===== PROFILE ===== -->
     <%String success = (String) request.getAttribute("success_profile");%>
     <%String error = (String) request.getAttribute("error_profile");%>
+    <%
+        String successMessage = (String) request.getAttribute("success");
+        String errorMessage = (String) request.getAttribute("error");
+    %>
+
     <section class="contact-us profile">
         <div class="container">
             <div class="row">
@@ -59,7 +65,8 @@
                             </div>
                             <ul>
                                 <li>
-                                    <a href="${context}/shop/profile/order-history"><i class="bi bi-receipt"></i> Lịch sử mua hàng</a>
+                                    <a href="${context}/shop/profile/order-history"><i class="bi bi-receipt"></i> Lịch
+                                        sử mua hàng</a>
                                 </li>
                                 <li>
                                     <a data-toggle="modal"
@@ -67,7 +74,8 @@
                                        href="#"><i class="bi bi-person-plus"></i> Báo cáo lộ khóa</a>
                                 </li>
                                 <li>
-                                    <a href="${context}/shop/change-password"><i class="bi bi-lock"></i> Đổi mật khẩu</a>
+                                    <a href="${context}/shop/change-password"><i class="bi bi-lock"></i> Đổi mật
+                                        khẩu</a>
                                 </li>
                                 <li>
                                     <a href="${context}/shop/DoLogoutCustomer">
@@ -103,7 +111,8 @@
                                             <label class="form-check-label d-inline-block ml-2" for="male">Nam</label>
                                         </div>
                                         <div class="form-check form-check-inline d-inline-flex  align-items-center">
-                                            <input class="form-check-input" type="radio" name="sex" id="female" value="Nữ"
+                                            <input class="form-check-input" type="radio" name="sex" id="female"
+                                                   value="Nữ"
                                                    <c:if test="${gender.equals('Nữ')}">checked</c:if>>
                                             <label class="form-check-label d-inline-block ml-2" for="female">Nữ</label>
                                         </div>
@@ -118,13 +127,15 @@
                                 <div class="col-lg-6 col-12">
                                     <div class="form-group">
                                         <label>Email<span>*</span></label>
-                                        <input name="email_customer" type="email" value="${sessionScope.auth_customer.email_customer}"/>
+                                        <input name="email_customer" type="email"
+                                               value="${sessionScope.auth_customer.email_customer}"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-8 col-12">
                                     <div class="form-group">
                                         <label>Địa chỉ<span>*</span></label>
-                                        <input name="address" type="text" value="${sessionScope.auth_customer.address}"/>
+                                        <input name="address" type="text"
+                                               value="${sessionScope.auth_customer.address}"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-12">
@@ -144,7 +155,7 @@
                                         <button type="submit" class="btn">Lưu</button>
                                     </div>
                                 </div>
-                                <%if(error != null){%>
+                                <%if (error != null) {%>
                                 <div class="col-lg-8 col-12 alert alert-danger" role="alert">
                                     <%=error%>
                                 </div>
@@ -159,7 +170,8 @@
 </main>
 
 <!-- ===== modal verify password ===== -->
-<div class="modal fade" id="verifyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="verifyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="height: 270px">
             <div class="modal-header">
@@ -168,19 +180,20 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <form class="form-group  col-md-12">
-                    <input class="w-100 mb-4 form-control"
+            <form class="form-group col-md-12" action="${context}/shop/leak_key" method="post" name="">
+                <div class="modal-body">
+                    <input id="passwordInput"
+                           class="w-100 mb-4 form-control"
                            type="password"
                            placeholder="Xác thực lại mật khẩu"
-                           name=""
-                           value=""/>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary button-close-modal-up" data-dismiss="modal">Thoát</button>
-                <button type="button" class="btn btn-primary">Xác nhận</button>
-            </div>
+                           name="password"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary button-close-modal-up" data-dismiss="modal">Thoát
+                    </button>
+                    <button type="button" class="btn btn-primary" id="checkButton">Xác nhận</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -190,6 +203,10 @@
 <!-- ===== JAVASCRIPT ===== -->
 <jsp:include page="../common/shop-js.jsp"/>
 <script>
+    <%--var success_leak = '<%= (String) request.getAttribute("success") %>';--%>
+    <%--console.log(success_leak);--%>
+    <%--var error_leak = '<%= (String) request.getAttribute("error") %>';--%>
+    <%--console.log(error_leak);--%>
     document.addEventListener("DOMContentLoaded", function () {
         var verifyModal = document.getElementById("verifyModal");
         var exitButton = verifyModal.querySelector(".close");
@@ -206,6 +223,74 @@
             passwordInput.value = "";
         });
     });
+    document.addEventListener("DOMContentLoaded", function () {
+        var checkButton = document.getElementById("checkButton");
+        var passwordInput = document.getElementById("passwordInput");
+        checkButton.addEventListener("click", function () {
+            console.log("hello")
+            var passwordValue = passwordInput.value;
+            // Gửi yêu cầu Ajax đến Servlet
+            $.ajax({
+                type: "POST",
+                url: "${context}/shop/leak_key",
+                data: { password: passwordValue },
+                success: function (response) {
+                    // Xử lý phản hồi từ server
+                    if (response === "success") {
+                        swal({
+                            title: "Success",
+                            text: "Chúng tôi sẽ gửi lại cho bạn một key mới",
+                            icon: "success",
+                            button: "OK",
+                        });
+                    } else if (response === "error") {
+                        swal({
+                            title: "Error",
+                            text: "Mật khẩu không đúng. Xin vui lòng nhập lại!",
+                            icon: "error",
+                            button: "OK",
+                        });
+                    } else {
+                        swal({
+                            title: "No Message",
+                            text: "Invalid response from the server.",
+                            icon: "info",
+                            button: "OK",
+                        });
+                    }
+                },
+                error: function () {
+                    // Xử lý lỗi Ajax nếu cần
+                    console.error("Ajax request failed");
+                }
+            });
+        });
+    });
+
+    //
+    // function showAlert(type, message) {
+    //     swal({
+    //         title: type === 'success' ? 'Success' : 'Error',
+    //         text: message,
+    //         icon: type,
+    //         button: 'OK',
+    //     });
+    // }
+    //
+    // function handleSubmit() {
+    //     // Giả sử bạn có thông báo "success" hoặc "error" từ server
+    //     // Hiển thị thông báo SweetAlert nếu có
+    //     if (success_leak) {
+    //         showAlert('success', success_leak);
+    //     }
+    //
+    //     if (error_leak) {
+    //         showAlert('error', error_leak);
+    //     }
+    // }
+
+
+</script>
 </script>
 </body>
 
