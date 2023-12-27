@@ -48,14 +48,14 @@
         <div class="row">
             <div class="col-lg-8 col-12">
                 <div class="checkout-form mt-4">
-                    <div class="checkout-title">
-                        <h3>Thông tin giao hàng</h3>
-                        <p class="my-2">
-                            Yêu cầu quý khách cần điền đầy đủ thông tin để việc giao hàng
-                            được thuận lợi
-                        </p>
-                    </div>
                     <form class="form" id="checkout_form" method="POST" action="${context}/shop/checkout">
+                        <div class="checkout-title">
+                            <h3>Thông tin giao hàng</h3>
+                            <p class="my-2">
+                                Yêu cầu quý khách cần điền đầy đủ thông tin để việc giao hàng
+                                được thuận lợi
+                            </p>
+                        </div>
                         <div class="row">
                             <div class="col-lg-12 col-12">
                                 <div class="form-group mb-4">
@@ -90,6 +90,30 @@
                                                     ${c.value}</option>
                                         </c:forEach>
                                     </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="auth-model" class="modal2">
+                            <div class="modal-content2">
+                                <p class="title">Xác thực đơn hàng</p>
+                                <p class="sub-title">Vui lòng xác thực đơn hàng bằng cách nhập private key bên dưới.</p>
+                                <a href="javascript:void(0);" class="close"></a>
+                                <div class="input-form">
+                                    <div class="visibility"><i class="bi bi-eye-slash"></i></div>
+                                    <input type="password" name="private_key" id="input-private-key" placeholder="Private key">
+                                </div>
+                                <div class="title-or">
+                                    <span>Hoặc</span>
+                                </div>
+                                <div class="choose-file" id="drag-file">
+                                    <div style="text-align: center;">
+                                        <p>Kéo thả file tại đây</p>
+                                        <a href="javascript:void(0);">Upload file</a>
+                                    </div>
+                                </div>
+                                <div class="actions">
+                                    <button type="button" class="btn-cancel">Cancel</button>
+                                    <button type="button" class="btn-ok">Ok</button>
                                 </div>
                             </div>
                         </div>
@@ -148,7 +172,22 @@
         window.location.href = '${context}/shop/update-checkout?city=' + $(this).val()
     })
 
-    $('#btn-checkout').on('click', function () {
+    const modal = $('#auth-model')
+
+    $('#btn-checkout').on('click', () => modal.css('display', 'block'))
+
+    window.onclick = function (e) {
+        if (e.target.id === 'auth-model') {
+            modal.css('display', 'none')
+        }
+    }
+    $('.close').on('click', () => modal.css('display', 'none'))
+
+    $('.btn-cancel').on('click', () => modal.css('display', 'none'))
+
+    $('.btn-ok').on('click', function () {
+        if (!$('#input-private-key').val()) return
+        modal.css('display', 'none')
         Swal.fire({
             icon: 'success',
             title: 'Thanh toán thành công',
@@ -164,7 +203,7 @@
             },
             confirmButtonColor: '#166bcc',
             confirmButtonText: 'TIẾP TỤC MUA HÀNG',
-            allowOutsideClick: () =>  $('#checkout_form').submit()
+            allowOutsideClick: () => $('#checkout_form').submit()
         }).then(result => {
             if (result.isConfirmed) {
                 $('#checkout_form').submit()

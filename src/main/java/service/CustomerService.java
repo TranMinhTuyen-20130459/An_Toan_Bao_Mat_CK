@@ -1,17 +1,25 @@
 package service;
 
 import database.DbConnection;
+import database.dao.BillDAO;
+import database.dao.PublicKeyDAO;
 import model.Bill;
 import model.CartItem;
 import model.Customer;
 import model.Order;
 import utils.HashUtil;
+import utils.RSACipher;
+import utils.SortedUtil;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CustomerService {
 
@@ -53,7 +61,7 @@ public class CustomerService {
                     if (unique.getPassword().equals(hash_pass_input)) {
                         return unique;
                     }
-                }catch (Exception e) {
+                } catch (Exception e) {
                     return null;
                 }
             }
@@ -161,7 +169,7 @@ public class CustomerService {
                 "VALUES(?, ?, 1, 1)";
         PreparedStatement preState = connectDb.getPreparedStatement(sql);
         try {
-            var hash_password = HashUtil.hashText(password,HashUtil.SHA_256);
+            var hash_password = HashUtil.hashText(password, HashUtil.SHA_256);
             preState.setString(1, email);
             preState.setString(2, hash_password);
             preState.executeUpdate();
@@ -290,12 +298,36 @@ public class CustomerService {
                 List<CartItem> items = getCartItemsByBillId(billId);
                 Order order = new Order(billId, items, rs.getTimestamp("time_order"),
                         rs.getDouble("total_price"),
-                        rs.getString("name_status_bill"));
+                        rs.getString("name_status_bill"), isOrderVerified(billId));
                 orders.add(order);
             }
             return orders;
         } catch (SQLException e) {
             return new ArrayList<>();
+        }
+    }
+
+    private static boolean isOrderVerified(int orderId) {
+        try {
+            final var billDao = new BillDAO();
+            var bill = billDao.getAllBill().stream().filter(b -> b.getId_bill() == orderId).collect(Collectors.toList()).get(0);
+            SortedUtil.sortByProductId(bill.getBill_details());
+            String hashedBill = HashUtil.hashText(bill.toString(), HashUtil.SHA_1);
+
+            final var publicKeyDao = new PublicKeyDAO();
+            final var publicKey = publicKeyDao.getPublicKeyByInfoBill(bill);
+            if (publicKey.getExpired_time() == null) {
+                publicKey.setExpired_time(new Timestamp(System.currentTimeMillis()));
+            }
+
+            if (!(bill.getTime_order().after(publicKey.getStart_time()) && bill.getTime_order().before(publicKey.getExpired_time()))) {
+                return false;
+            }
+
+            String decryptedHash = new RSACipher().decrypt(bill.getHash_bill_encrypted(), publicKey.getPublic_key());
+            return decryptedHash.equals(hashedBill);
+        } catch (Exception e) {
+            return false;
         }
     }
 

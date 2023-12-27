@@ -182,8 +182,11 @@ public final class ProductService {
                 int sold = getTotalSoldOf(productId);
                 Date date = rs.getDate("date_inserted");
                 int views = rs.getInt("views");
-                products.add(new Product(productId, imgPath, name, review, status, desc, quantity, type, subtype,
-                        supply, sold, date, views, oldPrice, newPrice));
+                Product product = new Product(productId, imgPath, name, review, status, desc, quantity, type, subtype,
+                        supply, sold, date, views, oldPrice, newPrice);
+                product.setListed_price((int) oldPrice);
+                product.setCurrent_price((int) newPrice);
+                products.add(product);
             }
             return products;
         } catch (SQLException e) {

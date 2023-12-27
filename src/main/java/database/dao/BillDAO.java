@@ -3,6 +3,7 @@ package database.dao;
 import database.DbConnection;
 import model.Bill;
 import model.BillDetail;
+import service.ProductService;
 
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -205,6 +206,12 @@ public class BillDAO {
         return preStatement.executeUpdate();
     }
 
+    public void updateEncryptedHash(int billId, String value) throws Exception {
+        var preStm = connectDB.getPreparedStatement("UPDATE bills SET hash_bill_encrypted = ? WHERE id_bill = ?");
+        preStm.setString(1, value);
+        preStm.setInt(2, billId);
+        preStm.execute();
+    }
 
     public static void main(String[] args) throws Exception {
 

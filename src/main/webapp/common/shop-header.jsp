@@ -57,8 +57,8 @@
                     </div>
                     <!-- Search Mobile -->
                     <div class="mobile-search">
-                        <form class="search-form">
-                            <input type="text" placeholder="Tìm kiếm..." name="search"/>
+                        <form class="search-form" autocomplete="off">
+                            <input type="text" placeholder="Tìm kiếm..." name="search" autocomplete="off"/>
                             <button value="search" type="submit">
                                 <i class="ti-search"></i>
                             </button>
