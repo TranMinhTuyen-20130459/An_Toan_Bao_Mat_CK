@@ -51,6 +51,7 @@ public class CheckoutServlet extends HttpServlet {
         Customer cus = (Customer) req.getSession().getAttribute("auth_customer");
         Cart cart = (Cart) req.getSession().getAttribute("cart");
 
+        // Create a bill.
         Bill bill = Bill.builder()
                 .id_user(cus.getId())
                 .id_status_bill(1)
@@ -67,12 +68,14 @@ public class CheckoutServlet extends HttpServlet {
         final var billDao = new BillDAO();
         int idBill;
         try {
+            // Save to database.
             idBill = billDao.addBill(bill);
             bill.setId_bill(idBill);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
+        // Create bill details.
         List<BillDetail> billDetails = new ArrayList<>();
         for (Map.Entry<Integer, CartItem> item : cart.getMap().entrySet()) {
             final CartItem cartItem = item.getValue();
@@ -88,24 +91,27 @@ public class CheckoutServlet extends HttpServlet {
             billDetails.add(billDetail);
 
             try {
+                // Save bill details to database.
                 billDao.addBillDetail(billDetail);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
 
+        // Sort bill details by product id.
         SortedUtil.sortByProductId(billDetails);
+        // Update bill's bill details.
         bill.setBill_details(billDetails);
-
-        System.out.println("BILL: " + bill);
 
         String hashedBill;
         try {
+            // Hash the bill.
             hashedBill = HashUtil.hashText(bill.toString(), HashUtil.SHA_1);
-            System.out.println("HASH: " + hashedBill);
             var rsa = new RSACipher();
+            // Encrypt the hash.
             var hashedBillEncrypted = rsa.encrypt(hashedBill, privateKey);
             bill.setHash_bill_encrypted(hashedBillEncrypted);
+            // Update bill with the hash.
             billDao.updateEncryptedHash(bill.getId_bill(), hashedBillEncrypted);
         } catch (Exception e) {
             throw new RuntimeException(e);

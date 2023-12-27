@@ -275,28 +275,22 @@ public class CustomerService {
 
     private static boolean isOrderVerified(int orderId) {
         try {
-            System.out.println("=========================== isOrderVerified() ============================");
             final var billDao = new BillDAO();
             var bill = billDao.getAllBill().stream().filter(b -> b.getId_bill() == orderId).collect(Collectors.toList()).get(0);
-            System.out.println("BILL: " + bill.toString());
             SortedUtil.sortByProductId(bill.getBill_details());
-            System.out.println("BILL (SORTED): " + bill);
             String hashedBill = HashUtil.hashText(bill.toString(), HashUtil.SHA_1);
-            System.out.println("HASH: " + hashedBill);
 
             final var publicKeyDao = new PublicKeyDAO();
             final var publicKey = publicKeyDao.getPublicKeyByInfoBill(bill);
             if (publicKey.getExpired_time() == null) {
                 publicKey.setExpired_time(new Timestamp(System.currentTimeMillis()));
             }
-            System.out.println("PUBLIC_KEY: " + publicKey);
 
             if (!(bill.getTime_order().after(publicKey.getStart_time()) && bill.getTime_order().before(publicKey.getExpired_time()))) {
                 return false;
             }
 
             String decryptedHash = new RSACipher().decrypt(bill.getHash_bill_encrypted(), publicKey.getPublic_key());
-            System.out.println("DECRYPTED_HASH: " + decryptedHash);
             return decryptedHash.equals(hashedBill);
         } catch (Exception e) {
             return false;
