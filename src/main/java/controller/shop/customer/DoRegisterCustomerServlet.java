@@ -6,6 +6,7 @@ import model.CustomerSecurity;
 import service.CustomerService;
 import utils.AsymmetricEncrypt;
 import utils.BodyMailRegister;
+import utils.RSACipher;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -35,15 +36,16 @@ public class DoRegisterCustomerServlet extends HttpServlet {
             request.getServletContext().getRequestDispatcher("/shop/register.jsp").forward(request, response);
         } else {
             if (password.equals(confirm_pass)) {
-                AsymmetricEncrypt rsa = new AsymmetricEncrypt(AsymmetricEncrypt.RSA);
+                RSACipher rsaCipher = new RSACipher();
+                String pu_key = "";
+                String pr_key = "";
                 try {
-                    rsa.generateKey(512);
+                    String[] keyPair = rsaCipher.generateKeyPair(512);
+                    pu_key = keyPair[0];
+                    pr_key = keyPair[1];
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-                String pu_key = rsa.exportPublicKey();
-                String pr_key = rsa.exportPrivateKey();
-
                 UUID uuid = UUID.randomUUID();
                 String id = uuid.toString();
                 CustomerSecurity customer_register = new CustomerSecurity(id, email, password);

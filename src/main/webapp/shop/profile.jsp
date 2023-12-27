@@ -203,25 +203,8 @@
 <!-- ===== JAVASCRIPT ===== -->
 <jsp:include page="../common/shop-js.jsp"/>
 <script>
-    <%--var success_leak = '<%= (String) request.getAttribute("success") %>';--%>
-    <%--console.log(success_leak);--%>
-    <%--var error_leak = '<%= (String) request.getAttribute("error") %>';--%>
-    <%--console.log(error_leak);--%>
-    document.addEventListener("DOMContentLoaded", function () {
-        var verifyModal = document.getElementById("verifyModal");
-        var exitButton = verifyModal.querySelector(".close");
-        var closeButton = verifyModal.querySelector(".button-close-modal-up");
-        var passwordInput = verifyModal.querySelector("input[type='password']");
-
-        exitButton.addEventListener("click", function () {
-            // Đặt giá trị trống cho trường input
-            passwordInput.value = "";
-        });
-
-        closeButton.addEventListener("click", function () {
-            // Đặt giá trị trống cho trường input
-            passwordInput.value = "";
-        });
+    $('#verifyModal').on('hidden.bs.modal', function () {
+        $('#passwordInput').val('');
     });
     document.addEventListener("DOMContentLoaded", function () {
         var checkButton = document.getElementById("checkButton");
@@ -266,30 +249,6 @@
             });
         });
     });
-
-    //
-    // function showAlert(type, message) {
-    //     swal({
-    //         title: type === 'success' ? 'Success' : 'Error',
-    //         text: message,
-    //         icon: type,
-    //         button: 'OK',
-    //     });
-    // }
-    //
-    // function handleSubmit() {
-    //     // Giả sử bạn có thông báo "success" hoặc "error" từ server
-    //     // Hiển thị thông báo SweetAlert nếu có
-    //     if (success_leak) {
-    //         showAlert('success', success_leak);
-    //     }
-    //
-    //     if (error_leak) {
-    //         showAlert('error', error_leak);
-    //     }
-    // }
-
-
 </script>
 </script>
 </body>
