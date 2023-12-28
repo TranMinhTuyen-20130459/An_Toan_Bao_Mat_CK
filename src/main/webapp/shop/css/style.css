@@ -116,8 +116,6 @@ a:focus {
     position: absolute;
     top: 50%;
     left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    -moz-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
 
@@ -152,18 +150,6 @@ a:focus {
 
     100% {
         transform: scale(1, 1);
-        opacity: 0;
-    }
-}
-
-@-webkit-keyframes preloader-fx {
-    0% {
-        -webkit-transform: scale(0, 0);
-        opacity: 0.5;
-    }
-
-    100% {
-        -webkit-transform: scale(1, 1);
         opacity: 0;
     }
 }
@@ -423,8 +409,6 @@ a:focus {
     -webkit-transition: all 0.3s ease 0s;
     -moz-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
-    -webkit-transform: translateY(10px);
-    -moz-transform: translateY(10px);
     transform: translateY(10px);
     -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
@@ -1940,8 +1924,7 @@ a:focus {
     font-size: 16px;
 }
 
-.checkout .form .form-group input,
-.checkout #input-private-key {
+.checkout .form .form-group input {
     width: 100%;
     height: 45px;
     line-height: 50px;
@@ -1954,15 +1937,230 @@ a:focus {
     transition: all ease .2s;
 }
 
-.checkout #input-private-key {
-    height: 150px;
-    resize: none;
-    padding: 12px 15px;
-    line-height: 1.2rem;
+/*============================================*/
+
+.checkout .modal2 {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    animation-name: animateBackground2;
+    animation-duration: .3s;
+    z-index: 1000;
+    color: #333;
 }
 
-.checkout .form .form-group input:focus,
-.checkout #input-private-key:focus {
+.checkout .modal-content2 {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 24px;
+    top: 200px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+    border-radius: 6px;
+    width: 600px;
+    animation-name: animateTop2;
+    animation-duration: 0.4s
+}
+
+@keyframes animateBackground2 {
+    from {
+        background-color: rgba(0, 0, 0, 0);
+    }
+
+    to {
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+}
+
+@keyframes animateTop2 {
+    from {
+        top: 100px;
+        opacity: 0
+    }
+
+    to {
+        top: 200px;
+        opacity: 1
+    }
+}
+
+.checkout .modal-content2 .title {
+    font-size: 24px;
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+    color: #414141;
+}
+
+.checkout .modal-content2 .sub-title {
+    margin-top: 8px;
+}
+
+.checkout .modal-content2 .close {
+    position: absolute;
+    right: 24px;
+    top: 18px;
+    width: 24px;
+    height: 24px;
+    opacity: 0.3;
+}
+
+.checkout .modal-content2 .close:hover {
+    opacity: 1;
+}
+
+.checkout .modal-content2 .close:before,
+.checkout .modal-content2 .close:after {
+    position: absolute;
+    left: 15px;
+    content: ' ';
+    height: 30px;
+    width: 2px;
+    background-color: #333;
+}
+
+.checkout .modal-content2 .close:before {
+    transform: rotate(45deg);
+}
+
+.checkout .modal-content2 .close:after {
+    transform: rotate(-45deg);
+}
+
+.checkout .modal-content2 .input-form {
+    position: relative;
+    margin-top: 20px;
+}
+
+.checkout .modal-content2 #input-private-key {
+    width: 100%;
+    outline: none;
+    border: 1px solid rgb(184, 184, 184);
+    border-radius: 4px;
+    padding: 10px 10px;
+    font-size: 15px;
+    color: #333;
+    line-height: 1.6em;
+}
+
+.checkout .modal-content2 #input-private-key:focus {
+    border: 1px solid #0a45c4;
+    transition: all ease .2s;
+}
+
+.checkout .modal-content2 .visibility {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 100px;
+    cursor: pointer;
+}
+
+.checkout .modal-content2 .visibility:hover {
+    background-color: #ebebeb;
+    transition: .2s;
+}
+
+.checkout .modal-content2 .title-or {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #505050;
+}
+
+.checkout .modal-content2 .actions {
+    margin-top: 32px;
+    display: flex;
+    justify-content: end;
+}
+
+.checkout .modal-content2 .actions button {
+    display: block;
+    width: 110px;
+    height: 38px;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+}
+
+.checkout .modal-content2 .btn-cancel {
+    margin-right: 12px;
+    border: 1px solid #cfcfcf !important;
+    background: #f5f5f5;
+    color: #414141 !important;
+}
+
+.checkout .modal-content2 .btn-cancel:hover {
+    transition: .3s;
+    background: rgb(236, 236, 236);
+}
+
+.checkout .modal-content2 .btn-ok {
+    background: #2b5ee9;
+}
+
+.checkout .modal-content2 .btn-ok:hover {
+    transition: .3s;
+    background: #426feb;
+}
+
+.checkout .modal-content2 .choose-file {
+    margin-top: 20px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    border-style: dashed;
+    border-width: 0.125em;
+    border-color: #979797;
+    background-color: #f5f5f5;
+}
+
+.checkout .modal-content2 .choose-file p {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 16px;
+    color: #474747;
+    user-select: none;
+}
+
+.checkout .modal-content2 .choose-file a {
+    display: block;
+    padding: 15px 28px;
+    border-radius: 4px;
+    background-color: #5680f1;
+    text-decoration: none;
+    color: #ffffff;
+    text-transform: uppercase;
+    font-size: 15px;
+    font-weight: bolder;
+}
+
+.checkout .modal-content2 .choose-file a:hover {
+    background-color: #426feb;
+    transition: all ease .3s;
+}
+
+/*============================================*/
+
+.checkout .form .form-group input:focus {
     border: 1px solid #0a45c4;
 }
 
@@ -3445,7 +3643,7 @@ a:focus {
     top: 50%;
     width: 123px;
     background-color: rgb(190, 190, 190);
-    height: 1.5px;
+    height: 2px;
 }
 
 .form-input form .or::after {
@@ -3455,7 +3653,7 @@ a:focus {
     top: 50%;
     width: 123px;
     background-color: rgb(190, 190, 190);
-    height: 1.5px;
+    height: 2px;
 }
 
 .form-input form .google {

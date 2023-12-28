@@ -181,6 +181,59 @@ public class CustomerService {
         }
     }
 
+    public static int getIdCustomer(String email){
+        DbConnection connnectDb = DbConnection.getInstance();
+        String sql = "select id_user_customer from account_customer where username = ?";
+        PreparedStatement pre = connnectDb.getPreparedStatement(sql);
+        try {
+            pre.setString(1, email);
+            ResultSet rs = pre.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id_user_customer");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+    public static void savePuKey(int id_customer, String pu_key){
+        DbConnection connectDb = DbConnection.getInstance();
+        String sql = "INSERT INTO public_keys(id_user, public_key, start_time, is_valid) " +
+                "VALUES(?, ?, ?, 1)";
+        PreparedStatement preState = connectDb.getPreparedStatement(sql);
+        try {
+            Timestamp start_time = new Timestamp(System.currentTimeMillis());
+            preState.setInt(1, id_customer);
+            preState.setString(2, pu_key);
+            preState.setTimestamp(3, start_time);
+            preState.executeUpdate();
+            System.out.println("success");
+        } catch (Exception e) {
+            throw new RuntimeException();
+        } finally {
+            connectDb.close();
+        }
+    }
+
+    public static void updateExpiredKey(int id_customer){
+        DbConnection connectDb = DbConnection.getInstance();
+        String sql = "UPDATE public_keys SET expired_time = ?, is_valid = 0 WHERE id_user = ? " +
+                "ORDER BY id_public_key DESC LIMIT 1";
+        PreparedStatement preState = connectDb.getPreparedStatement(sql);
+        try {
+            Timestamp expired_time = new Timestamp(System.currentTimeMillis());
+            preState.setTimestamp(1, expired_time);
+            preState.setInt(2, id_customer);
+            preState.executeUpdate();
+            int rowsAffected = preState.executeUpdate();
+            System.out.println("Rows affected: " + rowsAffected);
+        } catch (Exception e) {
+            throw new RuntimeException();
+        } finally {
+            connectDb.close();
+        }
+    }
+
     // return customers created within the last ? days
     public static List<Customer> getRecentCustomers(int day) {
         List<Customer> customers = new ArrayList<>();
@@ -275,28 +328,22 @@ public class CustomerService {
 
     private static boolean isOrderVerified(int orderId) {
         try {
-            System.out.println("=========================== isOrderVerified() ============================");
             final var billDao = new BillDAO();
             var bill = billDao.getAllBill().stream().filter(b -> b.getId_bill() == orderId).collect(Collectors.toList()).get(0);
-            System.out.println("BILL: " + bill.toString());
             SortedUtil.sortByProductId(bill.getBill_details());
-            System.out.println("BILL (SORTED): " + bill);
             String hashedBill = HashUtil.hashText(bill.toString(), HashUtil.SHA_1);
-            System.out.println("HASH: " + hashedBill);
 
             final var publicKeyDao = new PublicKeyDAO();
             final var publicKey = publicKeyDao.getPublicKeyByInfoBill(bill);
             if (publicKey.getExpired_time() == null) {
                 publicKey.setExpired_time(new Timestamp(System.currentTimeMillis()));
             }
-            System.out.println("PUBLIC_KEY: " + publicKey);
 
             if (!(bill.getTime_order().after(publicKey.getStart_time()) && bill.getTime_order().before(publicKey.getExpired_time()))) {
                 return false;
             }
 
             String decryptedHash = new RSACipher().decrypt(bill.getHash_bill_encrypted(), publicKey.getPublic_key());
-            System.out.println("DECRYPTED_HASH: " + decryptedHash);
             return decryptedHash.equals(hashedBill);
         } catch (Exception e) {
             return false;
@@ -318,5 +365,10 @@ public class CustomerService {
         } catch (SQLException e) {
             return new ArrayList<>();
         }
+    }
+
+    public static void main(String[] args) {
+//        System.out.println(getIdCustomer("nguyenphutai840@gmail.com"));
+//        savePuKey(1, "hello");
     }
 }

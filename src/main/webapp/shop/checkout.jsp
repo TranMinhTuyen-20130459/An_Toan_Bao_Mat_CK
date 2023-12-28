@@ -93,17 +93,30 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="checkout-title mt-5">
-                            <h3>Xác thực tài khoản</h3>
-                            <p class="my-2">
-                                Quý khách vui lòng nhập private key
-                            </p>
+                        <div id="auth-model" class="modal2">
+                            <div class="modal-content2">
+                                <p class="title">Xác thực đơn hàng</p>
+                                <p class="sub-title">Vui lòng xác thực đơn hàng bằng cách nhập private key bên dưới.</p>
+                                <a href="javascript:void(0);" class="close"></a>
+                                <div class="input-form">
+                                    <div class="visibility"><i class="bi bi-eye-slash"></i></div>
+                                    <input type="password" name="private_key" id="input-private-key" placeholder="Private key">
+                                </div>
+                                <div class="title-or">
+                                    <span>Hoặc</span>
+                                </div>
+                                <div class="choose-file" id="drag-file">
+                                    <div style="text-align: center;">
+                                        <p>Kéo thả file tại đây</p>
+                                        <a href="javascript:void(0);">Upload file</a>
+                                    </div>
+                                </div>
+                                <div class="actions">
+                                    <button type="button" class="btn-cancel">Cancel</button>
+                                    <button type="button" class="btn-ok">Ok</button>
+                                </div>
+                            </div>
                         </div>
-                        <textarea name="private_key" type="password" id="input-private-key"></textarea>
-                        <label class="mt-2">
-                            <input type="checkbox" id="cb-show-key" onclick="myFunction()">
-                            Hide key
-                        </label>
                     </form>
                 </div>
             </div>
@@ -159,16 +172,22 @@
         window.location.href = '${context}/shop/update-checkout?city=' + $(this).val()
     })
 
-    function myFunction() {
-        const x = document.getElementById("input-private-key");
-        if (x.type === "password") {
-            x.type = "text";
-        } else {
-            x.type = "password";
+    const modal = $('#auth-model')
+
+    $('#btn-checkout').on('click', () => modal.css('display', 'block'))
+
+    window.onclick = function (e) {
+        if (e.target.id === 'auth-model') {
+            modal.css('display', 'none')
         }
     }
+    $('.close').on('click', () => modal.css('display', 'none'))
 
-    $('#btn-checkout').on('click', function () {
+    $('.btn-cancel').on('click', () => modal.css('display', 'none'))
+
+    $('.btn-ok').on('click', function () {
+        if (!$('#input-private-key').val()) return
+        modal.css('display', 'none')
         Swal.fire({
             icon: 'success',
             title: 'Thanh toán thành công',

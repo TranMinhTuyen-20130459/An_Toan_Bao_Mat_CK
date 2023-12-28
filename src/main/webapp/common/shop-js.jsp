@@ -20,5 +20,6 @@
 <script src="${context}/shop/js/jquery-confirm.min.js"></script>
 <script src="${context}/shop/js/active.js" charset="utf-8"></script>
 <script src="${context}/shop/js/main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
 
