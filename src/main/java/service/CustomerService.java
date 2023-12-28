@@ -215,6 +215,25 @@ public class CustomerService {
         }
     }
 
+    public static void updateExpiredKey(int id_customer){
+        DbConnection connectDb = DbConnection.getInstance();
+        String sql = "UPDATE public_keys SET expired_time = ?, is_valid = 0 WHERE id_user = ? " +
+                "ORDER BY id_public_key DESC LIMIT 1";
+        PreparedStatement preState = connectDb.getPreparedStatement(sql);
+        try {
+            Timestamp expired_time = new Timestamp(System.currentTimeMillis());
+            preState.setTimestamp(1, expired_time);
+            preState.setInt(2, id_customer);
+            preState.executeUpdate();
+            int rowsAffected = preState.executeUpdate();
+            System.out.println("Rows affected: " + rowsAffected);
+        } catch (Exception e) {
+            throw new RuntimeException();
+        } finally {
+            connectDb.close();
+        }
+    }
+
     // return customers created within the last ? days
     public static List<Customer> getRecentCustomers(int day) {
         List<Customer> customers = new ArrayList<>();

@@ -210,7 +210,6 @@
         var checkButton = document.getElementById("checkButton");
         var passwordInput = document.getElementById("passwordInput");
         checkButton.addEventListener("click", function () {
-            console.log("hello")
             var passwordValue = passwordInput.value;
             // Gửi yêu cầu Ajax đến Servlet
             $.ajax({
@@ -240,6 +239,7 @@
                             icon: "info",
                             button: "OK",
                         });
+                        $('#verifyModal').modal('hide');
                     }
                 },
                 error: function () {
