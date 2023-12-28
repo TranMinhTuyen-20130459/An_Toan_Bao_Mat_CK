@@ -12,14 +12,19 @@ import java.io.IOException;
 public class VerifyRegisterCustomerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         HttpSession session = (HttpSession) request.getSession();
         session.getAttribute("session_cus");
         CustomerSecurity cus = (CustomerSecurity) session.getAttribute("cus");
         try{
+            System.out.println(cus.getId());
             if(request.getQueryString().equals("key="+ cus.getId())){
+                String pu_key = (String) session.getAttribute("pu_key");
                 String email = cus.getEmail();
                 String password = cus.getPassword();
                 CustomerService.signUp(email,password);
+                int id_customer = CustomerService.getIdCustomer(email);
+                CustomerService.savePuKey(id_customer, pu_key);
                 session.invalidate();
                 request.getServletContext().getRequestDispatcher("/shop/login").forward(request, response);
             }else{
