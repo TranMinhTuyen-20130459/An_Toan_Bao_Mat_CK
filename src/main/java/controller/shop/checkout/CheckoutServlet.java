@@ -42,6 +42,13 @@ public class CheckoutServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String nav = req.getParameter("nav");
+        if (nav != null) {
+            req.getSession().removeAttribute("cart");
+            resp.sendRedirect(req.getContextPath() + nav);
+            return;
+        }
+
         String name = req.getParameter("name");
         String phone = req.getParameter("phone");
         String email = req.getParameter("email");
@@ -114,14 +121,10 @@ public class CheckoutServlet extends HttpServlet {
             // Update bill with the hash.
             billDao.updateEncryptedHash(bill.getId_bill(), hashedBillEncrypted);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            // TODO if encryption failed
         }
 
-        req.getSession().removeAttribute("cart");
-        String nav = req.getParameter("nav");
-        if (nav != null)
-            resp.sendRedirect(req.getContextPath() + "/shop/profile/order-history");
-        else
-            resp.sendRedirect(req.getContextPath() + "/shop/home");
+        req.setAttribute("flag", "checkout_successful");
+        doGet(req, resp);
     }
 }

@@ -170,6 +170,43 @@
 <jsp:include page="../common/shop-js.jsp"/>
 <script src="../shop/js/sweetalert2.js"></script>
 
+<form action="${context}/shop/checkout" id="form-nav" method="post">
+    <input type="hidden" name="nav" id="nav">
+</form>
+
+<input id="flag" type="hidden" value="${requestScope['flag']}">
+
+<script>
+    const flag = $('#flag').val()
+    if (flag === 'checkout_successful') {
+        Swal.fire({
+            icon: 'success',
+            title: 'Thanh toán thành công',
+            html: '<span class="d-block mt-2">Đơn hàng của bạn đã thanh toán thành công.</span>' +
+                '<span class="d-block mt-3 mb-2">' +
+                'Bạn có thể xem chi tiết trong <span id="s-marker">lịch sử mua hàng</span>.</span>',
+            didOpen: () => {
+                const marker = Swal.getHtmlContainer().querySelector('#s-marker')
+                $(marker).css('color', '#2880e7').css('cursor', 'pointer').on('click', function () {
+                    navigate('/shop/profile/order-history')
+                })
+            },
+            confirmButtonColor: '#166bcc',
+            confirmButtonText: 'TIẾP TỤC MUA HÀNG',
+            allowOutsideClick: () => navigate('/shop/home')
+        }).then(result => {
+            if (result.isConfirmed) {
+                navigate('/shop/home')
+            }
+        })
+    }
+
+    function navigate(route) {
+        $('#nav').val(route)
+        $('#form-nav').submit()
+    }
+</script>
+
 <script>
     $('#company').on('change', function () {
         window.location.href = '${context}/shop/update-checkout?city=' + $(this).val()
@@ -224,27 +261,7 @@
     $('.btn-ok').on('click', function () {
         if (!$('#input-private-key').val()) return
         modal.css('display', 'none')
-        Swal.fire({
-            icon: 'success',
-            title: 'Thanh toán thành công',
-            html: '<span class="d-block mt-2">Đơn hàng của bạn đã thanh toán thành công.</span>' +
-                '<span class="d-block mt-3 mb-2">' +
-                'Bạn có thể xem chi tiết trong <span id="s-marker">lịch sử mua hàng</span>.</span>',
-            didOpen: () => {
-                const marker = Swal.getHtmlContainer().querySelector('#s-marker')
-                $(marker).css('color', '#2880e7').css('cursor', 'pointer').on('click', function () {
-                    $('#checkout_form').append($('<input>').attr('type', 'hidden').attr('name', 'nav'))
-                        .submit()
-                })
-            },
-            confirmButtonColor: '#166bcc',
-            confirmButtonText: 'TIẾP TỤC MUA HÀNG',
-            allowOutsideClick: () => $('#checkout_form').submit()
-        }).then(result => {
-            if (result.isConfirmed) {
-                $('#checkout_form').submit()
-            }
-        })
+        $('#checkout_form').submit()
     })
 </script>
 </body>
