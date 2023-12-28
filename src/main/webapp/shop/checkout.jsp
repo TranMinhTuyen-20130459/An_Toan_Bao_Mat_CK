@@ -96,20 +96,23 @@
                         <div id="auth-model" class="modal2">
                             <div class="modal-content2">
                                 <p class="title">Xác thực đơn hàng</p>
-                                <p class="sub-title">Vui lòng xác thực đơn hàng bằng cách nhập private key bên dưới.</p>
+                                <p class="mt-2">Vui lòng xác thực đơn hàng bằng cách nhập private key bên dưới.</p>
                                 <a href="javascript:void(0);" class="close"></a>
-                                <div class="input-form">
-                                    <div class="visibility"><i class="bi bi-eye-slash"></i></div>
-                                    <input type="password" name="private_key" id="input-private-key" placeholder="Private key">
-                                </div>
-                                <div class="title-or">
-                                    <span>Hoặc</span>
-                                </div>
-                                <div class="choose-file" id="drag-file">
-                                    <div style="text-align: center;">
-                                        <p>Kéo thả file tại đây</p>
-                                        <a href="javascript:void(0);">Upload file</a>
+                                <div class="d-flex mt-4">
+                                    <div class="position-relative w-100">
+                                        <div class="visibility"><i class="bi bi-eye-slash"></i></div>
+                                        <input type="password" name="private_key" id="input-private-key" placeholder="Private key">
+                                        <div class="file-content w-100 position-absolute">
+                                            <div id="the-file"></div>
+                                            <div id="ic-close"><i class="bi bi-x-lg"></i></div>
+                                        </div>
                                     </div>
+                                    <div style="width: 10px"></div>
+                                    <label for="input-upload"
+                                           class="label-upload position-relative m-0 p-0">
+                                        <input type="file" id="input-upload">
+                                        <i class="bi bi-file-earmark-text"></i>
+                                    </label>
                                 </div>
                                 <div class="actions">
                                     <button type="button" class="btn-cancel">Cancel</button>
@@ -170,6 +173,39 @@
 <script>
     $('#company').on('change', function () {
         window.location.href = '${context}/shop/update-checkout?city=' + $(this).val()
+    })
+
+    $('.visibility').on('click', function () {
+        const input = $('#input-private-key')
+        if (input.attr('type') === 'password') {
+            input.attr('type', 'text')
+            $('.visibility i').attr('class', 'bi bi-eye')
+        } else {
+            input.attr('type', 'password')
+            $('.visibility i').attr('class', 'bi bi-eye-slash')
+        }
+    })
+
+    document.getElementById('input-upload').addEventListener('change', function (e) {
+        const file = e.target.files[0]
+        if (file) {
+            const input = $('#input-private-key')
+            $('#the-file').text(file.name)
+            $('.visibility').css('visibility', 'hidden')
+            input.val(null)
+            input.attr('placeholder', '')
+            input.prop('disabled', true);
+            $('.file-content').css('visibility', 'visible')
+        }
+    });
+
+    $('#ic-close').on('click', function () {
+        $('.file-content').css('visibility', 'hidden')
+        $('#input-upload').val(null)
+        const input = $('#input-private-key')
+        input.attr('placeholder', 'Private key')
+        input.prop('disabled', false);
+        $('.visibility').css('visibility', 'visible')
     })
 
     const modal = $('#auth-model')
