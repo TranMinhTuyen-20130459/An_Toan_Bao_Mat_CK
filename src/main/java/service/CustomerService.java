@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 public class CustomerService {
@@ -367,8 +368,26 @@ public class CustomerService {
         }
     }
 
+    public static String getEmailFromIdBill(int idBill){
+        DbConnection connnectDb = DbConnection.getInstance();
+        String sql = "SELECT DISTINCT account_customer.username " +
+                "FROM bills " +
+                "INNER JOIN account_customer ON bills.id_user = account_customer.id_user_customer " +
+                "WHERE bills.id_bill = ?;";
+        PreparedStatement pre = connnectDb.getPreparedStatement(sql);
+        try {
+            pre.setInt(1, idBill);
+            ResultSet rs = pre.executeQuery();
+            if (rs.next()) {
+                return rs.getString("username");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
-//        System.out.println(getIdCustomer("nguyenphutai840@gmail.com"));
-//        savePuKey(1, "hello");
+//        System.out.println(getEmailFromIdBill(5));
     }
 }

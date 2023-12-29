@@ -76,7 +76,7 @@
                                 <td>${b.name_customer}</td>
                                 <td data-price="${b.total_price}" class="text-center">${pu:format(b.total_price)}đ</td>
                                 <td data-ss="${bg}" class="text-center"><span
-                                        class="badge ${bg}">${b.status_bill}</span>
+                                        class="badge ${bg}" data-value="${b.id_status_bill}">${b.status_bill}</span>
                                 </td>
                                 <td>${b.address_customer}</td>
                                 <td>${b.time_order}</td>
@@ -103,31 +103,19 @@
                 <div class="row">
                     <div class="form-group col-md-12">
                             <span class="thong-tin-thanh-toan">
-                                <h5>Chỉnh sửa đơn hàng</h5>
+                                <h5>Chỉnh sửa tình trạng đơn hàng đơn hàng</h5>
                             </span>
                     </div>
                 </div>
                 <div class="row">
                     <input type="hidden" id="input-bill-id">
-                    <div class="form-group col-md-6">
-                        <label class="control-label">Tên khách hàng</label>
-                        <input class="form-control" type="text" required name="bill-customer">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label class="control-label">Địa chỉ giao hàng</label>
-                        <input class="form-control" type="text" required name="bill-address">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label class="control-label">Tổng thanh toán</label>
-                        <input class="form-control" type="number" name="bill-price">
-                    </div>
-                    <div class="form-group col-md-6 ">
+                    <div class="form-group col-md-12 ">
                         <label for="select-status" class="control-label">Tình trạng đơn hàng</label>
                         <select class="form-control" id="select-status" name="bill-status">
-                            <option value="bg-info">Chờ xử lý</option>
-                            <option value="bg-warning">Đang vận chuyển</option>
-                            <option value="bg-success">Đã giao</option>
-                            <option value="bg-danger">Đã hủy</option>
+                            <option value="1">Chờ xử lý</option>
+                            <option value="2">Đang vận chuyển</option>
+                            <option value="3">Đã giao</option>
+                            <option value="4">Đã hủy</option>
                         </select>
                     </div>
                 </div>
@@ -144,38 +132,6 @@
 <jsp:include page="../common/admin-js.jsp"/>
 <!-- ================================================================================================== -->
 <script>
-    $('.edit').on('click', function () {
-        const modal = $('#modal-up')
-        modal.find('#input-bill-id').val($(this).closest('tr').find('td:first-child').attr('data-bbid'))
-        modal.find('input[name=bill-customer]').val($(this).closest('tr').find('td:nth-child(2)').text())
-        modal.find('input[name=bill-address]').val($(this).closest('tr').find('td:nth-child(6)').text())
-        modal.find('input[name=bill-price]').val($(this).closest('tr').find('td:nth-child(4)').attr('data-price'))
-        const bg = String($(this).closest('tr').find('td:nth-child(5)').attr('data-ss'))
-        modal.find('select[name=bill-status] option').each(function () {
-            if (String($(this).val()) === bg)
-                $(this).attr('selected', 'selected')
-        })
-        modal.modal('show')
-    })
-
-    $('.btn-save').on('click', function () {
-        const form = $('<form></form>').attr('method', 'post').attr('action', '${context}/admin/quan-ly-don-hang')
-        const fieldId = $('<input>').attr('type', 'hidden').attr('name', 'bill_id')
-            .attr('value', $('#input-bill-id').val())
-        const fieldCus = $('<input>').attr('type', 'hidden').attr('name', 'bill_cus')
-            .attr('value', $('input[name=bill-customer]').val())
-        const fieldPrice = $('<input>').attr('type', 'hidden').attr('name', 'bill_price')
-            .attr('value', $('input[name=bill-price]').val())
-        const fieldStatus = $('<input>').attr('type', 'hidden').attr('name', 'bill_status')
-            .attr('value', $('#select-status').find(':selected').val())
-        const fieldAddress = $('<input>').attr('type', 'hidden').attr('name', 'bill_address')
-            .attr('value', $('input[name=bill-address]').val())
-        form.append(fieldId).append(fieldCus).append(fieldPrice).append(fieldStatus).append(fieldAddress)
-
-        $(document.body).append(form)
-        form.submit()
-    })
-
     const myApp = new function () {
         this.printTable = function () {
             const tab = document.getElementById('sampleTable');
@@ -219,6 +175,178 @@
             function () {
                 pdf.save('Test.pdf');
             }, margins);
+    })
+    function getIdBill(selectedRow){
+        let table = $('#sampleTable').DataTable();
+        let columnIdBill = table.column(0).index();
+        let dataValue = table.cell(selectedRow, columnIdBill).data();
+        let element = $(dataValue);
+        let anchorText = element.text();
+        let idBill = anchorText.match(/\d+/);
+        return idBill[0];
+    }
+    function ajaxSendMail(idBill, idStatus){
+        let status = findStatusBill(idStatus)
+        return $.ajax({
+            type: "POST",
+            url: "${context}/AjaxBillUpdateStatus",
+            data: { idBill: idBill , idStatus: idStatus, status: status},
+            success: function (response) {
+                console.log("success");
+            },
+            error: function () {
+                console.error("Ajax request failed");
+            }
+        });
+    }
+    function findStatusBill(value){
+        switch (value){
+            case '1':
+                return 'Chờ xử lý';
+            case '2':
+                return 'Đang vận chuyển';
+            case '3':
+                return 'Đã giao';
+            case '4':
+                return 'Đã hủy';
+            default:
+                console.log("error");
+        }
+    }
+
+    let select_status_bill = document.getElementById('select-status') // thẻ Select để Chọn trạng thái đơn hàng
+    const modal = $('#modal-up') // cửa sổ cập nhật trạng thái đơn hàng
+    let table = $('#sampleTable').DataTable(); // => DataTable
+    let value_status_bill; // giá trị trạng thái của đơn hàng trong cửa sổ cập nhật trạng thái
+    let selectedRow;// dòng được chọn
+    let columnIdx;// cột chứa giá trị trong DataTable
+    let dataValue;
+    let cellValue;// giá trị ô tương ứng theo dòng và cột
+    let idBill;
+    $('.edit').on('click', function () {
+        idBill = getIdBill(selectedRow);
+
+        modal.modal('show')// => show ra cửa sổ model
+        selectedRow = $(this).closest('tr'); // Lấy ra phần tử tr đang được chọn
+        columnIdx = table.column(3).index(); // cột chứa giá trị id_status_bill đã được ẩn đi bởi DataTable
+        dataValue = table.cell(selectedRow, columnIdx).data();// Lấy giá trị ô tương ứng với vị trí hàng và cột đã chọn
+        cellValue = $(dataValue).data('value');
+        value_status_bill = cellValue;
+        select_status_bill.value = value_status_bill // thay đổi thẻ select trong cửa sổ Cập nhật trạng thái theo giá trị tương ứng
+
+        console.log("value status bill: " + value_status_bill);
+
+        select_status_bill.onchange = function () {
+            value_status_bill = this.value
+            console.log("value status bill: " + value_status_bill)
+
+        }// => khi thay đổi trạng thái của đơn hàng
+
+        // Khi click vào button Lưu lại
+        $('.btn-save').unbind('click').on('click', function () {
+
+            if (cellValue == value_status_bill) {
+
+                // không cập nhật do giá trị trạng thái đơn hàng không thay đổi
+
+            } else {
+                switch (value_status_bill) {
+                    // Đơn hàng đang ở trạng thái "Chờ xác nhận"
+                    case '1':
+                        swal({
+                            title: 'Thông báo',
+                            text: 'Không thể cập nhật trạng thái đơn hàng về "Chờ xử lý"',
+                            icon: 'warning',
+                            timer: 4000,
+                            buttons: false
+                        })
+                        break;
+                    // ... trạng thái "Đang giao hàng"
+                    case '2':
+                        // chỉ khi đơn hàng đang ở trạng thái "Chờ xác nhận : 1" mới được cập nhật thành "Đang giao hàng"
+                        if (cellValue == '1') {
+                            ajaxSendMail(idBill, value_status_bill);
+                            swal({
+                                title: 'Thông báo',
+                                text: 'Hãy chờ khách hàng xác thực!',
+                                icon: 'success',
+                                timer: 2000,
+                                buttons: false
+                            }).then(() => {
+                                window.location.href = "<%=request.getContextPath()%>/admin/quan-ly-don-hang";
+                            }).onClose(() => {
+                                // Xử lý tại đây nếu người dùng tắt cửa sổ thông báo trước khi nó đóng tự động
+                                window.location.href = "<%=request.getContextPath()%>/admin/quan-ly-don-hang";
+                            });
+                        } else {
+                            swal({
+                                title: 'Thông báo',
+                                text: 'Không thể cập nhật trạng thái đơn hàng về "Đang vận chuyển"',
+                                icon: 'warning',
+                                timer: 4000,
+                                buttons: false
+                            })
+                        }
+                        break;
+                    // ... trạng thái "Đã giao"
+                    case '3':
+                        // chỉ khi đơn hàng đang ở trạng thái "Chờ xác nhận : 1" or "Đang giao hàng : 2" mới có thể cập nhật thành "Đã giao : 3"
+                        if (cellValue == '1' || cellValue == '2') {
+                            ajaxSendMail(idBill, value_status_bill);
+                            swal({
+                                title: 'Thông báo',
+                                text: 'Hãy chờ khách hàng xác thực!',
+                                icon: 'success',
+                                timer: 2000,
+                                buttons: false
+                            }).then(() => {
+                                window.location.href = "<%=request.getContextPath()%>/admin/quan-ly-don-hang";
+                            }).onClose(() => {
+                                // Xử lý tại đây nếu người dùng tắt cửa sổ thông báo trước khi nó đóng tự động
+                                window.location.href = "<%=request.getContextPath()%>/admin/quan-ly-don-hang";
+                            });
+                        } else {
+                            swal({
+                                title: 'Thông báo',
+                                text: 'Không thể cập nhật trạng thái đơn hàng về "Đã giao"',
+                                icon: 'warning',
+                                timer: 4000,
+                                buttons: false
+                            })
+                        }
+                        break;
+                    //... trạng thái "Hủy đơn hàng"
+                    case '4':
+                        // chỉ khi đơn hàng đang ở trạng thái "Chờ xác nhận : 1" or "Đang giao hàng : 2" mới có thể cập nhật thành "Hủy đơn hàng : 4"
+                        if (cellValue == '1' || cellValue == '2') {
+                            ajaxSendMail(idBill, value_status_bill);
+                            swal({
+                                title: 'Thông báo',
+                                text: 'Hãy chờ khách hàng xác thực!',
+                                icon: 'success',
+                                timer: 2000,
+                                buttons: false
+                            }).then(() => {
+                                window.location.href = "<%=request.getContextPath()%>/admin/quan-ly-don-hang";
+                            }).onClose(() => {
+                                // Xử lý tại đây nếu người dùng tắt cửa sổ thông báo trước khi nó đóng tự động
+                                window.location.href = "<%=request.getContextPath()%>/admin/quan-ly-don-hang";
+                            });
+                        } else {
+                            swal({
+                                title: 'Thông báo',
+                                text: 'Không thể cập nhật trạng thái đơn hàng về "Đã Hủy"',
+                                icon: 'warning',
+                                timer: 4000,
+                                buttons: false
+                            })
+                        }
+                        break;
+                    default:
+                        "Welcome to bug";
+                }
+            }
+        })
     })
 </script>
 </body>
