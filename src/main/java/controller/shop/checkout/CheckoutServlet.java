@@ -8,12 +8,17 @@ import utils.RSACipher;
 import utils.SortedUtil;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 @WebServlet(name = "checkout-servlet", urlPatterns = "/shop/checkout")
+@MultipartConfig
 public class CheckoutServlet extends HttpServlet {
 
     @Override
@@ -53,7 +59,22 @@ public class CheckoutServlet extends HttpServlet {
         String phone = req.getParameter("phone");
         String email = req.getParameter("email");
         String address = req.getParameter("address");
+
         String privateKey = req.getParameter("private_key");
+
+        if (privateKey == null) {
+            Part filePart = req.getPart("private_key_file");
+            StringBuilder sb = new StringBuilder();
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(filePart.getInputStream(), StandardCharsets.UTF_8))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line);
+                }
+            } catch (Exception ignored) {
+            }
+            privateKey = sb.toString();
+        }
+
 
         Customer cus = (Customer) req.getSession().getAttribute("auth_customer");
         Cart cart = (Cart) req.getSession().getAttribute("cart");

@@ -2154,6 +2154,12 @@ a:focus {
     transition: visibility 0s;
 }
 
+.modal-content2 .key-warning {
+    display: none;
+    color: red;
+    font-size: 15px;
+}
+
 /*============================================*/
 
 .checkout .form .form-group input:focus {
