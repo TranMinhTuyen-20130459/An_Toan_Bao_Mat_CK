@@ -48,7 +48,7 @@
         <div class="row">
             <div class="col-lg-8 col-12">
                 <div class="checkout-form mt-4">
-                    <form class="form" id="checkout_form" method="POST" action="${context}/shop/checkout">
+                    <form class="form" id="checkout_form" enctype="multipart/form-data" method="POST" action="${context}/shop/checkout">
                         <div class="checkout-title">
                             <h3>Thông tin giao hàng</h3>
                             <p class="my-2">
@@ -110,10 +110,11 @@
                                     <div style="width: 10px"></div>
                                     <label for="input-upload"
                                            class="label-upload position-relative m-0 p-0">
-                                        <input type="file" id="input-upload">
+                                        <input type="file" name="private_key_file" id="input-upload">
                                         <i class="bi bi-file-earmark-text"></i>
                                     </label>
                                 </div>
+                                <span class="key-warning mt-2"><i class="fa fa-warning"></i> Private key không được bỏ trống.</span>
                                 <div class="actions">
                                     <button type="button" class="btn-cancel">Cancel</button>
                                     <button type="button" class="btn-ok">Ok</button>
@@ -259,9 +260,30 @@
     $('.btn-cancel').on('click', () => modal.css('display', 'none'))
 
     $('.btn-ok').on('click', function () {
-        if (!$('#input-private-key').val()) return
+        const input = $('#input-private-key')
+        if (!input.val() && !$('#input-upload').val()) {
+            input.css('borderColor', 'red')
+            $('.key-warning').css('display', 'block')
+            return
+        }
         modal.css('display', 'none')
         $('#checkout_form').submit()
+    })
+
+    $('#input-upload').on('input', function () {
+        const warning = $('.key-warning')
+        if (warning.css('display') === 'block') {
+            warning.css('display', 'none')
+            $('#input-private-key').css('borderColor', 'rgb(184, 184, 184)')
+        }
+    })
+
+    $('#input-private-key').on('input', function () {
+        const warning = $('.key-warning')
+        if (warning.css('display') === 'block') {
+            warning.css('display', 'none')
+            $(this).css('borderColor', 'rgb(184, 184, 184)')
+        }
     })
 </script>
 </body>
