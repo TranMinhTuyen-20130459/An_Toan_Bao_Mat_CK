@@ -1959,7 +1959,7 @@ a:focus {
     background-color: #fefefe;
     margin: auto;
     padding: 24px;
-    top: 200px;
+    top: 300px;
     box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
     border-radius: 6px;
     width: 600px;
@@ -1979,12 +1979,12 @@ a:focus {
 
 @keyframes animateTop2 {
     from {
-        top: 100px;
+        top: 250px;
         opacity: 0
     }
 
     to {
-        top: 200px;
+        top: 300px;
         opacity: 1
     }
 }
@@ -1995,10 +1995,6 @@ a:focus {
     padding: 0;
     margin: 0;
     color: #414141;
-}
-
-.checkout .modal-content2 .sub-title {
-    margin-top: 8px;
 }
 
 .checkout .modal-content2 .close {
@@ -2032,17 +2028,12 @@ a:focus {
     transform: rotate(-45deg);
 }
 
-.checkout .modal-content2 .input-form {
-    position: relative;
-    margin-top: 20px;
-}
-
 .checkout .modal-content2 #input-private-key {
     width: 100%;
     outline: none;
     border: 1px solid rgb(184, 184, 184);
     border-radius: 4px;
-    padding: 10px 10px;
+    padding: 10px 44px 10px 10px;
     font-size: 15px;
     color: #333;
     line-height: 1.6em;
@@ -2053,7 +2044,8 @@ a:focus {
     transition: all ease .2s;
 }
 
-.checkout .modal-content2 .visibility {
+.checkout .modal-content2 .visibility,
+.modal-content2 #ic-close {
     width: 32px;
     height: 32px;
     display: flex;
@@ -2067,16 +2059,10 @@ a:focus {
     cursor: pointer;
 }
 
-.checkout .modal-content2 .visibility:hover {
-    background-color: #ebebeb;
-    transition: .2s;
-}
-
-.checkout .modal-content2 .title-or {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 14px;
-    color: #505050;
+.checkout .modal-content2 .visibility:hover,
+.modal-content2 #ic-close:hover {
+    background-color: rgba(218, 218, 218, 0.58);
+    transition: background-color .2s;
 }
 
 .checkout .modal-content2 .actions {
@@ -2120,42 +2106,58 @@ a:focus {
     background: #426feb;
 }
 
-.checkout .modal-content2 .choose-file {
-    margin-top: 20px;
-    height: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 8px;
-    border-style: dashed;
-    border-width: 0.125em;
-    border-color: #979797;
-    background-color: #f5f5f5;
+.modal-content2 .label-upload {
+    width: 60px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #28a745;
+    transition: .3s;
 }
 
-.checkout .modal-content2 .choose-file p {
-    display: block;
-    margin-bottom: 12px;
-    font-size: 16px;
-    color: #474747;
-    user-select: none;
+.modal-content2 .label-upload:hover {
+    background-color: #178c32;
 }
 
-.checkout .modal-content2 .choose-file a {
-    display: block;
-    padding: 15px 28px;
-    border-radius: 4px;
-    background-color: #5680f1;
-    text-decoration: none;
-    color: #ffffff;
-    text-transform: uppercase;
+.modal-content2 #input-upload {
+    visibility: hidden;
+}
+
+.modal-content2 .label-upload i {
+    font-size: 18px;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.file-content {
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    visibility: hidden;
+}
+
+.file-content #the-file {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 12px;
+    background-color: rgba(224, 224, 224, 0.71);
+    padding: 3px 12px;
+    box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 3px;
+    border-radius: 5px;
+    color: #464646;
+}
+
+#ic-close {
+    transition: visibility 0s;
+}
+
+.modal-content2 .key-warning {
+    display: none;
+    color: red;
     font-size: 15px;
-    font-weight: bolder;
-}
-
-.checkout .modal-content2 .choose-file a:hover {
-    background-color: #426feb;
-    transition: all ease .3s;
 }
 
 /*============================================*/
