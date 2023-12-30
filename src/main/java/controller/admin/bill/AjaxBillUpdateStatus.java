@@ -28,13 +28,10 @@ public class AjaxBillUpdateStatus extends HttpServlet {
         UUID uuid = UUID.randomUUID();
         String uuidStr = uuid.toString();
 
-        HttpSession session = request.getSession(true);
-        request.setAttribute("ses_verify", session);
-        session.setAttribute("uuid", uuidStr);
-        session.setAttribute("id_status", idStatus);
+        CustomerService.insertUUID(uuidStr, toEmail);
 
         var context_path = request.getContextPath();
-        String body = BodyMailRegister.createBodyMailForUpdateStatusBill(context_path, uuidStr, status);
+        String body = BodyMailRegister.createBodyMailForUpdateStatusBill(context_path, uuidStr, status, idStatus, toEmail);
         Email sendEmailForVerify = new Email("nguyenphutai840@gmail.com", "nlrtjmzdmlihnlrz",
                 "Xác thực tình trạng đơn hàng của LAB CHEMICALS", body);
         SendMail.sendMail(toEmail, sendEmailForVerify);

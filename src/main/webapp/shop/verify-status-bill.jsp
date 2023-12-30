@@ -16,24 +16,25 @@
 </head>
 
 <body>
-<%String error = (String) request.getAttribute("error");%>
-    <!-- ===== HEADER ===== -->
-    <header class="header-account">
-        <div class="container">
-            <div class="row py-3">
-                <div class="col-lg-7 col-md-7 col-12">
-                    <div class="title-left d-flex justify-content-start h-100 align-items-center">
-                        <a class="w-25 mr-4" href="${context}/shop/home"><img src="images/labchemicals-logo.png" alt="" /></a>
-                        <span class="d-inline-block mt-1">Xác thực tình trạng đơn hàng</span>
-                    </div>
+<!-- ===== HEADER ===== -->
+<header class="header-account">
+    <div class="container">
+        <div class="row py-3">
+            <div class="col-lg-7 col-md-7 col-12">
+                <div class="title-left d-flex justify-content-start h-100 align-items-center">
+                    <a class="w-25 mr-4" href="#"><img src="images/labchemicals-logo.png" alt=""/></a>
+                    <span class="d-inline-block mt-1">Xác thực tình trạng đơn hàng</span>
                 </div>
             </div>
         </div>
-    </header>
+    </div>
+</header>
 
 <!-- ===== BREADCRUMBS ===== -->
 <div class=py-9">
     <div class="container checkout">
+        <form class="form" id="checkout_form" enctype="multipart/form-data" method="POST"
+              action="${context}/shop/verify-status-bill">
             <div class="modal-content2" style="top: 0;">
                 <p class="title">Xác thực tình trạng đơn hàng</p>
                 <p class="mt-2">Vui lòng xác thực tình trạng đơn hàng bằng cách nhập private key bên dưới.</p>
@@ -58,6 +59,7 @@
                     <button type="button" class="btn-ok">Ok</button>
                 </div>
             </div>
+        </form>
     </div>
 </div>
 
@@ -70,6 +72,71 @@
 
 <!-- ===== JAVASCRIPT ===== -->
 <jsp:include page="../common/shop-js.jsp"/>
+<script>
+
+    $('.visibility').on('click', function () {
+        const input = $('#input-private-key')
+        if (input.attr('type') === 'password') {
+            input.attr('type', 'text')
+            $('.visibility i').attr('class', 'bi bi-eye')
+        } else {
+            input.attr('type', 'password')
+            $('.visibility i').attr('class', 'bi bi-eye-slash')
+        }
+    })
+
+    document.getElementById('input-upload').addEventListener('change', function (e) {
+        const file = e.target.files[0]
+        if (file) {
+            const input = $('#input-private-key')
+            $('#the-file').text(file.name)
+            $('.visibility').css('visibility', 'hidden')
+            input.val(null)
+            input.attr('placeholder', '')
+            input.prop('disabled', true);
+            $('.file-content').css('visibility', 'visible')
+        }
+    });
+
+    $('#ic-close').on('click', function () {
+        $('.file-content').css('visibility', 'hidden')
+        $('#input-upload').val(null)
+        const input = $('#input-private-key')
+        input.attr('placeholder', 'Private key')
+        input.prop('disabled', false);
+        $('.visibility').css('visibility', 'visible')
+    })
+
+    $('.close').on('click', () => modal.css('display', 'none'))
+
+    $('.btn-cancel').on('click', () => modal.css('display', 'none'))
+
+    $('.btn-ok').on('click', function () {
+        const input = $('#input-private-key')
+        if (!input.val() && !$('#input-upload').val()) {
+            input.css('borderColor', 'red')
+            $('.key-warning').css('display', 'block')
+            return
+        }
+        $('#checkout_form').submit()
+    })
+
+    $('#input-upload').on('input', function () {
+        const warning = $('.key-warning')
+        if (warning.css('display') === 'block') {
+            warning.css('display', 'none')
+            $('#input-private-key').css('borderColor', 'rgb(184, 184, 184)')
+        }
+    })
+
+    $('#input-private-key').on('input', function () {
+        const warning = $('.key-warning')
+        if (warning.css('display') === 'block') {
+            warning.css('display', 'none')
+            $(this).css('borderColor', 'rgb(184, 184, 184)')
+        }
+    })
+</script>
 
 </body>
 
