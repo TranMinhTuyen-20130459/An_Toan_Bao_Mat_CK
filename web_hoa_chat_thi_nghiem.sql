@@ -842,3 +842,7 @@ INSERT INTO `type_product` VALUES (2, 'Dụng Cụ');
 INSERT INTO `type_product` VALUES (3, 'Thiết Bị');
 
 SET FOREIGN_KEY_CHECKS = 1;
+--------------------------------------------------
+-- Add a feild into account_customer
+ALTER TABLE account_customer
+ADD COLUMN uuid VARCHAR(36);
