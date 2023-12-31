@@ -1,6 +1,8 @@
 package controller.shop.customer;
 
+import database.dao.BillDAO;
 import model.CustomerSecurity;
+import service.BillService;
 import service.CustomerService;
 
 import javax.servlet.*;
@@ -14,10 +16,16 @@ import java.nio.charset.StandardCharsets;
 @WebServlet(name = "VerifyStatusBill", urlPatterns = "/shop/verify-status-bill")
 @MultipartConfig
 public class VerifyStatusBill extends HttpServlet {
+    String uuidStr;
+    String email;
+    String idStatus;
+    String idBill;
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        String uuidStr = req.getParameter("key");
-        String email = req.getParameter("email");
+        uuidStr = req.getParameter("key");
+        email = req.getParameter("email");
+        idStatus = req.getParameter("idStatus");
+        idBill = req.getParameter("idBill");
         String uuidOfEmail = CustomerService.getUUID(email);
         try{
             if(uuidStr.equals(uuidOfEmail)){
@@ -41,7 +49,14 @@ public class VerifyStatusBill extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        String idStatus = (String) req.getAttribute("id_status");
+        String nav = req.getParameter("nav");
+        if (nav != null) {
+            res.sendRedirect(req.getContextPath() + nav);
+            return;
+        }
+
+        int int_idStatus = Integer.parseInt(idStatus);
+        int int_idBill = Integer.parseInt(idBill);
         String privateKey = req.getParameter("private_key");
         if (privateKey == null) {
             Part filePart = req.getPart("private_key_file");
@@ -56,6 +71,14 @@ public class VerifyStatusBill extends HttpServlet {
             privateKey = sb.toString();
         }
 
+        if(BillService.checkVerifyPrivateKey(int_idBill, privateKey)){
+            BillService.updateStatusABill(int_idBill, int_idStatus, privateKey);
+            req.setAttribute("flag", "verify-successful");
+            req.getRequestDispatcher("/shop/verify-status-bill.jsp").forward(req, res);
+        }else{
+            req.setAttribute("flag", "verify-failed");
+            req.getRequestDispatcher("/shop/verify-status-bill.jsp").forward(req, res);
+        }
 
     }
 }

@@ -31,7 +31,7 @@ public class AjaxBillUpdateStatus extends HttpServlet {
         CustomerService.insertUUID(uuidStr, toEmail);
 
         var context_path = request.getContextPath();
-        String body = BodyMailRegister.createBodyMailForUpdateStatusBill(context_path, uuidStr, status, idStatus, toEmail);
+        String body = BodyMailRegister.createBodyMailForUpdateStatusBill(context_path, uuidStr, status, idStatus, toEmail, idBill);
         Email sendEmailForVerify = new Email("nguyenphutai840@gmail.com", "nlrtjmzdmlihnlrz",
                 "Xác thực tình trạng đơn hàng của LAB CHEMICALS", body);
         SendMail.sendMail(toEmail, sendEmailForVerify);

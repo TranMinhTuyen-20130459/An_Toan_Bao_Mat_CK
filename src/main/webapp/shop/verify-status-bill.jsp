@@ -63,7 +63,6 @@
     </div>
 </div>
 
-
 <!-- ===== SHOP SERVICES ===== -->
 <jsp:include page="../common/shop-services.jsp"/>
 
@@ -72,7 +71,42 @@
 
 <!-- ===== JAVASCRIPT ===== -->
 <jsp:include page="../common/shop-js.jsp"/>
+<script src="../shop/js/sweetalert2.js"></script>
+
+<form action="${context}/shop/verify-status-bill" id="form-nav" method="post">
+    <input type="hidden" name="nav" id="nav">
+</form>
+
+<input id="flag" type="hidden" value="${requestScope['flag']}">
+
 <script>
+    const flag = $('#flag').val()
+    if (flag === 'verify-successful') {
+        Swal.fire({
+            icon: 'success',
+            title: 'Thanh toán thành công',
+            html: '<span class="d-block mt-2">Đơn hàng của bạn đã được xác thực thành công.</span>',
+            confirmButtonColor: '#166bcc',
+            confirmButtonText: 'VỀ LẠI TRANG CHỦ',
+            allowOutsideClick: () => navigate('/shop/home')
+        }).then(result => {
+            if (result.isConfirmed) {
+                navigate('/shop/home')
+            }
+        })
+    }else if(flag === 'verify-failed'){
+        Swal.fire({
+            title: "Error",
+            text: "Private Key bạn không hợp lệ, Hãy nhập chính xác private key mà bạn đã tạo đơn hàng này!",
+            icon: "error",
+            button: "OK",
+        })
+    }
+
+    function navigate(route) {
+        $('#nav').val(route)
+        $('#form-nav').submit()
+    }
 
     $('.visibility').on('click', function () {
         const input = $('#input-private-key')
