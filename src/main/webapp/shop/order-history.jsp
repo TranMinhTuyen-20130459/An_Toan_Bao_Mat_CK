@@ -81,7 +81,7 @@
                         <c:when test="${order.status == 'Đã hủy'}"><c:set var="bg" value="canceled"/></c:when>
                         <c:when test="${order.status == 'Chờ xử lý'}"><c:set var="bg" value="progressing"/></c:when>
                     </c:choose>
-                    <div data-order-id="${order.id}" class="item <c:if test="${!i.last}">mb-5</c:if>">
+                    <div data-order-id="${order.id}" class="item <c:if test="${!i.last}">mb-4</c:if>">
                         <div class="item-header w-100 px-4 py-3 d-flex justify-content-between align-items-center">
                             <div>
                                 <span class="span-id mr-4">#${order.id}</span>
@@ -91,9 +91,15 @@
                                 </span>
                                 <span class="status ${bg} ml-3 mr-3">${order.status}</span>
                             </div>
-                            <c:if test="${order.verified}">
-                                <span>Verified</span>
-                            </c:if>
+                            <c:choose>
+                                <c:when test="${order.verified}">
+                                    <span class="order-rsa-badge verified-badge"><i class="bi bi-check-circle-fill"></i> Verified</span>
+                                </c:when>
+                                <c:otherwise>
+                                    <span class="order-rsa-badge unverified-badge"><i class="bi bi-exclamation-triangle-fill"></i> Unverified</span>
+                                </c:otherwise>
+                            </c:choose>
+
                         </div>
                         <div class="item-body w-100 px-4 py-3">
                             <c:forEach var="item" items="${order.items}" varStatus="ii">
