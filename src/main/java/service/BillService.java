@@ -2,12 +2,17 @@ package service;
 
 import database.dao.BillDAO;
 import database.dao.PublicKeyDAO;
+import model.Bill;
 import model.reponse.BillDTO;
 import utils.AsymmetricEncrypt;
 import utils.HashUtil;
+import utils.RSACipher;
 import utils.SortedUtil;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -89,10 +94,50 @@ public class BillService {
         }
     }
 
+    public static boolean checkVerifyPrivateKey(int idBill, String privateKey){
+        var billDAO = new BillDAO();
+        String getHashedBill;
+        try {
+            Bill billRaw = billDAO.getABill(idBill);
+            getHashedBill = billRaw.getHash_bill_encrypted();
+            String hashedBill = HashUtil.hashText(billRaw.toString(), HashUtil.SHA_1);
+            var rsa = new RSACipher();
+            // Encrypt the hash.
+            var hashedBillEncrypted = rsa.encrypt(hashedBill, privateKey);
+            if(getHashedBill.equals(hashedBillEncrypted)){
+                return true;
+            }else{
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("Key không phù hợp");
+            return false;
+        }
+    }
+
+    public static void updateStatusABill(int idBill, int idStatus, String privateKey){
+        var billDAO = new BillDAO();
+        String getHashedBill;
+        try {
+            Bill billRaw = billDAO.getABill(idBill);
+            billRaw.setId_status_bill(idStatus);
+
+            String hashedBill = HashUtil.hashText(billRaw.toString(), HashUtil.SHA_1);
+            var rsa = new RSACipher();
+            var hashedBillEncrypted = rsa.encrypt(hashedBill, privateKey);
+
+            billDAO.updateStatusBill(billRaw.getId_bill(), idStatus);
+            billDAO.updateEncryptedHash(billRaw.getId_bill(), hashedBillEncrypted);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
     public static void main(String[] args) {
 
-        BillService.getAllInfoBill().forEach(item -> {
-            System.out.println(item.toString());
-        });
+//        BillService.getAllInfoBill().forEach(item -> {
+//            System.out.println(item.toString());
+//        });
+        System.out.println(checkVerifyPrivateKey(7, "MIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEAkvtY1Onx/t6Lr1mlidgcDYSeYf2MYhHEtvyFBSq0KfOUth2MUykQxbmm9zMdc5QXnFjZvAfwklbTUuBIXM2IDQIDAQABAkAGtKzy2dGOnTymPWLODSwKedh4BAdZmhHtf0vaVn5tw3sRoNte/3E4xwDRCg4ikmMI/Xu03J5GdQ8TtJS2A5KBAiEAnDf7XWG2o5uKbkBWtnhqVSD/qidLjjuSPbjnn3th79ECIQDw3QFkNd9QjKBxu5S5dsB7eLxFz/TLjtHPPjejsUc/fQIgArP9R3pfXKleVdYLKhEfVeXCRsFzTzy8pRDEAUBzS2ECIQC651RYFbHHSIiMGLpMvIiah1LZfYiAmL/YaHg2bq9R5QIgXFF+xRMklK618d/+xrDUEG23Q9u7X1R9mIpMBkSOCnA="));
     }
 }

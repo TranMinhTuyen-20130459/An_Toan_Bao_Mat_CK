@@ -49,11 +49,15 @@ public class RSACipher {
         RSACipher rsaCipher = new RSACipher();
         String[] keyPair = rsaCipher.generateKeyPair(512);
         System.out.println("PUBLIC_KEY=" + keyPair[0] + "\nPRIVATE_KEY=" + keyPair[1]);
+        System.out.println("-----------------------------------------------------------------");
+        keyPair = rsaCipher.generateKeyPair(512);
+        System.out.println("PUBLIC_KEY=" + keyPair[0] + "\nPRIVATE_KEY=" + keyPair[1]);
 
-        String cipherText = rsaCipher.encrypt("addf120b430021c36c232c99ef8d926aea2acd6b", keyPair[1]);
-        String plainText = rsaCipher.decrypt(cipherText, keyPair[0]);
 
-        System.out.println(cipherText);
-        System.out.println(plainText);
+//        String cipherText = rsaCipher.encrypt("addf120b430021c36c232c99ef8d926aea2acd6b", keyPair[1]);
+//        String plainText = rsaCipher.decrypt(cipherText, keyPair[0]);
+//
+//        System.out.println(cipherText);
+//        System.out.println(plainText);
     }
 }

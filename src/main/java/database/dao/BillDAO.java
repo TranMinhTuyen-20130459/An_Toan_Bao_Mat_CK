@@ -16,6 +16,8 @@ public class BillDAO {
     public final String QUERY_GET_BILL_DETAIL = "SELECT B.id_bill,B.id_product,B.quantity,B.listed_price,B.current_price,P.name_product,P.url_img_product FROM bill_detail B JOIN products P ON B.id_product = P.id_product WHERE id_bill=?";
     public final String UPDATE_BILL = "UPDATE bills SET id_user=?,id_status_bill=?,id_city=?,fullname_customer=?,phone_customer=?,email_customer=?,address_customer=?,bill_price=?,total_price=?,time_order=?,hash_bill_encrypted=? WHERE id_bill=?";
 
+    public final String QUERY_GET_A_BILL = "SELECT id_bill,id_user,id_status_bill,id_city,fullname_customer,phone_customer,email_customer,address_customer,bill_price,total_price,time_order,hash_bill_encrypted FROM bills WHERE id_bill=?";
+
     public DbConnection connectDB;
 
     public BillDAO() {
@@ -212,7 +214,56 @@ public class BillDAO {
         preStm.setInt(2, billId);
         preStm.execute();
     }
+    public Bill getABill(int idBill) throws Exception {
+        // Kiểm tra xem kết nối đến cơ sở dữ liệu đã được thiết lập chưa.
+        if (connectDB == null) {
+            throw new Exception("Database connection not established.");
+        }
 
+        // Tạo prepared statement và thực hiện truy vấn để lấy dữ liệu hóa đơn từ cơ sở dữ liệu.
+        var preState = connectDB.getPreparedStatement(QUERY_GET_A_BILL);
+        preState.setInt(1, idBill);
+        var resultSet = preState.executeQuery();
+
+        while (resultSet.next()) {
+
+            // Lấy thông tin cơ bản của hóa đơn từ ResultSet.
+            var id_bill = idBill;
+
+            // Lấy thông tin chi tiết hóa đơn dựa trên ID hóa đơn.
+            var list_bill_detail = getBillDetailsById(id_bill);
+
+            // Xây dựng đối tượng Bill từ dữ liệu ResultSet và danh sách chi tiết hóa đơn.
+            var bill = Bill.builder()
+                    .id_bill(id_bill)
+                    .id_user(resultSet.getInt("id_user"))
+                    .id_status_bill(resultSet.getInt("id_status_bill"))
+                    .id_city(resultSet.getInt("id_city"))
+                    .name_customer(resultSet.getString("fullname_customer"))
+                    .phone_customer(resultSet.getString("phone_customer"))
+                    .email_customer(resultSet.getString("email_customer"))
+                    .address_customer(resultSet.getString("address_customer"))
+                    .bill_price(resultSet.getDouble("bill_price"))
+                    .total_price(resultSet.getDouble("total_price"))
+                    .time_order(resultSet.getTimestamp("time_order"))
+                    .hash_bill_encrypted(resultSet.getString("hash_bill_encrypted"))
+                    .bill_details(list_bill_detail)
+                    .build();
+
+            // Thêm đối tượng Bill vào danh sách kết quả.
+            return bill;
+        }
+
+        // Trả về danh sách các hóa đơn.
+        return null;
+    }
+
+    public void updateStatusBill(int billId, int idStatus) throws Exception {
+        var preStm = connectDB.getPreparedStatement("UPDATE bills SET id_status_bill = ? WHERE id_bill = ?");
+        preStm.setInt(1, idStatus);
+        preStm.setInt(2, billId);
+        preStm.execute();
+    }
     public static void main(String[] args) throws Exception {
 
         BillDAO dao = new BillDAO();
