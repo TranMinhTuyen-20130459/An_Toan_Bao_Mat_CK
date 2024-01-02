@@ -35,7 +35,7 @@ public class BillService {
             return list_bill.stream()
                     .map(bill -> {
                         //=> Trạng thái bảo mật của đơn hàng
-                        var security_status = "Đã bị chỉnh sửa";
+                        var security_status = "Không hợp lệ";
 
                         // => Thông tin Bill đã được Hash và mã hóa bằng private_key
                         var hash_bill_encrypted = bill.getHash_bill_encrypted();
