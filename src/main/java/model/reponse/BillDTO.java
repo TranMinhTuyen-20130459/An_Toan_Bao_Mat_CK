@@ -29,7 +29,7 @@ public class BillDTO {
     /*
      * Trạng thái bảo mật của đơn hàng có 2 giá trị
      * 1."Hợp lệ"
-     * 2."Đã bị chỉnh sửa"
+     * 2."Không hợp lệ"
      * */
     public static String getStatusBill(int id_status_bill) {
         switch (id_status_bill) {
