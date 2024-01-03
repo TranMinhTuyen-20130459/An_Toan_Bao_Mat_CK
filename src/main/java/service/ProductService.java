@@ -10,9 +10,9 @@ import java.util.*;
 
 public final class ProductService {
     private static final String QUERY_PRODUCTS =
-            "SELECT p.id_product, url_img_product, name_product, description_product, quantity_product, " +
-                    "date_inserted, name_status_product, name_type_product, name_subtype, " +
-                    "name_supplier, views, pp.current_price, pp.listed_price " +
+            "SELECT p.id_product, p.url_img_product, p.name_product, p.description_product, p.quantity_product, " +
+                    "p.date_inserted, sp.name_status_product, tp.name_type_product, st.name_subtype, " +
+                    "s.name_supplier, p.views, pp.current_price, pp.listed_price " +
                     "FROM products p JOIN price_product pp ON p.id_product = pp.id_product " +
                     "JOIN status_product sp ON p.id_status_product = sp.id_status_product " +
                     "JOIN subtype_product st ON p.id_subtype = st.id_subtype " +
@@ -26,6 +26,8 @@ public final class ProductService {
             return getProducts(ps.executeQuery());
         } catch (SQLException e) {
             return new ArrayList<>();
+        } finally {
+            DbConnection.getInstance().close();
         }
     }
 
