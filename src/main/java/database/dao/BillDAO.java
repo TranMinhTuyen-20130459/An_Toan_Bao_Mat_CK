@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BillDAO {
-    public final String ADD_BILL = "INSERT INTO bills(id_user,id_status_bill,id_city,fullname_customer,phone_customer,email_customer,address_customer,bill_price,total_price) VALUES(?,?,?,?,?,?,?,?,?)";
+    public final String ADD_BILL = "INSERT INTO bills(id_user,id_status_bill,id_city,fullname_customer,phone_customer,email_customer,address_customer,bill_price,total_price,time_order) VALUES(?,?,?,?,?,?,?,?,?,?)";
     public final String ADD_BILL_DETAIL = "INSERT INTO bill_detail(id_bill,id_product,quantity,listed_price,current_price) VALUES(?,?,?,?,?)";
     public final String QUERY_GET_ALL_BILL = "SELECT id_bill,id_user,id_status_bill,id_city,fullname_customer,phone_customer,email_customer,address_customer,bill_price,total_price,time_order,hash_bill_encrypted FROM bills";
     public final String QUERY_GET_BILL_DETAIL = "SELECT B.id_bill,B.id_product,B.quantity,B.listed_price,B.current_price,P.name_product,P.url_img_product FROM bill_detail B JOIN products P ON B.id_product = P.id_product WHERE id_bill=?";
@@ -48,6 +48,7 @@ public class BillDAO {
         preState.setString(7, bill.getAddress_customer());
         preState.setDouble(8, bill.getBill_price());
         preState.setDouble(9, bill.getTotal_price());
+        preState.setTimestamp(10,bill.getTime_order());
 
         // Thực thi truy vấn SQL thêm mới
         preState.executeUpdate();

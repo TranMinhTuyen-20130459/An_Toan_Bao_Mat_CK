@@ -5,6 +5,7 @@ import model.*;
 import service.CustomerService;
 import utils.HashUtil;
 import utils.RSACipher;
+import utils.RounderUtil;
 import utils.SortedUtil;
 
 import javax.servlet.ServletException;
@@ -20,9 +21,7 @@ import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -79,6 +78,8 @@ public class CheckoutServlet extends HttpServlet {
         Customer cus = (Customer) req.getSession().getAttribute("auth_customer");
         Cart cart = (Cart) req.getSession().getAttribute("cart");
 
+        var time_order = new Timestamp(System.currentTimeMillis());
+
         // Create a bill.
         Bill bill = Bill.builder()
                 .id_user(cus.getId())
@@ -90,7 +91,7 @@ public class CheckoutServlet extends HttpServlet {
                 .address_customer(address)
                 .bill_price(cart.getTotalPrice())
                 .total_price(cart.getTotalPrice() + CustomerService.getTransportFee(cus.getId_city()))
-                .time_order(Timestamp.valueOf(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())))
+                .time_order(RounderUtil.roundTimestampToSeconds(time_order))
                 .build();
 
         final var billDao = new BillDAO();

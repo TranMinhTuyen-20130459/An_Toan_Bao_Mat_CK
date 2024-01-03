@@ -13,7 +13,8 @@ public class PublicKeyDAO {
 
     public DbConnection connectDB;
     public final String ADD_PUBLIC_KEY = "INSERT INTO public_keys(id_user, public_key, start_time, expired_time, is_valid) VALUES(?,?,?,?,?)";
-    public final String QUERY_PUBLIC_KEY = "SELECT public_key, start_time, expired_time, is_valid FROM public_keys WHERE id_user = ? AND ? BETWEEN start_time AND IFNULL(expired_time, NOW()) LIMIT 1";
+    public final String QUERY_PUBLIC_KEY_1 = "SELECT public_key, start_time, expired_time, is_valid FROM public_keys WHERE id_user = ? AND ? BETWEEN start_time AND expired_time LIMIT 1";
+    public final String QUERY_PUBLIC_KEY_2 = "SELECT public_key, start_time, expired_time, is_valid FROM public_keys WHERE id_user = ? AND expired_time IS NULL LIMIT 1";
 
     public PublicKeyDAO() {
         connectDB = DbConnection.getInstance();
@@ -61,26 +62,51 @@ public class PublicKeyDAO {
         // Kiểm tra và khởi tạo kết nối đến cơ sở dữ liệu nếu cần
         if (connectDB == null) connectDB = DbConnection.getInstance();
 
-        var preState = connectDB.getPreparedStatement(QUERY_PUBLIC_KEY);
+        var preState1 = connectDB.getPreparedStatement(QUERY_PUBLIC_KEY_1);
 
-        preState.setInt(1, bill.getId_user());
-        preState.setTimestamp(2, bill.getTime_order());
+        preState1.setInt(1, bill.getId_user());
+        preState1.setTimestamp(2, bill.getTime_order());
 
-        preState.executeQuery();
+        preState1.executeQuery();
 
-        var resultSet = preState.getResultSet();
+        var resultSet1 = preState1.getResultSet();
 
-        if (resultSet.next()) {
+        if (resultSet1.next()) {
             var pk = PublicKey.builder()
                     .id_user(bill.getId_user())
-                    .public_key(resultSet.getString("public_key"))
-                    .start_time(resultSet.getTimestamp("start_time"))
-                    .expired_time(resultSet.getTimestamp("expired_time"))
-                    .is_valid(resultSet.getByte("is_valid"))
+                    .public_key(resultSet1.getString("public_key"))
+                    .start_time(resultSet1.getTimestamp("start_time"))
+                    .expired_time(resultSet1.getTimestamp("expired_time"))
+                    .is_valid(resultSet1.getByte("is_valid"))
                     .build();
 
             return pk;
+        } else {
+
+            // Nếu câu query đầu không có kết quả thì dùng câu query thứ 2
+            var preState2 = connectDB.getPreparedStatement(QUERY_PUBLIC_KEY_2);
+
+            preState2.setInt(1, bill.getId_user());
+
+            preState2.executeQuery();
+
+            var resultSet2 = preState2.getResultSet();
+
+            if (resultSet2.next()) {
+
+                var pk2 = PublicKey.builder()
+                        .id_user(bill.getId_user())
+                        .public_key(resultSet2.getString("public_key"))
+                        .start_time(resultSet2.getTimestamp("start_time"))
+                        .expired_time(resultSet2.getTimestamp("expired_time"))
+                        .is_valid(resultSet2.getByte("is_valid"))
+                        .build();
+
+                return pk2;
+            }
+
         }
+
         return null;
     }
 
