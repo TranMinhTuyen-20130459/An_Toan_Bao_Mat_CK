@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : MySQL
+ Source Server         : db-an-toan-bao-mat
  Source Server Type    : MySQL
- Source Server Version : 100425
- Source Host           : localhost:3306
- Source Schema         : web_hoa_chat_thi_nghiem
+ Source Server Version : 80031
+ Source Host           : 34.133.73.15:3306
+ Source Schema         : an-toan-bao-mat
 
  Target Server Type    : MySQL
- Target Server Version : 100425
+ Target Server Version : 80031
  File Encoding         : 65001
 
- Date: 02/01/2024 11:06:21
+ Date: 03/01/2024 10:59:34
 */
 
 SET NAMES utf8mb4;
@@ -26,8 +26,8 @@ CREATE TABLE `account_admin`  (
   `id_role_admin` int NOT NULL,
   `id_status_acc` int NOT NULL,
   `passwordAD` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `time_created` timestamp NOT NULL DEFAULT current_timestamp,
-  `time_change_pass` timestamp NOT NULL DEFAULT current_timestamp,
+  `time_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `time_change_pass` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `fullname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`username`) USING BTREE,
   INDEX `id_status_acc`(`id_status_acc` ASC) USING BTREE,
@@ -58,8 +58,8 @@ CREATE TABLE `account_customer`  (
   `email_customer` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `phone_customer` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  `time_created` timestamp NOT NULL DEFAULT current_timestamp,
-  `time_change_pass` timestamp NOT NULL DEFAULT current_timestamp,
+  `time_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `time_change_pass` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `uuid` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id_user_customer`) USING BTREE,
   UNIQUE INDEX `username`(`username` ASC) USING BTREE,
@@ -108,7 +108,7 @@ CREATE TABLE `bills`  (
   `address_customer` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `bill_price` double NOT NULL,
   `total_price` double NOT NULL,
-  `time_order` timestamp NOT NULL DEFAULT current_timestamp,
+  `time_order` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `hash_bill_encrypted` text CHARACTER SET utf32 COLLATE utf32_general_ci NULL,
   PRIMARY KEY (`id_bill`) USING BTREE,
   INDEX `id_user`(`id_user` ASC) USING BTREE,
@@ -149,7 +149,7 @@ CREATE TABLE `comment_news`  (
   `id_comment` int NOT NULL AUTO_INCREMENT,
   `id_news` int NOT NULL,
   `id_user_customer` int NOT NULL,
-  `time_comment` timestamp NOT NULL DEFAULT current_timestamp,
+  `time_comment` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `content_comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_comment`) USING BTREE,
   INDEX `id_news`(`id_news` ASC) USING BTREE,
@@ -173,7 +173,7 @@ CREATE TABLE `contact`  (
   `email_contact` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `problem_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `content_problem` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `time_insert` timestamp NOT NULL DEFAULT current_timestamp,
+  `time_insert` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_contact`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
@@ -227,7 +227,7 @@ CREATE TABLE `news`  (
   `title_news` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `content_news` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `url_img_news` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
-  `date_posted` timestamp NOT NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  `date_posted` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `quantity_comment` int NOT NULL,
   `nameAdmin` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id_news`) USING BTREE
@@ -243,7 +243,7 @@ CREATE TABLE `news`  (
 DROP TABLE IF EXISTS `price_product`;
 CREATE TABLE `price_product`  (
   `id_product` int NOT NULL,
-  `date` timestamp NOT NULL DEFAULT current_timestamp,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `listed_price` bigint NOT NULL,
   `current_price` bigint NOT NULL,
   `nameAdmin` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
@@ -282,96 +282,6 @@ INSERT INTO `price_product` VALUES (27, '2023-11-29 11:28:42', 699000, 699000, N
 INSERT INTO `price_product` VALUES (28, '2023-11-29 11:28:42', 699000, 699000, NULL);
 INSERT INTO `price_product` VALUES (29, '2023-11-29 11:28:42', 699000, 699000, NULL);
 INSERT INTO `price_product` VALUES (30, '2023-11-29 11:28:42', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (31, '2023-11-29 11:28:42', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (32, '2023-11-29 11:28:42', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (33, '2023-11-29 11:28:42', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (34, '2023-11-29 11:28:42', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (35, '2023-11-29 11:28:42', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (36, '2023-11-29 11:28:42', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (37, '2023-11-29 11:28:42', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (38, '2023-11-29 11:28:42', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (39, '2023-11-29 11:28:42', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (40, '2023-11-29 11:28:42', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (41, '2023-11-29 11:28:42', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (42, '2023-11-29 11:28:42', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (43, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (44, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (45, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (46, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (47, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (48, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (49, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (50, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (51, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (52, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (53, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (54, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (55, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (56, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (57, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (58, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (59, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (60, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (61, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (62, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (63, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (64, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (65, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (66, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (67, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (68, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (69, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (70, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (71, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (72, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (73, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (74, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (75, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (76, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (77, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (78, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (79, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (80, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (81, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (82, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (83, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (84, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (85, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (86, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (87, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (88, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (89, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (90, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (91, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (92, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (93, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (94, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (95, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (96, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (97, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (98, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (99, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (100, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (101, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (102, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (103, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (104, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (105, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (106, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (107, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (108, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (109, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (110, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (111, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (112, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (113, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (114, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (115, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (116, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (117, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (118, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (119, '2023-11-29 11:28:43', 699000, 699000, NULL);
-INSERT INTO `price_product` VALUES (120, '2023-11-29 11:28:43', 699000, 699000, NULL);
 
 -- ----------------------------
 -- Table structure for products
@@ -386,7 +296,7 @@ CREATE TABLE `products`  (
   `description_product` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `url_img_product` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `quantity_product` int NOT NULL,
-  `date_inserted` timestamp NOT NULL DEFAULT current_timestamp,
+  `date_inserted` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `star_review` tinyint NULL DEFAULT NULL,
   `nameAdmin` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `views` int NULL DEFAULT 0,
@@ -394,7 +304,7 @@ CREATE TABLE `products`  (
   INDEX `id_type_product`(`id_subtype` ASC) USING BTREE,
   INDEX `id_status_product`(`id_status_product` ASC) USING BTREE,
   INDEX `id_supplier`(`id_supplier` ASC) USING BTREE,
-  CONSTRAINT `fk_id_subtype_4` FOREIGN KEY (`id_subtype`) REFERENCES `subtype_product` (`id_subtype`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_id_subtype_4` FOREIGN KEY (`id_subtype`) REFERENCES `subtype_product` (`id_subtype`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `products_ibfk_1` FOREIGN KEY (`id_subtype`) REFERENCES `subtype_product` (`id_subtype`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `products_ibfk_2` FOREIGN KEY (`id_status_product`) REFERENCES `status_product` (`id_status_product`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `products_ibfk_3` FOREIGN KEY (`id_supplier`) REFERENCES `suppliers` (`id_supplier`) ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -403,12 +313,12 @@ CREATE TABLE `products`  (
 -- ----------------------------
 -- Records of products
 -- ----------------------------
-INSERT INTO `products` VALUES (2, 1, 1, 4, 'Axit Carbonic - H2CO3', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/axit/axit_carbonic.png', 999, '2023-11-29 11:28:42', 4, NULL, 4);
-INSERT INTO `products` VALUES (3, 1, 1, 2, 'Axit Citric - HOC(CH2CO2H)2', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/axit/axit_citric.jpg', 993, '2023-11-29 11:28:42', 5, NULL, 0);
+INSERT INTO `products` VALUES (2, 1, 1, 4, 'Axit Carbonic - H2CO3', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/axit/axit_carbonic.png', 999, '2023-11-29 11:28:42', 4, NULL, 5);
+INSERT INTO `products` VALUES (3, 1, 1, 2, 'Axit Citric - HOC(CH2CO2H)2', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/axit/axit_citric.jpg', 993, '2023-11-29 11:28:42', 5, NULL, 1);
 INSERT INTO `products` VALUES (4, 1, 1, 4, 'Axit Clohydric - HCl', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/axit/axit_clohydric.jpg', 990, '2023-11-29 11:28:42', 4, NULL, 0);
 INSERT INTO `products` VALUES (5, 1, 1, 5, 'Axit Fluoroantimonic - HF', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/axit/axit_hexafluoroantimonic.png', 997, '2023-11-29 11:28:42', 5, NULL, 0);
 INSERT INTO `products` VALUES (6, 1, 1, 6, 'Axit Hydrofluoric - CH3COOH', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/axit/axit_hydrofluoric.jpg', 998, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (7, 1, 1, 2, 'Axit Lactic - CH3CHCOOH', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/axit/axit_lactic.jpg', 998, '2023-11-29 11:28:42', 5, NULL, 0);
+INSERT INTO `products` VALUES (7, 1, 1, 2, 'Axit Lactic - CH3CHCOOH', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/axit/axit_lactic.jpg', 997, '2023-11-29 11:28:42', 5, NULL, 0);
 INSERT INTO `products` VALUES (8, 1, 1, 4, 'Axit Nitric - HNO3', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/axit/axit_nitric.jpg', 997, '2023-11-29 11:28:42', 4, NULL, 0);
 INSERT INTO `products` VALUES (9, 1, 1, 2, 'Axit Perchloric - HClO4', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/axit/axit_perchloric.png', 998, '2023-11-29 11:28:42', 4, NULL, 2);
 INSERT INTO `products` VALUES (11, 1, 1, 6, 'Axit Phosphoric - H3PO4', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/axit/axit_phosphoric.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
@@ -431,96 +341,6 @@ INSERT INTO `products` VALUES (27, 3, 1, 5, 'Kali Permanganat - KMnO4', 'Axit Su
 INSERT INTO `products` VALUES (28, 3, 1, 1, 'Silver Nitrate - AgNO3', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/muoi/silver_nitrate.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
 INSERT INTO `products` VALUES (29, 3, 1, 2, 'Sodium Carbonate - Na2CO3', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/muoi/sodium_carbonate.jpg', 1000, '2023-11-29 11:28:42', 4, NULL, 0);
 INSERT INTO `products` VALUES (30, 3, 1, 6, 'Sodium Hydrogen Carbonate - NaHCO3', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/muoi/sodium_hydrogen_carbonate.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (31, 3, 1, 6, 'Sodium Hypochlorite - NaOCl', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/muoi/sodium_hypochlorite.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (32, 3, 1, 5, 'Sodium Silicate Nonahydrate - H18Na2O12Si', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/muoi/sodium_silicate_nonahydrate.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (33, 3, 1, 3, 'Trisodium Phosphate - Na3PO4', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/muoi/trisodium_photphate.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (34, 4, 1, 1, 'Copper Powder - Cu', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/kim_loai/copper_powder.png', 1000, '2023-11-29 11:28:42', 4, NULL, 0);
-INSERT INTO `products` VALUES (35, 4, 1, 2, 'Copper Turnings - Cu', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/kim_loai/copper_turnings.jpg', 1000, '2023-11-29 11:28:42', 4, NULL, 0);
-INSERT INTO `products` VALUES (36, 4, 1, 4, 'Aluminum Granules - Al', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/kim_loai/hat_nhom.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (37, 4, 1, 6, 'Iron Powder - Fe', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/kim_loai/iron_powder.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (38, 4, 1, 3, 'Lead Powder - Pb', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/kim_loai/lead_powder.jpg', 1000, '2023-11-29 11:28:42', 4, NULL, 0);
-INSERT INTO `products` VALUES (39, 4, 1, 4, 'Nickel Powder - Ni', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/kim_loai/nickel_powder.png', 1000, '2023-11-29 11:28:42', 4, NULL, 0);
-INSERT INTO `products` VALUES (40, 4, 1, 6, 'Phosphorus - P', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/kim_loai/phosphorus.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (41, 4, 1, 2, 'Postassium - K', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/kim_loai/postassium.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (42, 4, 1, 6, 'Silver - Ag', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/kim_loai/silver.jpg', 1000, '2023-11-29 11:28:42', 4, NULL, 0);
-INSERT INTO `products` VALUES (43, 4, 1, 1, 'Sodium - Na', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/kim_loai/sodium.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (44, 4, 1, 3, 'Zinc Powder - Zn', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/kim_loai/zinc_powder.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (45, 5, 1, 5, 'Bromocresol Purple - C21H16Br2O5S', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/chi_thi/bromocresol_purple.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (46, 5, 1, 2, 'Bromocresol Blue - C19H10Br4O5S', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/chi_thi/bromophenol_blue.jpg', 1000, '2023-11-29 11:28:42', 4, NULL, 0);
-INSERT INTO `products` VALUES (47, 5, 1, 5, 'Methyl Orange - C14H14N3NaO3S', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/chi_thi/methyl_orange.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (48, 5, 1, 1, 'Murexide - C8H8N6O6', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/chi_thi/murexide.jpg', 1000, '2023-11-29 11:28:42', 4, NULL, 0);
-INSERT INTO `products` VALUES (49, 5, 1, 6, 'Phenolphtalein - C20H14O4', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/chi_thi/phenolphtalein.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (50, 6, 1, 3, 'Cyclopentane - C5H10', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/dung_moi/cyclopentane.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (51, 6, 1, 5, 'Dichloromethane - CH2Cl2', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/dung_moi/dichloromethane.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (52, 6, 1, 3, 'Ethyl Acetate - C4H8O2', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/dung_moi/ethyl_acetate.jpg', 1000, '2023-11-29 11:28:42', 4, NULL, 0);
-INSERT INTO `products` VALUES (53, 6, 1, 5, 'Hexane - C6H14', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/dung_moi/hexane.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (54, 6, 1, 4, 'Nước cất - H20', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/dung_moi/nuoc_cat.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (55, 6, 1, 1, 'Tetrahydrofuran - C4H8O', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/dung_moi/tetrahydrofuran.jpg', 1000, '2023-11-29 11:28:42', 4, NULL, 0);
-INSERT INTO `products` VALUES (56, 6, 1, 1, 'Toluene - C7H8', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/dung_moi/toluene.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (57, 7, 1, 1, 'Barfoed - RCHO + Cu + H2O', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/thuoc_thu/barfoed.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (58, 7, 1, 5, 'Benedict - RCHO + Cu + OH', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/thuoc_thu/benedict.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (59, 7, 1, 3, 'Biuret - (H2NCO)2NH', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/thuoc_thu/biuret.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (60, 7, 1, 2, 'Bradford', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/thuoc_thu/bradford.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (61, 8, 1, 4, 'Acetone - (CH3)2CO', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/hop_chat_huu_co/acetone.jpg', 999, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (62, 8, 1, 1, 'Benzen - C6H6', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/hop_chat_huu_co/benzen.jpg', 1000, '2023-11-29 11:28:42', 4, NULL, 0);
-INSERT INTO `products` VALUES (63, 8, 1, 4, 'Chloroform - CHCl3', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/hop_chat_huu_co/chloroform.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (64, 8, 1, 1, 'Ethanal - CH3CHO', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/hop_chat_huu_co/ethanal.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (65, 8, 1, 3, 'Ethanol - C2H6O', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/hop_chat_huu_co/ethanol.jpg', 1000, '2023-11-29 11:28:42', 4, NULL, 0);
-INSERT INTO `products` VALUES (66, 8, 1, 2, 'Etilen - C2H4', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/hop_chat_huu_co/etilen.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (67, 8, 1, 3, 'Methanol - CH3OH', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/hop_chat_huu_co/methanol.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (68, 8, 1, 6, 'Pentane - C5H12', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/hop_chat_huu_co/pentane.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (69, 8, 1, 1, 'Phenol - C6H5OH', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/hop_chat_huu_co/phenol.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (70, 8, 1, 6, 'Sucrose - C12H22O11', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/hop_chat_huu_co/sucrose.jpg', 1000, '2023-11-29 11:28:42', 4, NULL, 0);
-INSERT INTO `products` VALUES (71, 8, 1, 3, 'Xylene - (CH3)2C6H4', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/hop_chat_huu_co/xylene.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (72, 9, 1, 5, 'Aluminium Oxit - Al2O3', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/oxit/aluminium_oxit.jpg', 999, '2023-11-29 11:28:42', 4, NULL, 0);
-INSERT INTO `products` VALUES (73, 9, 1, 5, 'Bari Oxit - BaO', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/oxit/bari_oxit.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (74, 9, 1, 3, 'Calcium Oxit - CaO', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/oxit/calcium_oxit.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (75, 9, 1, 5, 'Copper(II) Oxit - CuO', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/oxit/copper2_oxit.png', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (76, 9, 1, 2, 'Ferric Oxit - Fe2O3', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/oxit/ferric_oxit.jpg', 1000, '2023-11-29 11:28:42', 4, NULL, 0);
-INSERT INTO `products` VALUES (77, 9, 1, 4, 'Iron2 Oxit - FeO', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/oxit/iron2_oxit.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (78, 9, 1, 5, 'Phosphorus Pentoxide - P4O10', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/oxit/phosphorus_pentoxide.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (79, 9, 1, 2, 'Sodium Oxit - Na2O', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/oxit/sodium_oxit.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (80, 9, 1, 4, 'Triiron Tetroxide - Fe3O4', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/oxit/triiron_tetroxide.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (81, 9, 1, 3, 'Zinc Oxit - ZnO', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/hoa_chat/oxit/zinc_oxit.jpg', 1000, '2023-11-29 11:28:42', 4, NULL, 0);
-INSERT INTO `products` VALUES (82, 10, 1, 1, 'Giá Đỡ Ống Nghiệm', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/dung_cu/gia_do_ong_nghiem.jpg', 998, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (83, 10, 1, 6, 'Kệ Đựng Ống Nghiệm', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/dung_cu/gia_do_ong_nghiem_2.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (84, 10, 1, 5, 'Giá Đỡ Ống Nghiệm', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/dung_cu/gia_do_ong_nghiem_3.jpg', 1000, '2023-11-29 11:28:42', 4, NULL, 0);
-INSERT INTO `products` VALUES (85, 10, 1, 1, 'Giá Đỡ Ống Nghiệm', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/dung_cu/gia_do_ong_nghiem_4.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (86, 10, 1, 2, 'Giá Ống Nghiệm', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/dung_cu/gia_do_ong_nghiem_5.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (87, 10, 1, 1, 'Giá Đỡ Hai Tầng', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/dung_cu/gia_do_ong_nghiem_6.jpg', 999, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (88, 11, 1, 4, 'Kẹp Gỗ', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/dung_cu/kep_go.jpg', 1000, '2023-11-29 11:28:42', 4, NULL, 0);
-INSERT INTO `products` VALUES (89, 11, 1, 3, 'Kẹp Gỗ', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/dung_cu/kep_go_2.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (90, 11, 1, 4, 'Kẹp Cán Sắt', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/dung_cu/kep_go_3.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (91, 11, 1, 4, 'Kẹp Gỗ', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/dung_cu/kep_go_4.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (92, 12, 1, 2, 'Bình Tam Giác', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/dung_cu/binh_tam_giac.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (93, 12, 1, 2, 'Cốc Thủy Tinh', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/dung_cu/coc_thuy_tinh.jpg', 1000, '2023-11-29 11:28:42', 4, NULL, 0);
-INSERT INTO `products` VALUES (94, 12, 1, 2, 'Đũa Thủy Tinh', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/dung_cu/dua_thuy_tinh.jpg', 999, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (95, 12, 1, 2, 'Ống Nghiệm', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '../images/products/dung_cu/ong_nghiem.jpg', 1000, '2023-11-29 11:28:42', 4, NULL, 0);
-INSERT INTO `products` VALUES (96, 12, 1, 2, 'Ống Nghiệm Có Nút Gỗ', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/dung_cu/ong_nghiem_2.jpg', 999, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (97, 12, 1, 2, 'Ống Nghiệm Nút Nhựa', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/dung_cu/ong_nghiem_3.jpg', 1000, '2023-11-29 11:28:42', 4, NULL, 0);
-INSERT INTO `products` VALUES (98, 12, 1, 2, 'Ống Nghiệm Nút Gỗ', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/dung_cu/ong_nghiem_4.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (99, 13, 1, 6, 'Ông Hút Nhỏ Giọt', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/dung_cu/ong_nho_giot.jpg', 999, '2023-11-29 11:28:42', 4, NULL, 0);
-INSERT INTO `products` VALUES (100, 13, 1, 6, 'Ông Hút Nhỏ Giọt', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/dung_cu/ong_nho_giot_2.jpg', 1000, '2023-11-29 11:28:42', 4, NULL, 0);
-INSERT INTO `products` VALUES (101, 13, 1, 6, 'Ông Hút Nhỏ Giọt', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/dung_cu/ong_nho_giot_3.jpg', 1000, '2023-11-29 11:28:42', 4, NULL, 0);
-INSERT INTO `products` VALUES (102, 13, 1, 6, 'Ông Hút Nhỏ Giọt', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/dung_cu/ong_nho_giot_4.jpg', 1000, '2023-11-29 11:28:42', 4, NULL, 0);
-INSERT INTO `products` VALUES (103, 13, 1, 6, 'Ông Hút Nhỏ Giọt', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/dung_cu/ong_nho_giot_5.jpg', 1000, '2023-11-29 11:28:42', 4, NULL, 0);
-INSERT INTO `products` VALUES (104, 14, 1, 5, 'Cân Điện Tử Extech SC600', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/thiet_bi/can_dien_tu.png', 999, '2023-11-29 11:28:42', 5, NULL, 2);
-INSERT INTO `products` VALUES (105, 14, 1, 5, 'Cân Điện Tử Lutron GM-600G', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/thiet_bi/can_dien_tu_2.jpg', 999, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (106, 14, 1, 5, 'Cân Điện Tử Omron', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/thiet_bi/can_dien_tu_3.jpg', 999, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (107, 14, 1, 5, 'Cân Điện Tử Microlife', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/thiet_bi/can_dien_tu_4.jpg', 998, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (108, 15, 1, 6, 'Máy Khuấy Không Gia Nhiệt', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/thiet_bi/may_khuay.jpg', 998, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (109, 15, 1, 6, 'Máy Khuấy SHINKO TG-40', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/thiet_bi/may_khuay_2.jpg', 998, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (110, 15, 1, 6, 'Máy Khuấy Từ Hanna HI 324N', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/thiet_bi/may_khuay_3.jpg', 996, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (111, 15, 1, 6, 'Máy Khuấy Từ HI 200', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/thiet_bi/may_khuay_4.jpg', 998, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (112, 15, 1, 6, 'Máy Khuấy Đảo Chiều', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/thiet_bi/may_khuay_5.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (113, 16, 1, 4, 'Máy Nghiền Mẫu IKA A-10', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/thiet_bi/may_nghien.png', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (114, 16, 1, 4, 'Máy Nghiền Mẫu MF-10', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/thiet_bi/may_nghien_2.png', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (115, 16, 1, 4, 'Máy Nghiền Mẫu Phân Tích', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/thiet_bi/may_nghien_3.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (116, 16, 1, 4, 'Máy Nghiền Tube Mill', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/thiet_bi/may_nghien_4.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (117, 17, 1, 1, 'Tủ Chân Không', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/thiet_bi/tu_chan_khong.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (118, 17, 1, 1, 'Tủ Sấy', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/thiet_bi/tu_chan_khong_2.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (119, 17, 1, 1, 'Tủ Hút Khí Độc', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/thiet_bi/tu_hut_khi_doc.png', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
-INSERT INTO `products` VALUES (120, 17, 1, 1, 'Tủ Thao Tác PCR', 'Axit Sulfuric hay còn gọi là hóa chất H2SO4, tên gọi này có nguồn gốc từ tiếng Pháp là acide sulfurique. Axit Sulfuric có công thức phần tử là H2SO4. H2SO4 là một axit vô cơ gồm các nguyên tố lưu huỳnh, oxy, hidro; tồn tại ở dạng chất lỏng sánh như dầu, không mùi, không màu, không bay hơi, nặng gấp 2 lần nước (H2SO4 98% có D = 1,84g/cm3). H2SO4 có khả năng tan hoàn toàn trong nước theo bất kỳ tỷ lệ nào, khi tan trong nước H2SO4 tỏa rất nhiều nhiệt.', '/images/products/thiet_bi/tu_pcr.jpg', 1000, '2023-11-29 11:28:42', 5, NULL, 0);
 
 -- ----------------------------
 -- Table structure for public_keys
@@ -586,7 +406,7 @@ INSERT INTO `role_admin` VALUES (3, 'root');
 DROP TABLE IF EXISTS `sold_product`;
 CREATE TABLE `sold_product`  (
   `id_product` int NOT NULL,
-  `datetime` timestamp NOT NULL DEFAULT current_timestamp,
+  `datetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `quantity_sold` int NOT NULL,
   PRIMARY KEY (`id_product`, `datetime`) USING BTREE,
   CONSTRAINT `sold_product_ibfk_1` FOREIGN KEY (`id_product`) REFERENCES `products` (`id_product`) ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -595,124 +415,6 @@ CREATE TABLE `sold_product`  (
 -- ----------------------------
 -- Records of sold_product
 -- ----------------------------
-INSERT INTO `sold_product` VALUES (2, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (3, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (4, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (5, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (6, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (7, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (8, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (9, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (11, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (12, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (13, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (14, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (15, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (16, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (17, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (18, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (19, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (20, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (21, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (22, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (23, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (24, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (25, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (26, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (27, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (28, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (29, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (30, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (31, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (32, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (33, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (34, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (35, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (36, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (37, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (38, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (39, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (40, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (41, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (42, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (43, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (44, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (45, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (46, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (47, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (48, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (49, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (50, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (51, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (52, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (53, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (54, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (55, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (56, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (57, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (58, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (59, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (60, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (61, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (62, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (63, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (64, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (65, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (66, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (67, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (68, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (69, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (70, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (71, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (72, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (73, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (74, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (75, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (76, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (77, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (78, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (79, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (80, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (81, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (82, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (83, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (84, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (85, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (86, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (87, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (88, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (89, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (90, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (91, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (92, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (93, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (94, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (95, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (96, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (97, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (98, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (99, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (100, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (101, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (102, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (103, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (104, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (105, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (106, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (107, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (108, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (109, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (110, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (111, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (112, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (113, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (114, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (115, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (116, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (117, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (118, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (119, '2023-11-29 11:28:43', 13);
-INSERT INTO `sold_product` VALUES (120, '2023-11-29 11:28:43', 13);
 
 -- ----------------------------
 -- Table structure for status_acc
@@ -772,7 +474,7 @@ INSERT INTO `status_product` VALUES (3, 'Cấm bán');
 DROP TABLE IF EXISTS `subtype_product`;
 CREATE TABLE `subtype_product`  (
   `id_subtype` int NOT NULL,
-  `name_subtype` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `name_subtype` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `id_type_product` int NOT NULL,
   `sign` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id_subtype`) USING BTREE,
