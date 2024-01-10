@@ -26,8 +26,6 @@ public final class ProductService {
             return getProducts(ps.executeQuery());
         } catch (SQLException e) {
             return new ArrayList<>();
-        } finally {
-            DbConnection.getInstance().close();
         }
     }
 
