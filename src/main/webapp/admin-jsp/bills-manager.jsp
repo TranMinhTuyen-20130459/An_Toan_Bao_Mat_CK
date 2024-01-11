@@ -227,10 +227,10 @@
     let cellValue;// giá trị ô tương ứng theo dòng và cột
     let idBill;
     $('.edit').on('click', function () {
-        idBill = getIdBill(selectedRow);
 
         modal.modal('show')// => show ra cửa sổ model
         selectedRow = $(this).closest('tr'); // Lấy ra phần tử tr đang được chọn
+        idBill = getIdBill(selectedRow);
         columnIdx = table.column(3).index(); // cột chứa giá trị id_status_bill đã được ẩn đi bởi DataTable
         dataValue = table.cell(selectedRow, columnIdx).data();// Lấy giá trị ô tương ứng với vị trí hàng và cột đã chọn
         cellValue = $(dataValue).data('value');

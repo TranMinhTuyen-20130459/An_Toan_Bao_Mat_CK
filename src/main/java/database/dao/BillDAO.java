@@ -4,6 +4,7 @@ import database.DbConnection;
 import model.Bill;
 import model.BillDetail;
 import service.ProductService;
+import utils.RounderUtil;
 
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class BillDAO {
         preState.setString(7, bill.getAddress_customer());
         preState.setDouble(8, bill.getBill_price());
         preState.setDouble(9, bill.getTotal_price());
-        preState.setTimestamp(10,bill.getTime_order());
+        preState.setTimestamp(10, bill.getTime_order());
 
         // Thực thi truy vấn SQL thêm mới
         preState.executeUpdate();
@@ -215,6 +216,7 @@ public class BillDAO {
         preStm.setInt(2, billId);
         preStm.execute();
     }
+
     public Bill getABill(int idBill) throws Exception {
         // Kiểm tra xem kết nối đến cơ sở dữ liệu đã được thiết lập chưa.
         if (connectDB == null) {
@@ -246,7 +248,7 @@ public class BillDAO {
                     .address_customer(resultSet.getString("address_customer"))
                     .bill_price(resultSet.getDouble("bill_price"))
                     .total_price(resultSet.getDouble("total_price"))
-                    .time_order(resultSet.getTimestamp("time_order"))
+                    .time_order(RounderUtil.roundTimestampToSeconds(resultSet.getTimestamp("time_order")))
                     .hash_bill_encrypted(resultSet.getString("hash_bill_encrypted"))
                     .bill_details(list_bill_detail)
                     .build();
@@ -265,6 +267,7 @@ public class BillDAO {
         preStm.setInt(2, billId);
         preStm.execute();
     }
+
     public static void main(String[] args) throws Exception {
 
         BillDAO dao = new BillDAO();
@@ -273,9 +276,10 @@ public class BillDAO {
             System.out.println(item.toString());
         });*/
 
-        dao.getBillDetailsById(207893).forEach(item -> {
-            System.out.println(item.toString());
-        });
+//        dao.getBillDetailsById(207893).forEach(item -> {
+//            System.out.println(item.toString());
+//        });
+        System.out.println(dao.getABill(63));
     }
 
 }
