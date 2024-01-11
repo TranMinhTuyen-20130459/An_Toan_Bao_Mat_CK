@@ -57,7 +57,7 @@
                             <th class="text-center">Trạng thái</th>
                             <th class="text-center">Địa chỉ giao hàng</th>
                             <th class="text-center">Thời gian đặt hàng</th>
-                            <th class="text-center">Tình trạng</th>
+                            <th class="text-center">Xác thực</th>
                             <th class="text-center">Chỉnh sửa</th>
                         </tr>
                         </thead>
@@ -176,7 +176,8 @@
                 pdf.save('Test.pdf');
             }, margins);
     })
-    function getIdBill(selectedRow){
+
+    function getIdBill(selectedRow) {
         let table = $('#sampleTable').DataTable();
         let columnIdBill = table.column(0).index();
         let dataValue = table.cell(selectedRow, columnIdBill).data();
@@ -185,12 +186,13 @@
         let idBill = anchorText.match(/\d+/);
         return idBill[0];
     }
-    function ajaxSendMail(idBill, idStatus){
+
+    function ajaxSendMail(idBill, idStatus) {
         let status = findStatusBill(idStatus)
         return $.ajax({
             type: "POST",
             url: "${context}/AjaxBillUpdateStatus",
-            data: { idBill: idBill , idStatus: idStatus, status: status},
+            data: {idBill: idBill, idStatus: idStatus, status: status},
             success: function (response) {
                 console.log("success");
             },
@@ -199,8 +201,9 @@
             }
         });
     }
-    function findStatusBill(value){
-        switch (value){
+
+    function findStatusBill(value) {
+        switch (value) {
             case '1':
                 return 'Chờ xử lý';
             case '2':
@@ -224,10 +227,10 @@
     let cellValue;// giá trị ô tương ứng theo dòng và cột
     let idBill;
     $('.edit').on('click', function () {
-        idBill = getIdBill(selectedRow);
 
         modal.modal('show')// => show ra cửa sổ model
         selectedRow = $(this).closest('tr'); // Lấy ra phần tử tr đang được chọn
+        idBill = getIdBill(selectedRow);
         columnIdx = table.column(3).index(); // cột chứa giá trị id_status_bill đã được ẩn đi bởi DataTable
         dataValue = table.cell(selectedRow, columnIdx).data();// Lấy giá trị ô tương ứng với vị trí hàng và cột đã chọn
         cellValue = $(dataValue).data('value');
